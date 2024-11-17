@@ -10,7 +10,7 @@
     <link rel="icon" type="image/x-icon" href="">
 
   
-  <title>Tutorials &mdash; SPARCED 2.0.0 documentation</title>
+  <title>Using the SPARCED Command Line Interface (CLI) &mdash; SPARCED 2.0.0 documentation</title>
   
 
   
@@ -36,9 +36,9 @@
               href="../genindex.html"/>
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="SPARCED 2.0.0 documentation" href="../index.html"/>
-        <link rel="up" title="Contents Table" href="../contents.html"/>
-        <link rel="next" title="Jupyter Notebook" href="notebook.html"/>
-        <link rel="prev" title="The SPARCED Installation Guide for Absolute Beginners" href="../installation-guide.html"/>
+        <link rel="up" title="Tutorials" href="summary.html"/>
+        <link rel="next" title="Replicate Published Papers" href="../papers/summary.html"/>
+        <link rel="prev" title="SPARCED Hands-On Primer Tutorial" href="hands-on.html"/>
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="cache-control" content="public" />
@@ -88,7 +88,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../contents.html">Contents Table</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../about.html">About</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation-guide.html">The SPARCED Installation Guide for Absolute Beginners</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Tutorials</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="summary.html">Tutorials</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../papers/summary.html">Replicate Published Papers</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../reference/summary.html">Reference Documentation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../future-dev.html">Future developments</a></li>
@@ -107,10 +107,10 @@
 <li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#clean">Clean</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Tutorials</a><ul>
+<li class="toctree-l1 current"><a class="reference internal" href="summary.html">Tutorials</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="notebook.html">Jupyter Notebook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="hands-on.html">SPARCED Hands-On Primer Tutorial</a></li>
-<li class="toctree-l2"><a class="reference internal" href="command-line.html">Using the SPARCED Command Line Interface (CLI)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Using the SPARCED Command Line Interface (CLI)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../papers/summary.html">Replicate Published Papers</a><ul>
@@ -170,41 +170,149 @@
 	  <dark-mode-toggle appearance="toggle" dark="switch to light mode" light="switch to dark mode">
 	  </dark-mode-toggle>
 	</div>
-  <section id="tutorials">
-<h1>Tutorials<a class="headerlink" href="#tutorials" title="Link to this heading">¶</a></h1>
-<p>Documentation for SPARCED</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="notebook.html">Jupyter Notebook</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hands-on.html">SPARCED Hands-On Primer Tutorial</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="hands-on.html#prerequisites">Prerequisites</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hands-on.html#running-python-scripts">Running Python Scripts</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="hands-on.html#model-compilation">Model Compilation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="hands-on.html#simulation-execution">Simulation Execution</a></li>
-<li class="toctree-l3"><a class="reference internal" href="hands-on.html#benchmark-generation">Benchmark Generation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="hands-on.html#benchmark-validation">Benchmark Validation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="hands-on.html#visualization">Visualization</a></li>
-</ul>
+  <section id="using-the-sparced-command-line-interface-cli">
+<h1>Using the SPARCED Command Line Interface (CLI)<a class="headerlink" href="#using-the-sparced-command-line-interface-cli" title="Link to this heading">¶</a></h1>
+<p>The SPARCED package provides a convenient CLI tool to manage common tasks like
+compiling models, running simulations, benchmarking, and visualizing results.</p>
+<p>This guide explains how to use the <cite>sparced</cite> CLI tool to streamline your workflows.</p>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">¶</a></h2>
+<p>Before using the CLI, ensure the following:</p>
+<ol class="arabic">
+<li><p><strong>SPARCED Installed as a CLI Tool</strong>:
+The <cite>sparced</cite> CLI tool is installed and available in your environment. If not,
+install it using pipx:
+::
+pipx install &lt;path_to_sparced_package&gt;</p></li>
+<li><p><strong>Verify Installation</strong>:
+Run the following command to verify:
+::
+sparced –help</p>
+<p>If installed correctly, this will display the help menu for the CLI.</p>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="hands-on.html#key-examples">Key Examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hands-on.html#additional-resources">Additional Resources</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hands-on.html#questions-or-issues">Questions or Issues?</a></li>
+</ol>
+</section>
+<section id="common-commands">
+<h2>Common Commands<a class="headerlink" href="#common-commands" title="Link to this heading">¶</a></h2>
+<p>The <cite>sparced</cite> CLI supports several commands for different operations:</p>
+<section id="general-usage">
+<h3>General Usage<a class="headerlink" href="#general-usage" title="Link to this heading">¶</a></h3>
+<p>Use the following syntax:
+::
+sparced &lt;command&gt; [options]</p>
+<p>Example:
+::
+sparced simulate –name SPARCED_standard –condition data/simulation/standard_GeneReg.txt</p>
+</section>
+<section id="available-commands">
+<h3>Available Commands<a class="headerlink" href="#available-commands" title="Link to this heading">¶</a></h3>
+<ol class="arabic">
+<li><p><strong>Compile Models</strong>:
+Compile an Antimony or SBML model:
+::
+sparced compile –input &lt;model_file&gt; –output &lt;output_directory&gt;</p>
+<ul class="simple">
+<li><p><cite>–input</cite>: Path to the Antimony or SBML model file.</p></li>
+<li><p><cite>–output</cite>: Directory to save the compiled model.</p></li>
 </ul>
+<p>Example:
+::
+sparced compile –input models/SPARCED_standard.sbml –output compiled_models/</p>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="command-line.html">Using the SPARCED Command Line Interface (CLI)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="command-line.html#getting-started">Getting Started</a></li>
-<li class="toctree-l2"><a class="reference internal" href="command-line.html#common-commands">Common Commands</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="command-line.html#general-usage">General Usage</a></li>
-<li class="toctree-l3"><a class="reference internal" href="command-line.html#available-commands">Available Commands</a></li>
+<li><p><strong>Run Simulations</strong>:
+Execute simulations using a specified model and condition file:
+::
+sparced simulate –model &lt;model_name&gt; –condition &lt;condition_file&gt;</p>
+<ul class="simple">
+<li><p><cite>–model</cite>: Name of the model (e.g., <cite>SPARCED_standard</cite>).</p></li>
+<li><p><cite>–condition</cite>: Path to the condition file.</p></li>
 </ul>
+<p>Example:
+::
+sparced simulate –name SPARCED_standard –condition data/simulation/standard_GeneReg.txt</p>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="command-line.html#advanced-options">Advanced Options</a></li>
-<li class="toctree-l2"><a class="reference internal" href="command-line.html#examples">Examples</a></li>
-<li class="toctree-l2"><a class="reference internal" href="command-line.html#troubleshooting">Troubleshooting</a></li>
+<li><p><strong>Generate Benchmarks</strong>:
+Create a new benchmark YAML file:
+::
+sparced generate-benchmark –name &lt;benchmark_name&gt; –output &lt;output_file&gt;</p>
+<ul class="simple">
+<li><p><cite>–name</cite>: Name of the benchmark.</p></li>
+<li><p><cite>–output</cite>: Path to save the benchmark file.</p></li>
 </ul>
+<p>Example:
+::
+sparced generate-benchmark –name TRAIL-response –output benchmarks/TRAIL-response.yml</p>
 </li>
+<li><p><strong>Validate Benchmarks</strong>:
+Compare a model’s output to a benchmark:
+::
+sparced validate –benchmark &lt;benchmark_file&gt;</p>
+<ul class="simple">
+<li><p><cite>–benchmark</cite>: Path to the benchmark YAML file.</p></li>
 </ul>
-</div>
+<p>Example:
+::
+sparced validate –benchmark benchmarks/TRAIL-response.yml</p>
+</li>
+<li><p><strong>Visualize Results</strong>:
+Generate visualizations from simulation results:
+::
+sparced visualize –input &lt;results_directory&gt; –output &lt;output_file&gt;</p>
+<ul class="simple">
+<li><p><cite>–input</cite>: Directory containing simulation results.</p></li>
+<li><p><cite>–output</cite>: File path for saving the visualization.</p></li>
+</ul>
+<p>Example:
+::
+sparced visualize –input results/New-Simulation/Control –output figures/Control_Visualization.png</p>
+</li>
+</ol>
+</section>
+</section>
+<section id="advanced-options">
+<h2>Advanced Options<a class="headerlink" href="#advanced-options" title="Link to this heading">¶</a></h2>
+<p>To view all options for a specific command, use the <cite>–help</cite> flag:
+::
+sparced &lt;command&gt; –help</p>
+<p>For example:
+::
+sparced run –help</p>
+<p>This will display detailed information about the <cite>run</cite> command and its options.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Here are a few example workflows:</p>
+<ol class="arabic simple">
+<li><p><strong>Compile and Run a Model</strong>:
+::
+sparced compile –input models/SPARCED_standard.ant –output compiled_models/
+sparced simulate –model SPARCED_standard –condition data/simulation/standard_GeneReg.txt</p></li>
+<li><p><strong>Generate and Validate a Benchmark</strong>:
+::
+sparced generate-benchmark –name TRAIL-response –output benchmarks/TRAIL-response.yml
+sparced validate –benchmark benchmarks/TRAIL-response.yml</p></li>
+<li><p><strong>Visualize Results</strong>:
+::
+sparced visualize –input results/New-Simulation/Control –output figures/Control_Plot.png</p></li>
+</ol>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">¶</a></h2>
+<p>If you encounter issues while using the CLI tool, check the following:</p>
+<ol class="arabic simple">
+<li><p><strong>Environment</strong>:
+Ensure the CLI tool is installed in your environment and accessible via the <cite>sparced</cite> command.</p></li>
+<li><p><strong>Dependencies</strong>:
+Verify all dependencies are installed:
+::
+pip install -r requirements.txt</p></li>
+<li><p><strong>Log Files</strong>:
+Some commands may produce log files for debugging. Check the output directory for logs.</p></li>
+</ol>
+<p>For additional help, use:
+::
+sparced –help</p>
+</section>
 </section>
 
 
@@ -213,10 +321,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="notebook.html" class="btn btn-neutral float-right" title="Jupyter Notebook">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="../papers/summary.html" class="btn btn-neutral float-right" title="Replicate Published Papers">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../installation-guide.html" class="btn btn-neutral" title="The SPARCED Installation Guide for Absolute Beginners"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="hands-on.html" class="btn btn-neutral" title="SPARCED Hands-On Primer Tutorial"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

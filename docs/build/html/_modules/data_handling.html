@@ -179,7 +179,9 @@
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
 
-<div class="viewcode-block" id="append_subfolder"><a class="viewcode-back" href="../reference/utils.html#data_handling.append_subfolder">[docs]</a><span class="k">def</span> <span class="nf">append_subfolder</span><span class="p">(</span><span class="n">folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="n">subfolder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<div class="viewcode-block" id="append_subfolder">
+<a class="viewcode-back" href="../reference/utils.html#data_handling.append_subfolder">[docs]</a>
+<span class="k">def</span> <span class="nf">append_subfolder</span><span class="p">(</span><span class="n">folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="n">subfolder</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
                      <span class="n">abort_on_error</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">:</span>          
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Append a subfolder to a folder path</span>
 
@@ -193,6 +195,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">folder</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">folder</span><span class="p">)</span>
+
     <span class="k">try</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">folder</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
     <span class="k">except</span><span class="p">:</span>
@@ -202,19 +205,25 @@
             <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Aborting now.&quot;</span><span class="p">)</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
-    <span class="n">subfolder_path</span> <span class="o">=</span> <span class="n">folder</span> <span class="o">/</span> <span class="n">subfolder</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="n">subfolder_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
-    <span class="k">except</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;WARNING: Subfolder doesn&#39;t exist yet. This is normal if you are creating a new subfolder.</span><span class="se">\n</span><span class="s2">Subfolder name: </span><span class="si">{name}</span><span class="s2">.&quot;</span>
-              <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">subfolder</span><span class="p">))</span>
-        <span class="k">if</span> <span class="n">abort_on_error</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Aborting now.&quot;</span><span class="p">)</span>
-            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">subfolder_path</span> <span class="o">=</span> <span class="p">(</span><span class="n">folder</span> <span class="o">/</span> <span class="n">subfolder</span><span class="p">)</span> <span class="k">if</span> <span class="n">subfolder</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span>
+
+    <span class="k">if</span> <span class="n">subfolder_path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="n">subfolder_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;WARNING: Subfolder doesn&#39;t exist yet. This is normal if you are creating a new subfolder.</span><span class="se">\n</span><span class="s2">Subfolder name: </span><span class="si">{</span><span class="n">subfolder</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">abort_on_error</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Aborting now.&quot;</span><span class="p">)</span>
+                <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Subfolder is None; skipping existence check.&quot;</span><span class="p">)</span>
 
     <span class="k">return</span><span class="p">(</span><span class="n">subfolder_path</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="convert_excel_to_tsv"><a class="viewcode-back" href="../reference/utils.html#data_handling.convert_excel_to_tsv">[docs]</a><span class="k">def</span> <span class="nf">convert_excel_to_tsv</span><span class="p">(</span><span class="n">f_excel</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+<div class="viewcode-block" id="convert_excel_to_tsv">
+<a class="viewcode-back" href="../reference/utils.html#data_handling.convert_excel_to_tsv">[docs]</a>
+<span class="k">def</span> <span class="nf">convert_excel_to_tsv</span><span class="p">(</span><span class="n">f_excel</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert an Excel file to TSV (SPARCED&#39;s standard input format)           </span>
 
 <span class="sd">    This function creates a new .txt file at the same location than the passed  </span>
@@ -233,7 +242,10 @@
     <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="n">f_excel</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
     <span class="n">data</span><span class="o">.</span><span class="n">to_csv</span><span class="p">((</span><span class="n">f_excel</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">)</span> </div>
 
-<div class="viewcode-block" id="load_input_data_config"><a class="viewcode-back" href="../reference/utils.html#data_handling.load_input_data_config">[docs]</a><span class="k">def</span> <span class="nf">load_input_data_config</span><span class="p">(</span><span class="n">data_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="n">yaml_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">]:</span>
+
+<div class="viewcode-block" id="load_input_data_config">
+<a class="viewcode-back" href="../reference/utils.html#data_handling.load_input_data_config">[docs]</a>
+<span class="k">def</span> <span class="nf">load_input_data_config</span><span class="p">(</span><span class="n">data_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="n">yaml_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load input data files paths configuration</span>
 
 <span class="sd">    Note:</span>
@@ -259,7 +271,10 @@
         <span class="n">input_files_configuration</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
     <span class="k">return</span><span class="p">(</span><span class="n">input_files_configuration</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="load_input_data_file"><a class="viewcode-back" href="../reference/utils.html#data_handling.load_input_data_file">[docs]</a><span class="k">def</span> <span class="nf">load_input_data_file</span><span class="p">(</span><span class="n">f_input</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+
+<div class="viewcode-block" id="load_input_data_file">
+<a class="viewcode-back" href="../reference/utils.html#data_handling.load_input_data_file">[docs]</a>
+<span class="k">def</span> <span class="nf">load_input_data_file</span><span class="p">(</span><span class="n">f_input</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load the given input data file</span>
 
 <span class="sd">    Load an input data file structured as tab separated.</span>
@@ -274,6 +289,7 @@
     <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">))</span>
                     <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">f_input</span><span class="p">)],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;object&quot;</span><span class="p">)</span>
     <span class="k">return</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
 
 </pre></div>
 
@@ -308,16 +324,10 @@
     <script type="text/javascript" src="../_static/documentation_options.js">
 
     </script>
-    <script type="text/javascript" src="../_static/jquery.js">
-
-    </script>
-    <script type="text/javascript" src="../_static/underscore.js">
-
-    </script>
-    <script type="text/javascript" src="../_static/_sphinx_javascript_frameworks_compat.js">
-
-    </script>
     <script type="text/javascript" src="../_static/doctools.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js">
 
     </script>
 

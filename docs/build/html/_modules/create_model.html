@@ -108,6 +108,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/summary.html">Tutorials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/notebook.html">Jupyter Notebook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/hands-on.html">SPARCED Hands-On Primer Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/command-line.html">Using the SPARCED Command Line Interface (CLI)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../papers/summary.html">Replicate Published Papers</a><ul>
@@ -183,7 +184,9 @@
 <span class="kn">from</span> <span class="nn">compilation.sbml_scripts.model_annotation</span> <span class="kn">import</span> <span class="n">sbml_annotate_model</span>
 <span class="kn">from</span> <span class="nn">utils.data_handling</span> <span class="kn">import</span> <span class="n">append_subfolder</span>
 
-<div class="viewcode-block" id="create_model"><a class="viewcode-back" href="../reference/compilation.html#create_model.create_model">[docs]</a><span class="k">def</span> <span class="nf">create_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span>
+<div class="viewcode-block" id="create_model">
+<a class="viewcode-back" href="../reference/compilation.html#create_model.create_model">[docs]</a>
+<span class="k">def</span> <span class="nf">create_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">model_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span>
                  <span class="n">input_files</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">],</span>
                  <span class="n">output_parameters</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
                  <span class="n">is_SPARCED</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -246,6 +249,7 @@
     <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">{name}</span><span class="s2">: Sucess compiling the model&quot;</span>
                      <span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">model_name</span><span class="p">))</span></div>
 
+
 </pre></div>
 
 	    </div>
@@ -279,16 +283,10 @@
     <script type="text/javascript" src="../_static/documentation_options.js">
 
     </script>
-    <script type="text/javascript" src="../_static/jquery.js">
-
-    </script>
-    <script type="text/javascript" src="../_static/underscore.js">
-
-    </script>
-    <script type="text/javascript" src="../_static/_sphinx_javascript_frameworks_compat.js">
-
-    </script>
     <script type="text/javascript" src="../_static/doctools.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js">
 
     </script>
 
