@@ -24,18 +24,13 @@ import libsbml
 import importlib
 import numpy as np
 import pandas as pd
-from benchmark_utils.simulation.utils import Utils as utils
+from benchmarking.simulation.utils import Utils as utils
 
 # Get the directory path
 wd = os.path.dirname(os.path.abspath(__file__))
-# Ensure the SPARCED root and bin directories are in the system path
-sparced_root = "/".join(
-    wd.split(os.path.sep)[: wd.split(os.path.sep).index("SPARCED") + 1]
-)
-sys.path.append(os.path.join(sparced_root, "SPARCED/src/"))
+sys.path.append(wd)
 from simulation.modules.RunSPARCED import RunSPARCED, RunAMICI
 
-# TODO: Rename class to Simulator
 class Simulator:
     def __init__(
         self,
@@ -323,7 +318,16 @@ class Simulator:
         """
         # Create an instance of the AMICI model.
         sys.path.append(self.sbml_file)
-        utils._add_amici_path(self.sbml_file)
+
+        try:
+            utils._add_amici_path(self.sbml_file)
+
+        except:
+            # If amici model not found at the SBML file path, call the compilation-from SBML function
+            from compilation.create_model import create_model
+            # TODO: Fix this function to actually compile the model
+            # at the SBML file path.
+            create_model(self.sbml_file, self.sbml_file, {}, "parameters", False)
 
         sparced = utils._swig_interface_path(self.sbml_file)
         sys.path.append(sparced)

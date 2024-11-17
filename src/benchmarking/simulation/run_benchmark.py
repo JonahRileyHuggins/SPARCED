@@ -25,22 +25,17 @@ import os
 import yaml
 import pickle
 from datetime import date
-from benchmark_utils.simulation.job_organization import Organizer as org
-from benchmark_utils.simulation.arguements import parse_args
-from benchmark_utils.simulation.utils import Utils
-from benchmark_utils.simulation.single_simulation import Simulator
-from benchmark_utils.simulation.observable_calc import ObservableCalculator
-from benchmark_utils.visualization.visualization import Visualizer
-from benchmark_utils.sedml import builders
+from benchmarking.simulation.job_organization import Organizer as org
+from utils.arguments import parse_args
+from benchmarking.simulation.utils import Utils
+from benchmarking.simulation.single_simulation import Simulator
+from benchmarking.simulation.observable_calc import ObservableCalculator
+from benchmarking.visualization.visualization import Visualizer
+from benchmarking.sedml import builders
 
 args = parse_args()
 
 wd = os.path.dirname(os.path.abspath(__file__))
-
-# TODO find a better way to specify project path
-sparced_root = "/".join(
-    wd.split(os.path.sep)[: wd.split(os.path.sep).index("SPARCED") + 1]
-)
 
 class RunBenchmark:
     """Input the PEtab files and broadcast them to all processes. Then, load
@@ -63,17 +58,15 @@ class RunBenchmark:
     def __init__(self):
 
         try:
-            if args.benchmark != "benchmark_utils":
-                yaml_path = os.path.join(sparced_root, f"benchmarks/{args.benchmark}")
-
-                assert os.path.exists(yaml_path)
+            yaml_path = os.path.join(wd, args.benchmark)
+            assert os.path.exists(yaml_path)
 
         except AssertionError:
             raise FileNotFoundError(f"{args.benchmark} is not a valid benchmark")
 
         self.yaml_file = yaml_path
         self.benchmark = args.benchmark
-        self.observable = args.observable
+        self.observable = args.Observable
         self.name = args.name
 
         self.communicator, self.rank, self.size = org.mpi_communicator()

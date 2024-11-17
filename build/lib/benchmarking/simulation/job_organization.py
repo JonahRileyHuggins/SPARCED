@@ -15,8 +15,8 @@ Output: MPI tasks for each rank, MPI task assignment, and MPI results aggregatio
 import numpy
 import pandas
 import mpi4py.MPI as MPI
-from benchmark_utils.simulation.petab_file_loader import PEtabFileLoader
-from benchmark_utils.simulation.utils import Utils
+from benchmarking.simulation.petab_file_loader import PEtabFileLoader
+from benchmarking.simulation.utils import Utils
 
 
 class Organizer:
