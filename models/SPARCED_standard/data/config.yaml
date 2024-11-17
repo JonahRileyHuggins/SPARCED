@@ -1,0 +1,19 @@
+compilation:
+    root: "model"
+    compartments: "standard_Compartments.txt"
+    observables: "standard_Observables.txt"
+    ratelaws: "standard_Ratelaws.txt"
+    species: "standard_Species.txt"
+    stoicmat: "standard_StoicMat.txt"
+simulation:
+    root: "simulation"
+    genereg: "standard_GeneReg.txt"
+    omics: "standard_OmicsData.txt"
+    perturbations:
+        root: "perturbations"
+        default: "default.txt"
+    incubation:
+        root: "perturbations"
+        default: "default.txt"
+        duration: 0.0
+

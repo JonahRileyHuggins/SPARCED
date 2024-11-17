@@ -174,7 +174,9 @@
 <span class="kn">import</span> <span class="nn">libsbml</span>
 
 
-<div class="viewcode-block" id="write_compartments_annotations"><a class="viewcode-back" href="../reference/compilation.html#sbml_utils.write_compartments_annotations">[docs]</a><span class="k">def</span> <span class="nf">write_compartments_annotations</span><span class="p">(</span><span class="n">f_sbml</span><span class="p">,</span> <span class="n">compartments</span><span class="p">):</span>
+<div class="viewcode-block" id="write_compartments_annotations">
+<a class="viewcode-back" href="../reference/compilation.html#sbml_utils.write_compartments_annotations">[docs]</a>
+<span class="k">def</span> <span class="nf">write_compartments_annotations</span><span class="p">(</span><span class="n">f_sbml</span><span class="p">,</span> <span class="n">compartments</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set compartments annotations in the given SBML file</span>
 
 <span class="sd">    Note:</span>
@@ -193,7 +195,10 @@
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">compartments</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
         <span class="n">f_sbml</span><span class="o">.</span><span class="n">getCompartment</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">setAnnotation</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span></div>
 
-<div class="viewcode-block" id="write_species_annotations"><a class="viewcode-back" href="../reference/compilation.html#sbml_utils.write_species_annotations">[docs]</a><span class="k">def</span> <span class="nf">write_species_annotations</span><span class="p">(</span><span class="n">f_sbml</span><span class="p">,</span> <span class="n">species</span><span class="p">):</span>
+
+<div class="viewcode-block" id="write_species_annotations">
+<a class="viewcode-back" href="../reference/compilation.html#sbml_utils.write_species_annotations">[docs]</a>
+<span class="k">def</span> <span class="nf">write_species_annotations</span><span class="p">(</span><span class="n">f_sbml</span><span class="p">,</span> <span class="n">species</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set species annotations in the given SBML file</span>
 
 <span class="sd">    Note:</span>
@@ -216,6 +221,7 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">specie_annotation</span> <span class="o">==</span> <span class="s2">&quot;nan&quot;</span> <span class="ow">or</span> <span class="n">specie_annotation</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span><span class="p">):</span>
                 <span class="n">annotation</span> <span class="o">+=</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">row</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
         <span class="n">f_sbml</span><span class="o">.</span><span class="n">getSpecies</span><span class="p">(</span><span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">setAnnotation</span><span class="p">(</span><span class="n">annotation</span><span class="p">)</span></div>
+
 
 </pre></div>
 
@@ -250,16 +256,10 @@
     <script type="text/javascript" src="../_static/documentation_options.js">
 
     </script>
-    <script type="text/javascript" src="../_static/jquery.js">
-
-    </script>
-    <script type="text/javascript" src="../_static/underscore.js">
-
-    </script>
-    <script type="text/javascript" src="../_static/_sphinx_javascript_frameworks_compat.js">
-
-    </script>
     <script type="text/javascript" src="../_static/doctools.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js">
 
     </script>
 

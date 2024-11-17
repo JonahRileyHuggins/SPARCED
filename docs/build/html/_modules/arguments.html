@@ -174,7 +174,9 @@
 <span class="kn">import</span> <span class="nn">argparse</span>
 
 
-<div class="viewcode-block" id="parse_args"><a class="viewcode-back" href="../reference/utils.html#arguments.parse_args">[docs]</a><span class="k">def</span> <span class="nf">parse_args</span><span class="p">():</span>
+<div class="viewcode-block" id="parse_args">
+<a class="viewcode-back" href="../reference/utils.html#arguments.parse_args">[docs]</a>
+<span class="k">def</span> <span class="nf">parse_args</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve and parse arguments necessary for model creation</span>
 
 <span class="sd">    Arguments:</span>
@@ -184,54 +186,77 @@
 <span class="sd">        A namespace populated with all the attributes.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">&quot;SPARCED&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;SPARCED CLI tool.&quot;</span><span class="p">)</span>
     
-    <span class="c1"># Compilation</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--output_parameters&#39;</span><span class="p">,</span>    <span class="n">default</span><span class="o">=</span><span class="s2">&quot;out_Parameters.txt&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;desired name for the output parameters file&quot;</span><span class="p">)</span>
-    
-    <span class="c1"># Compilation &amp; simulation</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;--input_data&#39;</span><span class="p">,</span>           <span class="n">default</span><span class="o">=</span><span class="s2">&quot;data/&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;name of the model subfolder containing the </span><span class="se">\</span>
-<span class="s2">                              SPARCED formated input files&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-m&#39;</span><span class="p">,</span> <span class="s1">&#39;--model&#39;</span><span class="p">,</span>                <span class="n">default</span><span class="o">=</span><span class="s2">&quot;./../models/&quot;</span><span class="p">,</span>
+    <span class="c1"># Define shared arguments in a parent parser</span>
+    <span class="n">shared_parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">add_help</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">shared_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-v&#39;</span><span class="p">,</span> <span class="s1">&#39;--verbose&#39;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Enable verbose output.&quot;</span><span class="p">)</span>
+    <span class="n">shared_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-y&#39;</span><span class="p">,</span> <span class="s1">&#39;--yaml&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;YAML file with input configuration.&quot;</span><span class="p">)</span>
+    <span class="n">shared_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-i&#39;</span><span class="p">,</span> <span class="s1">&#39;--input_data&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;data/&quot;</span><span class="p">,</span>
+                                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;name of the model subfolder containing SPARCED formatted input files&quot;</span><span class="p">)</span>
+    <span class="n">shared_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-m&#39;</span><span class="p">,</span> <span class="s1">&#39;--model&#39;</span><span class="p">,</span>                <span class="n">default</span><span class="o">=</span><span class="s2">&quot;./../models/&quot;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;relative path to the directory containing the </span><span class="se">\</span>
 <span class="s2">                              models folders&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="s1">&#39;--name&#39;</span><span class="p">,</span>                  <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;name of the model</span><span class="se">\n</span><span class="s2">Compilation: desired name for </span><span class="se">\</span>
-<span class="s2">                              the generated model (should be identical to </span><span class="se">\</span>
-<span class="s2">                              model&#39;s folder name).</span><span class="se">\n</span><span class="s2">Simulation: name of the </span><span class="se">\</span>
-<span class="s2">                              input model.&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-v&#39;</span><span class="p">,</span> <span class="s1">&#39;--verbose&#39;</span><span class="p">,</span>              <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_false&#39;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;don&#39;t display additional details during execution&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-w&#39;</span><span class="p">,</span> <span class="s1">&#39;--wild&#39;</span><span class="p">,</span>                 <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
+    <span class="n">shared_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-w&#39;</span><span class="p">,</span> <span class="s1">&#39;--wild&#39;</span><span class="p">,</span>                 <span class="n">action</span><span class="o">=</span><span class="s1">&#39;store_true&#39;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;UNDER CONSTRUCTION</span><span class="se">\n</span><span class="s2">running wild (without SPARCED </span><span class="se">\</span>
 <span class="s2">                              hard-coded values/behaviors&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-y&#39;</span><span class="p">,</span> <span class="s1">&#39;--yaml&#39;</span><span class="p">,</span>                 <span class="n">default</span><span class="o">=</span><span class="s2">&quot;config.yaml&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;name of the YAML file with all the input file names&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Simulation</span>
-    <span class="c1"># -- Uppercase</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-D&#39;</span><span class="p">,</span> <span class="s1">&#39;--deterministic&#39;</span><span class="p">,</span>        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;don&#39;t run simulation in deterministic mode&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-P&#39;</span><span class="p">,</span> <span class="s1">&#39;--perturbations&#39;</span><span class="p">,</span>        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;name of the perturbations file to use (will </span><span class="se">\</span>
-<span class="s2">                              override default)&quot;</span><span class="p">)</span>
+    <span class="c1"># Define subcommands</span>
+    <span class="n">subparsers</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span><span class="n">dest</span><span class="o">=</span><span class="s2">&quot;command&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Subcommands: compile, simulate, benchmark&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Compile subcommand</span>
+    <span class="n">compile_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;compile&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Compile a model.&quot;</span><span class="p">)</span>
+    <span class="n">compile_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-o&#39;</span><span class="p">,</span> <span class="s1">&#39;--output_parameters&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;out_Parameters.txt&quot;</span><span class="p">,</span>
+                                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;desired name for the output parameters file&quot;</span><span class="p">)</span>
+    <span class="n">compile_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="s1">&#39;--name&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                 <span class="n">help</span><span class="o">=</span><span class="s2">&quot;desired name for the generated model&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Simulate subcommand</span>
     <span class="c1"># -- Lowercase</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="s1">&#39;--population_size&#39;</span><span class="p">,</span>      <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;desired cell population size for the simulation&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="s1">&#39;--results&#39;</span><span class="p">,</span>              <span class="n">default</span><span class="o">=</span><span class="s2">&quot;./../results/New-Simulation/&quot;</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;relative  path to the directory where simulation </span><span class="se">\</span>
-<span class="s2">                              results will be saved&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="s1">&#39;--simulation&#39;</span><span class="p">,</span>           <span class="n">default</span><span class="o">=</span><span class="s2">&quot;GrowthStim&quot;</span><span class="p">,</span>
+    <span class="n">simulate_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;simulate&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Run a simulation.&quot;</span><span class="p">)</span>
+    <span class="n">simulate_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="s1">&#39;--name&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                  <span class="n">help</span><span class="o">=</span><span class="s2">&quot;name of the input model.&quot;</span><span class="p">)</span>
+    <span class="n">simulate_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-p&#39;</span><span class="p">,</span> <span class="s1">&#39;--population_size&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+                                  <span class="n">help</span><span class="o">=</span><span class="s2">&quot;desired cell population size for the simulation&quot;</span><span class="p">)</span>
+    <span class="n">simulate_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-t&#39;</span><span class="p">,</span> <span class="s1">&#39;--time&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span>
+                                  <span class="n">help</span><span class="o">=</span><span class="s2">&quot;desired virtual duration of the simulation (h)&quot;</span><span class="p">)</span>
+    <span class="n">simulate_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="s1">&#39;--results&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;./../results/New-Simulation/&quot;</span><span class="p">,</span>
+                                  <span class="n">help</span><span class="o">=</span><span class="s2">&quot;directory where simulation results will be saved&quot;</span><span class="p">)</span>
+    <span class="n">simulate_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-s&#39;</span><span class="p">,</span> <span class="s1">&#39;--simulation&#39;</span><span class="p">,</span>           <span class="n">default</span><span class="o">=</span><span class="s2">&quot;GrowthStim&quot;</span><span class="p">,</span>
                         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;desired name for the simulation output files&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-t&#39;</span><span class="p">,</span> <span class="s1">&#39;--time&#39;</span><span class="p">,</span>                 <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
-                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;desired virtual duration of the simulation (h)&quot;</span><span class="p">)</span>
-    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-x&#39;</span><span class="p">,</span> <span class="s1">&#39;--exchange&#39;</span><span class="p">,</span>             <span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+    <span class="n">simulate_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-x&#39;</span><span class="p">,</span> <span class="s1">&#39;--exchange&#39;</span><span class="p">,</span>             <span class="n">default</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
                          <span class="n">help</span><span class="o">=</span><span class="s2">&quot;timeframe between modules information exchange </span><span class="se">\</span>
 <span class="s2">                               during the simulation&quot;</span><span class="p">)</span>
+    <span class="c1"># -- Uppercase</span>
+    <span class="n">simulate_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-D&#39;</span><span class="p">,</span> <span class="s1">&#39;--deterministic&#39;</span><span class="p">,</span>        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_false&quot;</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;don&#39;t run simulation in deterministic mode&quot;</span><span class="p">)</span>
+    <span class="n">simulate_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-P&#39;</span><span class="p">,</span> <span class="s1">&#39;--perturbations&#39;</span><span class="p">,</span>        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;name of the perturbations file to use (will </span><span class="se">\</span>
+<span class="s2">                              override default)&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Benchmark subcommand</span>
+    <span class="n">benchmark_parser</span> <span class="o">=</span> <span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span><span class="s2">&quot;benchmark&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Benchmark a model.&quot;</span><span class="p">)</span>
+    <span class="n">benchmark_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-r&#39;</span><span class="p">,</span> <span class="s1">&#39;--results&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;./../results/New-Benchmark/&quot;</span><span class="p">,</span>
+                                   <span class="n">help</span><span class="o">=</span><span class="s2">&quot;directory where benchmark results will be saved&quot;</span><span class="p">)</span>
+    <span class="n">benchmark_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-n&#39;</span><span class="p">,</span> <span class="s1">&#39;--name&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> 
+                                  <span class="n">help</span><span class="o">=</span><span class="s2">&quot;name to save the benchmark results&quot;</span><span class="p">)</span>
+    <span class="n">benchmark_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-b&#39;</span><span class="p">,</span> <span class="s1">&#39;--benchmark&#39;</span><span class="p">,</span>            <span class="n">default</span><span class="o">=</span><span class="s2">&quot;stochastic-expression&quot;</span><span class="p">,</span>
+                                  <span class="n">help</span><span class="o">=</span><span class="s2">&quot;name of the benchmark to be used&quot;</span><span class="p">)</span>
+    <span class="n">benchmark_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-c&#39;</span><span class="p">,</span> <span class="s1">&#39;--cores&#39;</span><span class="p">,</span>                <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;number of cores to use for a parallel process&quot;</span><span class="p">)</span>
+    <span class="n">benchmark_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-bd&#39;</span><span class="p">,</span> <span class="s1">&#39;--benchmark_description&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;description of the benchmark&quot;</span><span class="p">)</span>
+    <span class="c1"># -- Uppercase</span>
+    <span class="n">benchmark_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-O&#39;</span><span class="p">,</span> <span class="s1">&#39;--Observable&#39;</span><span class="p">,</span>           <span class="n">default</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;only the observable in observables.tsv is calculated (1) </span><span class="se">\</span>
+<span class="s2">                              or if the entire simulation is saved (0)&quot;</span><span class="p">)</span>
+    <span class="c1"># -- Lowercase</span>
+    <span class="n">benchmark_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-rs&#39;</span><span class="p">,</span> <span class="s1">&#39;--return_sedml&#39;</span><span class="p">,</span>        <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;return the SED-ML file&quot;</span><span class="p">)</span>
+
 
     <span class="k">return</span><span class="p">(</span><span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">())</span></div>
+
 
 </pre></div>
 
@@ -266,16 +291,10 @@
     <script type="text/javascript" src="../_static/documentation_options.js">
 
     </script>
-    <script type="text/javascript" src="../_static/jquery.js">
-
-    </script>
-    <script type="text/javascript" src="../_static/underscore.js">
-
-    </script>
-    <script type="text/javascript" src="../_static/_sphinx_javascript_frameworks_compat.js">
-
-    </script>
     <script type="text/javascript" src="../_static/doctools.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js">
 
     </script>
 

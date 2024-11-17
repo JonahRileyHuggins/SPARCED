@@ -1,0 +1,384 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xml:lang="" lang="" version="-//W3C//DTD XHTML 1.1//EN" xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="">
+    <link rel="icon" type="image/x-icon" href="">
+
+  
+  <title>Using the SPARCED Command Line Interface (CLI) &mdash; SPARCED 2.0.0 documentation</title>
+  
+
+  
+
+  
+
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'/>
+
+
+  <link rel="stylesheet" href="../_static/css/img.css" type="text/css"/>
+  
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  
+    <link rel="stylesheet" href="../_static/css/pdj.css" type="text/css" />
+  
+
+  
+
+  <link rel="stylesheet" href="../_static/css/darker.css" type="text/css" media="(prefers-color-scheme: dark)"/>
+        <link rel="author" title="About these documents"
+              href="../about.html"/>
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="SPARCED 2.0.0 documentation" href="../index.html"/>
+        <link rel="up" title="Tutorials" href="summary.html"/>
+        <link rel="next" title="Replicate Published Papers" href="../papers/summary.html"/>
+        <link rel="prev" title="SPARCED Hands-On Primer Tutorial" href="hands-on.html"/>
+
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta http-equiv="cache-control" content="public" />
+    <meta name="robots" content="follow, all" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Add jQuery library -->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
+    <script type="module" src="https://googlechromelabs.github.io/dark-mode-toggle/src/dark-mode-toggle.mjs"></script>
+
+  </head>
+
+  <body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-nav-search">
+	
+        <a href="../index.html" class="fa fa-home"> SPARCED </a>
+	
+	
+        <div role="search">
+	  
+	  <form id ="rtd-search-form" class="wy-form"
+		action="../search.html" method="get">
+	    <input type="text" name="q" placeholder="Search docs" />
+	    <input type="hidden" name="check_keywords" value="yes" />
+	    <input type="hidden" name="area" value="default" />
+	  </form>
+	  
+	</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	
+          
+          
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../about.html">About</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../about.html#instructions-beginners">Instructions &amp; Beginners</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../about.html#replicate-our-results">Replicate our results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../about.html#dependencies">Dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../about.html#further-information">Further information</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../about.html#acknowledgments">Acknowledgments</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../contents.html">Contents Table</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../about.html">About</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation-guide.html">The SPARCED Installation Guide for Absolute Beginners</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="summary.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../papers/summary.html">Replicate Published Papers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/summary.html">Reference Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../future-dev.html">Future developments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../license.html">License</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../contents.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../installation-guide.html">The SPARCED Installation Guide for Absolute Beginners</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#environment">Environment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#virtualbox-guest-additions">VirtualBox Guest Additions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#openmpi">OpenMPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#git-github-ssh">Git, GitHub &amp; SSH</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#anaconda">Anaconda</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#todo-docker">TODO: Docker</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#sparced">SPARCED 🎆</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#clean">Clean</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="summary.html">Tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="notebook.html">Jupyter Notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="hands-on.html">SPARCED Hands-On Primer Tutorial</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Using the SPARCED Command Line Interface (CLI)</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../papers/summary.html">Replicate Published Papers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../papers/bouhaddou2018.html">Bouhaddou 2018 model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../papers/erdem2022.html">Erdem 2022 model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../papers/mutsuddy2023.html">Mutsuddy 2023 model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/summary.html">Reference Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../reference/summary.html#models">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/summary.html#input-files">Input files</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reference/summary.html#source-code">Source code</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../future-dev.html">Future developments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../license.html">License</a></li>
+</ul>
+
+          
+        
+
+      </div>
+      &nbsp;
+    </nav>
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      <nav class="wy-nav-top" id="barra-mobile" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="#">SPARCED </a>
+      </nav>
+
+      <div class="wy-nav-content">
+	<div class="fundo-claro">
+	</div>
+	<div class="fundo-escuro">
+	</div>
+
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+	    
+	    <!-- <ul class="wy-breadcrumbs"> -->
+	    <!--   <li><a href="#">Docs</a> &raquo;</li> -->
+
+	    <!--   <li>Features</li> -->
+	    <!--   <li class="wy-breadcrumbs-aside"> -->
+
+	    <!-- 	<a href="_sources/index.txt" rel="nofollow"> View page source</a> -->
+
+	    <!--   </li> -->
+	    <!-- </ul> -->
+	    <!-- <hr/> -->
+	  </div>
+          <div role="main" class="">
+
+	    <div id="content" class="hfeed entry-container hentry">
+      	<div id="dark-mode-toggle-container">
+	  <dark-mode-toggle appearance="toggle" dark="switch to light mode" light="switch to dark mode">
+	  </dark-mode-toggle>
+	</div>
+  <section id="using-the-sparced-command-line-interface-cli">
+<h1>Using the SPARCED Command Line Interface (CLI)<a class="headerlink" href="#using-the-sparced-command-line-interface-cli" title="Link to this heading">¶</a></h1>
+<p>The SPARCED package provides a convenient CLI tool to manage common tasks like
+compiling models, running simulations, benchmarking, and visualizing results.</p>
+<p>This guide explains how to use the <cite>sparced</cite> CLI tool to streamline your workflows.</p>
+<section id="getting-started">
+<h2>Getting Started<a class="headerlink" href="#getting-started" title="Link to this heading">¶</a></h2>
+<p>Before using the CLI, ensure the following:</p>
+<ol class="arabic">
+<li><p><strong>SPARCED Installed as a CLI Tool</strong>:
+The <cite>sparced</cite> CLI tool is installed and available in your environment. If not,
+install it using pipx:
+::
+pipx install &lt;path_to_sparced_package&gt;</p></li>
+<li><p><strong>Verify Installation</strong>:
+Run the following command to verify:
+::
+sparced –help</p>
+<p>If installed correctly, this will display the help menu for the CLI.</p>
+</li>
+</ol>
+</section>
+<section id="common-commands">
+<h2>Common Commands<a class="headerlink" href="#common-commands" title="Link to this heading">¶</a></h2>
+<p>The <cite>sparced</cite> CLI supports several commands for different operations:</p>
+<section id="general-usage">
+<h3>General Usage<a class="headerlink" href="#general-usage" title="Link to this heading">¶</a></h3>
+<p>Use the following syntax:
+::
+sparced &lt;command&gt; [options]</p>
+<p>Example:
+::
+sparced simulate –name SPARCED_standard –condition data/simulation/standard_GeneReg.txt</p>
+</section>
+<section id="available-commands">
+<h3>Available Commands<a class="headerlink" href="#available-commands" title="Link to this heading">¶</a></h3>
+<ol class="arabic">
+<li><p><strong>Compile Models</strong>:
+Compile an Antimony or SBML model:
+::
+sparced compile –input &lt;model_file&gt; –output &lt;output_directory&gt;</p>
+<ul class="simple">
+<li><p><cite>–input</cite>: Path to the Antimony or SBML model file.</p></li>
+<li><p><cite>–output</cite>: Directory to save the compiled model.</p></li>
+</ul>
+<p>Example:
+::
+sparced compile –input models/SPARCED_standard.sbml –output compiled_models/</p>
+</li>
+<li><p><strong>Run Simulations</strong>:
+Execute simulations using a specified model and condition file:
+::
+sparced simulate –model &lt;model_name&gt; –condition &lt;condition_file&gt;</p>
+<ul class="simple">
+<li><p><cite>–model</cite>: Name of the model (e.g., <cite>SPARCED_standard</cite>).</p></li>
+<li><p><cite>–condition</cite>: Path to the condition file.</p></li>
+</ul>
+<p>Example:
+::
+sparced simulate –name SPARCED_standard –condition data/simulation/standard_GeneReg.txt</p>
+</li>
+<li><p><strong>Generate Benchmarks</strong>:
+Create a new benchmark YAML file:
+::
+sparced generate-benchmark –name &lt;benchmark_name&gt; –output &lt;output_file&gt;</p>
+<ul class="simple">
+<li><p><cite>–name</cite>: Name of the benchmark.</p></li>
+<li><p><cite>–output</cite>: Path to save the benchmark file.</p></li>
+</ul>
+<p>Example:
+::
+sparced generate-benchmark –name TRAIL-response –output benchmarks/TRAIL-response.yml</p>
+</li>
+<li><p><strong>Validate Benchmarks</strong>:
+Compare a model’s output to a benchmark:
+::
+sparced validate –benchmark &lt;benchmark_file&gt;</p>
+<ul class="simple">
+<li><p><cite>–benchmark</cite>: Path to the benchmark YAML file.</p></li>
+</ul>
+<p>Example:
+::
+sparced validate –benchmark benchmarks/TRAIL-response.yml</p>
+</li>
+<li><p><strong>Visualize Results</strong>:
+Generate visualizations from simulation results:
+::
+sparced visualize –input &lt;results_directory&gt; –output &lt;output_file&gt;</p>
+<ul class="simple">
+<li><p><cite>–input</cite>: Directory containing simulation results.</p></li>
+<li><p><cite>–output</cite>: File path for saving the visualization.</p></li>
+</ul>
+<p>Example:
+::
+sparced visualize –input results/New-Simulation/Control –output figures/Control_Visualization.png</p>
+</li>
+</ol>
+</section>
+</section>
+<section id="advanced-options">
+<h2>Advanced Options<a class="headerlink" href="#advanced-options" title="Link to this heading">¶</a></h2>
+<p>To view all options for a specific command, use the <cite>–help</cite> flag:
+::
+sparced &lt;command&gt; –help</p>
+<p>For example:
+::
+sparced run –help</p>
+<p>This will display detailed information about the <cite>run</cite> command and its options.</p>
+</section>
+<section id="examples">
+<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<p>Here are a few example workflows:</p>
+<ol class="arabic simple">
+<li><p><strong>Compile and Run a Model</strong>:
+::
+sparced compile –input models/SPARCED_standard.ant –output compiled_models/
+sparced simulate –model SPARCED_standard –condition data/simulation/standard_GeneReg.txt</p></li>
+<li><p><strong>Generate and Validate a Benchmark</strong>:
+::
+sparced generate-benchmark –name TRAIL-response –output benchmarks/TRAIL-response.yml
+sparced validate –benchmark benchmarks/TRAIL-response.yml</p></li>
+<li><p><strong>Visualize Results</strong>:
+::
+sparced visualize –input results/New-Simulation/Control –output figures/Control_Plot.png</p></li>
+</ol>
+</section>
+<section id="troubleshooting">
+<h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">¶</a></h2>
+<p>If you encounter issues while using the CLI tool, check the following:</p>
+<ol class="arabic simple">
+<li><p><strong>Environment</strong>:
+Ensure the CLI tool is installed in your environment and accessible via the <cite>sparced</cite> command.</p></li>
+<li><p><strong>Dependencies</strong>:
+Verify all dependencies are installed:
+::
+pip install -r requirements.txt</p></li>
+<li><p><strong>Log Files</strong>:
+Some commands may produce log files for debugging. Check the output directory for logs.</p></li>
+</ol>
+<p>For additional help, use:
+::
+sparced –help</p>
+</section>
+</section>
+
+
+	    </div>
+            <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../papers/summary.html" class="btn btn-neutral float-right" title="Replicate Published Papers">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="hands-on.html" class="btn btn-neutral" title="SPARCED Hands-On Primer Tutorial"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2024, The Birtwistle Lab.
+    </p>
+  </div>
+
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/jucacrispim/sphinx_pdj_theme">theme</a> provided by <a href="https://poraodojuca.dev">Porão do Juca</a>.
+
+</footer>
+	</div>
+	</div>
+	  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'2.0.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true
+        };
+    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/doctools.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js">
+
+    </script>
+
+  
+
+   <script type="text/javascript"
+           src="../_static/js/theme.js"></script>
+
+   <script type="text/javascript"
+           src="../_static/js/pdj.js"></script>
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+  </body>
+</html>

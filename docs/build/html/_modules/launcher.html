@@ -108,6 +108,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials/summary.html">Tutorials</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/notebook.html">Jupyter Notebook</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../tutorials/hands-on.html">SPARCED Hands-On Primer Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/command-line.html">Using the SPARCED Command Line Interface (CLI)</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../papers/summary.html">Replicate Published Papers</a><ul>
@@ -180,7 +181,9 @@
 <span class="kn">from</span> <span class="nn">utils.sanitize</span> <span class="kn">import</span> <span class="n">sanitize_model_name</span>
 
 
-<div class="viewcode-block" id="launch_model_creation"><a class="viewcode-back" href="../reference/compilation.html#launcher.launch_model_creation">[docs]</a><span class="k">def</span> <span class="nf">launch_model_creation</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="launch_model_creation">
+<a class="viewcode-back" href="../reference/compilation.html#launcher.launch_model_creation">[docs]</a>
+<span class="k">def</span> <span class="nf">launch_model_creation</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Launch model creation function</span>
 
 <span class="sd">    Small routine to process the parsed arguments and call create_model()</span>
@@ -208,6 +211,9 @@
     <span class="n">create_model</span><span class="p">(</span><span class="n">model_name</span><span class="p">,</span> <span class="n">model_path</span><span class="p">,</span> <span class="n">input_files</span><span class="p">,</span> <span class="n">output_parameters_path</span><span class="p">,</span>
                  <span class="n">verbose</span><span class="p">,</span> <span class="n">is_SPARCED</span><span class="p">)</span></div>
 
+
+<div class="viewcode-block" id="load_compilation_input_files">
+<a class="viewcode-back" href="../reference/compilation.html#launcher.load_compilation_input_files">[docs]</a>
 <span class="k">def</span> <span class="nf">load_compilation_input_files</span><span class="p">(</span><span class="n">data_folder</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">,</span> <span class="n">yaml_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Load compilation input data files paths dictionnary</span>
 
@@ -229,7 +235,8 @@
     <span class="k">for</span> <span class="n">input_file</span> <span class="ow">in</span> <span class="n">compilation_files</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">compilation_files</span><span class="p">[</span><span class="n">input_file</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">compilation_files</span><span class="p">[</span><span class="n">input_file</span><span class="p">]</span> <span class="o">=</span> <span class="n">append_subfolder</span><span class="p">(</span><span class="n">compilation_data_path</span><span class="p">,</span> <span class="n">compilation_files</span><span class="p">[</span><span class="n">input_file</span><span class="p">])</span>
-    <span class="k">return</span><span class="p">(</span><span class="n">compilation_files</span><span class="p">)</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">compilation_files</span><span class="p">)</span></div>
+
 
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
@@ -268,16 +275,10 @@
     <script type="text/javascript" src="../_static/documentation_options.js">
 
     </script>
-    <script type="text/javascript" src="../_static/jquery.js">
-
-    </script>
-    <script type="text/javascript" src="../_static/underscore.js">
-
-    </script>
-    <script type="text/javascript" src="../_static/_sphinx_javascript_frameworks_compat.js">
-
-    </script>
     <script type="text/javascript" src="../_static/doctools.js">
+
+    </script>
+    <script type="text/javascript" src="../_static/sphinx_highlight.js">
 
     </script>
 
