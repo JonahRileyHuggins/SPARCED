@@ -48,7 +48,7 @@ def benchmark_model(args):
     'benchmarks'. 
 """
     print(f"Benchmarking results directory: {args.results}")
-    from benchmarking.simulation.run_benchmark import RunBenchmark
+    from validation.simulation.run_benchmark import RunBenchmark
     rb = RunBenchmark()
     rb.run()
     rb.observable_calculation()
@@ -65,7 +65,7 @@ def main():
         compile_model(args)
     elif args.command == "simulate":
         simulate_model(args)
-    elif args.command == "benchmark":
+    elif args.command == "validate":
         benchmark_model(args)
     else:
         print("No valid command provided. Use --help for guidance.")
