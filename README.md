@@ -1,6 +1,6 @@
 # About
 
-[![Documentation Status](https://readthedocs.org/projects/sparced-documentation/badge/?version=latest)](https://sparced-documentation.readthedocs.io/en/latest/?badge=latest)
+[![Documentation Status](https://readthedocs.org/projects/sparced/badge/?version=latest)](https://sparced.readthedocs.io/en/latest/?badge=latest)
 
 SPARCED is a simple and efficient pipeline for constructing, merging, expanding
 and simulating large-scale, single-cell mechanistic models.
@@ -16,7 +16,7 @@ are sub-models of the large-scale mechanistic model.
 ## Instructions & Beginners
 
 A beginner's installation guide of SPARCED for newcomers in computer science
-is available [here](docs/source/installation-guide.md)
+is available [here](https://sparced.readthedocs.io/en/latest/installation-guide.html)
 
 ## Replicate our results
 
