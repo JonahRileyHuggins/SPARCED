@@ -181,13 +181,16 @@ compiling models, running simulations, benchmarking, and visualizing results.</p
 <ol class="arabic">
 <li><p><strong>SPARCED Installed as a CLI Tool</strong>:
 The <cite>sparced</cite> CLI tool is installed and available in your environment. If not,
-install it using pipx:
-::
-pipx install &lt;path_to_sparced_package&gt;</p></li>
+install it using pipx:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pipx</span> <span class="n">install</span> <span class="o">&lt;</span><span class="n">path_to_sparced_package</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</li>
 <li><p><strong>Verify Installation</strong>:
-Run the following command to verify:
-::
-sparced –help</p>
+Run the following command to verify:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
 <p>If installed correctly, this will display the help menu for the CLI.</p>
 </li>
 </ol>
@@ -197,121 +200,144 @@ sparced –help</p>
 <p>The <cite>sparced</cite> CLI supports several commands for different operations:</p>
 <section id="general-usage">
 <h3>General Usage<a class="headerlink" href="#general-usage" title="Link to this heading">¶</a></h3>
-<p>Use the following syntax:
-::
-sparced &lt;command&gt; [options]</p>
-<p>Example:
-::
-sparced simulate –name SPARCED_standard –condition data/simulation/standard_GeneReg.txt</p>
+<p>Use the following syntax:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="o">&lt;</span><span class="n">command</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="n">simulate</span> <span class="o">--</span><span class="n">name</span> <span class="n">SPARCED_standard</span> <span class="o">--</span><span class="n">condition</span> <span class="n">data</span><span class="o">/</span><span class="n">simulation</span><span class="o">/</span><span class="n">standard_GeneReg</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
 </section>
 <section id="available-commands">
 <h3>Available Commands<a class="headerlink" href="#available-commands" title="Link to this heading">¶</a></h3>
 <ol class="arabic">
 <li><p><strong>Compile Models</strong>:
-Compile an Antimony or SBML model:
-::
-sparced compile –input &lt;model_file&gt; –output &lt;output_directory&gt;</p>
+Compile an Antimony or SBML model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="nb">compile</span> <span class="o">--</span><span class="nb">input</span> <span class="o">&lt;</span><span class="n">model_file</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">output</span> <span class="o">&lt;</span><span class="n">output_directory</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 <ul class="simple">
 <li><p><cite>–input</cite>: Path to the Antimony or SBML model file.</p></li>
 <li><p><cite>–output</cite>: Directory to save the compiled model.</p></li>
 </ul>
-<p>Example:
-::
-sparced compile –input models/SPARCED_standard.sbml –output compiled_models/</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="nb">compile</span> <span class="o">--</span><span class="nb">input</span> <span class="n">models</span><span class="o">/</span><span class="n">SPARCED_standard</span><span class="o">.</span><span class="n">sbml</span> <span class="o">--</span><span class="n">output</span> <span class="n">compiled_models</span><span class="o">/</span>
+</pre></div>
+</div>
 </li>
 <li><p><strong>Run Simulations</strong>:
-Execute simulations using a specified model and condition file:
-::
-sparced simulate –model &lt;model_name&gt; –condition &lt;condition_file&gt;</p>
+Execute simulations using a specified model and condition file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="n">simulate</span> <span class="o">--</span><span class="n">model</span> <span class="o">&lt;</span><span class="n">model_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">condition</span> <span class="o">&lt;</span><span class="n">condition_file</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 <ul class="simple">
 <li><p><cite>–model</cite>: Name of the model (e.g., <cite>SPARCED_standard</cite>).</p></li>
 <li><p><cite>–condition</cite>: Path to the condition file.</p></li>
 </ul>
-<p>Example:
-::
-sparced simulate –name SPARCED_standard –condition data/simulation/standard_GeneReg.txt</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="n">simulate</span> <span class="o">--</span><span class="n">name</span> <span class="n">SPARCED_standard</span> <span class="o">--</span><span class="n">condition</span> <span class="n">data</span><span class="o">/</span><span class="n">simulation</span><span class="o">/</span><span class="n">standard_GeneReg</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
 </li>
 <li><p><strong>Generate Benchmarks</strong>:
-Create a new benchmark YAML file:
-::
-sparced generate-benchmark –name &lt;benchmark_name&gt; –output &lt;output_file&gt;</p>
+Create a new benchmark YAML file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="n">generate</span><span class="o">-</span><span class="n">benchmark</span> <span class="o">--</span><span class="n">name</span> <span class="o">&lt;</span><span class="n">benchmark_name</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">output</span> <span class="o">&lt;</span><span class="n">output_file</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 <ul class="simple">
 <li><p><cite>–name</cite>: Name of the benchmark.</p></li>
 <li><p><cite>–output</cite>: Path to save the benchmark file.</p></li>
 </ul>
-<p>Example:
-::
-sparced generate-benchmark –name TRAIL-response –output benchmarks/TRAIL-response.yml</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="n">generate</span><span class="o">-</span><span class="n">benchmark</span> <span class="o">--</span><span class="n">name</span> <span class="n">TRAIL</span><span class="o">-</span><span class="n">response</span> <span class="o">--</span><span class="n">output</span> <span class="n">benchmarks</span><span class="o">/</span><span class="n">TRAIL</span><span class="o">-</span><span class="n">response</span><span class="o">.</span><span class="n">yml</span>
+</pre></div>
+</div>
 </li>
 <li><p><strong>Validate Benchmarks</strong>:
-Compare a model’s output to a benchmark:
-::
-sparced validate –benchmark &lt;benchmark_file&gt;</p>
+Compare a model’s output to a benchmark:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="n">validate</span> <span class="o">--</span><span class="n">benchmark</span> <span class="o">&lt;</span><span class="n">benchmark_file</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 <ul class="simple">
 <li><p><cite>–benchmark</cite>: Path to the benchmark YAML file.</p></li>
 </ul>
-<p>Example:
-::
-sparced validate –benchmark benchmarks/TRAIL-response.yml</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="n">validate</span> <span class="o">--</span><span class="n">benchmark</span> <span class="n">benchmarks</span><span class="o">/</span><span class="n">TRAIL</span><span class="o">-</span><span class="n">response</span><span class="o">.</span><span class="n">yml</span>
+</pre></div>
+</div>
 </li>
 <li><p><strong>Visualize Results</strong>:
-Generate visualizations from simulation results:
-::
-sparced visualize –input &lt;results_directory&gt; –output &lt;output_file&gt;</p>
+Generate visualizations from simulation results:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="n">visualize</span> <span class="o">--</span><span class="nb">input</span> <span class="o">&lt;</span><span class="n">results_directory</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">output</span> <span class="o">&lt;</span><span class="n">output_file</span><span class="o">&gt;</span>
+</pre></div>
+</div>
 <ul class="simple">
 <li><p><cite>–input</cite>: Directory containing simulation results.</p></li>
 <li><p><cite>–output</cite>: File path for saving the visualization.</p></li>
 </ul>
-<p>Example:
-::
-sparced visualize –input results/New-Simulation/Control –output figures/Control_Visualization.png</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="n">visualize</span> <span class="o">--</span><span class="nb">input</span> <span class="n">results</span><span class="o">/</span><span class="n">New</span><span class="o">-</span><span class="n">Simulation</span><span class="o">/</span><span class="n">Control</span> <span class="o">--</span><span class="n">output</span> <span class="n">figures</span><span class="o">/</span><span class="n">Control_Visualization</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
 </li>
 </ol>
 </section>
 </section>
 <section id="advanced-options">
 <h2>Advanced Options<a class="headerlink" href="#advanced-options" title="Link to this heading">¶</a></h2>
-<p>To view all options for a specific command, use the <cite>–help</cite> flag:
-::
-sparced &lt;command&gt; –help</p>
-<p>For example:
-::
-sparced run –help</p>
+<p>To view all options for a specific command, use the <cite>–help</cite> flag:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="o">&lt;</span><span class="n">command</span><span class="o">&gt;</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+<p>For example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="n">run</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
 <p>This will display detailed information about the <cite>run</cite> command and its options.</p>
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
 <p>Here are a few example workflows:</p>
-<ol class="arabic simple">
-<li><p><strong>Compile and Run a Model</strong>:
-::
-sparced compile –input models/SPARCED_standard.ant –output compiled_models/
-sparced simulate –model SPARCED_standard –condition data/simulation/standard_GeneReg.txt</p></li>
-<li><p><strong>Generate and Validate a Benchmark</strong>:
-::
-sparced generate-benchmark –name TRAIL-response –output benchmarks/TRAIL-response.yml
-sparced validate –benchmark benchmarks/TRAIL-response.yml</p></li>
-<li><p><strong>Visualize Results</strong>:
-::
-sparced visualize –input results/New-Simulation/Control –output figures/Control_Plot.png</p></li>
+<ol class="arabic">
+<li><p><strong>Compile and Run a Model</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="nb">compile</span> <span class="o">--</span><span class="nb">input</span> <span class="n">models</span><span class="o">/</span><span class="n">SPARCED_standard</span><span class="o">.</span><span class="n">ant</span> <span class="o">--</span><span class="n">output</span> <span class="n">compiled_models</span><span class="o">/</span>
+<span class="n">sparced</span> <span class="n">simulate</span> <span class="o">--</span><span class="n">model</span> <span class="n">SPARCED_standard</span> <span class="o">--</span><span class="n">condition</span> <span class="n">data</span><span class="o">/</span><span class="n">simulation</span><span class="o">/</span><span class="n">standard_GeneReg</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Generate and Validate a Benchmark</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="n">generate</span><span class="o">-</span><span class="n">benchmark</span> <span class="o">--</span><span class="n">name</span> <span class="n">TRAIL</span><span class="o">-</span><span class="n">response</span> <span class="o">--</span><span class="n">output</span> <span class="n">benchmarks</span><span class="o">/</span><span class="n">TRAIL</span><span class="o">-</span><span class="n">response</span><span class="o">.</span><span class="n">yml</span>
+<span class="n">sparced</span> <span class="n">validate</span> <span class="o">--</span><span class="n">benchmark</span> <span class="n">benchmarks</span><span class="o">/</span><span class="n">TRAIL</span><span class="o">-</span><span class="n">response</span><span class="o">.</span><span class="n">yml</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Visualize Results</strong>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="n">visualize</span> <span class="o">--</span><span class="nb">input</span> <span class="n">results</span><span class="o">/</span><span class="n">New</span><span class="o">-</span><span class="n">Simulation</span><span class="o">/</span><span class="n">Control</span> <span class="o">--</span><span class="n">output</span> <span class="n">figures</span><span class="o">/</span><span class="n">Control_Plot</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</li>
 </ol>
 </section>
 <section id="troubleshooting">
 <h2>Troubleshooting<a class="headerlink" href="#troubleshooting" title="Link to this heading">¶</a></h2>
 <p>If you encounter issues while using the CLI tool, check the following:</p>
-<ol class="arabic simple">
+<ol class="arabic">
 <li><p><strong>Environment</strong>:
 Ensure the CLI tool is installed in your environment and accessible via the <cite>sparced</cite> command.</p></li>
 <li><p><strong>Dependencies</strong>:
-Verify all dependencies are installed:
-::
-pip install -r requirements.txt</p></li>
+Verify all dependencies are installed:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">r</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</li>
 <li><p><strong>Log Files</strong>:
 Some commands may produce log files for debugging. Check the output directory for logs.</p></li>
 </ol>
-<p>For additional help, use:
-::
-sparced –help</p>
+<p>For additional help, use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sparced</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
 </section>
 </section>
 
