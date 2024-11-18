@@ -5695,9 +5695,9 @@
           <speciesReference species="MDM2" stoichiometry="1" constant="true"/>
         </listOfProducts>
         <listOfModifiers>
-          <modifierSpeciesReference species="MDM2pro"/>
           <modifierSpeciesReference species="EIF4E"/>
           <modifierSpeciesReference species="m_MDM2"/>
+          <modifierSpeciesReference species="MDM2pro"/>
         </listOfModifiers>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -11164,8 +11164,8 @@
           <speciesReference species="p53ac" stoichiometry="1" constant="true"/>
         </listOfProducts>
         <listOfModifiers>
-          <modifierSpeciesReference species="ATRac"/>
           <modifierSpeciesReference species="ATMP"/>
+          <modifierSpeciesReference species="ATRac"/>
         </listOfModifiers>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -13804,8 +13804,8 @@
           <speciesReference species="Cdh1i" stoichiometry="1" constant="true"/>
         </listOfProducts>
         <listOfModifiers>
-          <modifierSpeciesReference species="Mb"/>
           <modifierSpeciesReference species="Ma"/>
+          <modifierSpeciesReference species="Mb"/>
         </listOfModifiers>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -14039,9 +14039,9 @@
           <speciesReference species="Mbi" stoichiometry="1" constant="true"/>
         </listOfProducts>
         <listOfModifiers>
+          <modifierSpeciesReference species="Mbp21"/>
           <modifierSpeciesReference species="Mb"/>
           <modifierSpeciesReference species="Mbp27"/>
-          <modifierSpeciesReference species="Mbp21"/>
         </listOfModifiers>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">

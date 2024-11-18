@@ -18,7 +18,7 @@ def parse_args():
     
     # Define shared arguments in a parent parser
     shared_parser = argparse.ArgumentParser(add_help=False)
-    shared_parser.add_argument('-v', '--verbose', action='store_true', help="Enable verbose output.")
+    shared_parser.add_argument('-v', '--verbose', action='store_false', help="Enable verbose output.")
     shared_parser.add_argument('-y', '--yaml', default="config.yaml", help="YAML file with input configuration.")
     shared_parser.add_argument('-i', '--input_data', default="data/",
                                  help="name of the model subfolder containing SPARCED formatted input files")
