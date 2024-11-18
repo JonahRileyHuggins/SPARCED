@@ -133,6 +133,7 @@ def antimony_write_reactions(f: IO[str], f_ratelaws: str, f_compartments: str,
                     j +=1
 
         valcomp = find_compartment_volume(ratelaw, f_compartments)
+
         #don't include reactions without products or reactants
         if products == [] and reactants == []:
             pass
@@ -204,10 +205,13 @@ def find_compartment_volume(ratelaw: str, f_compartments) -> int:
         compartments = f.readlines()
         compartments = [line.strip().split("\t") for line in compartments]
         for compartment in compartments[1:]:
+            number_of_compartments = len(compartment)
             if rxn_compartment in compartment:
-                valcomp = int(compartment[1])
+                valcomp = float(compartment[1])
                 return valcomp
 
             else:
-                print("Compartment not found in compartments file")
-                sys.exit(0)
+                number_of_compartments -= 1
+                if number_of_compartments == 0:
+                    print(f"Compartment {rxn_compartment} not found in compartments file")
+                    sys.exit(0)

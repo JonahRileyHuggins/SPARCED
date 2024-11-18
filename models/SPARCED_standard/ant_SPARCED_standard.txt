@@ -1,5 +1,5 @@
 # PanCancer Model by Birtwistle Lab
-model SPARCED_I()
+model SPARCED_standard()
 
 # Compartments:
 Compartment Cytoplasm; Compartment Extracellular; Compartment Nucleus; Compartment Mitochondrion; 

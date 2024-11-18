@@ -86,7 +86,7 @@ def get_extension() -> Extension:
     if hdf5_enabled:
         libraries.extend(['hdf5_hl_cpp', 'hdf5_hl', 'hdf5_cpp', 'hdf5'])
 
-    sources = [os.path.join("swig", "SPARCED_I.i"), *get_model_sources()]
+    sources = [os.path.join("swig", "SPARCED_standard.i"), *get_model_sources()]
 
     # compiler and linker flags for libamici
     if 'AMICI_CXXFLAGS' in os.environ:
@@ -112,13 +112,13 @@ def get_extension() -> Extension:
 
     # Build shared object
     ext = Extension(
-        'SPARCED_I._SPARCED_I',
+        'SPARCED_standard._SPARCED_standard',
         sources=sources,
         include_dirs=ext_include_dirs,
         libraries=libraries,
         library_dirs=ext_library_dirs,
         swig_opts=[
-            '-c++', '-modern', '-outdir', 'SPARCED_I',
+            '-c++', '-modern', '-outdir', 'SPARCED_standard',
             '-I%s' % os.path.join(amici_path, 'swig'),
             '-I%s' % os.path.join(amici_path, 'include'),
         ],
@@ -156,10 +156,10 @@ CMDCLASS = {
 
 # Install
 setup(
-    name='SPARCED_I',
+    name='SPARCED_standard',
     cmdclass=CMDCLASS,
     version='0.1.0',
-    description='AMICI-generated module for model SPARCED_I',
+    description='AMICI-generated module for model SPARCED_standard',
     url='https://github.com/AMICI-dev/AMICI',
     author='model-author-todo',
     author_email='model-author-todo',

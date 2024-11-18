@@ -22,7 +22,7 @@ def parse_args():
     shared_parser.add_argument('-y', '--yaml', default="config.yaml", help="YAML file with input configuration.")
     shared_parser.add_argument('-i', '--input_data', default="data/",
                                  help="name of the model subfolder containing SPARCED formatted input files")
-    shared_parser.add_argument('-m', '--model',                default="./../models/",
+    shared_parser.add_argument('-m', '--model',                default="./models/",
                         help="relative path to the directory containing the \
                               models folders")
     shared_parser.add_argument('-w', '--wild',                 action='store_true',
@@ -33,7 +33,9 @@ def parse_args():
     subparsers = parser.add_subparsers(dest="command", help="Subcommands: compile, simulate, benchmark")
 
     # Compile subcommand
-    compile_parser = subparsers.add_parser("compile", help="Compile a model.")
+    compile_parser = subparsers.add_parser("compile", 
+                                           parents=[shared_parser],
+                                           help="Compile a model.")
     compile_parser.add_argument('-o', '--output_parameters', default="out_Parameters.txt",
                                  help="desired name for the output parameters file")
     compile_parser.add_argument('-n', '--name', default=None,
@@ -41,7 +43,9 @@ def parse_args():
 
     # Simulate subcommand
     # -- Lowercase
-    simulate_parser = subparsers.add_parser("simulate", help="Run a simulation.")
+    simulate_parser = subparsers.add_parser("simulate", 
+                                            parents=[shared_parser],
+                                            help="Run a simulation.")
     simulate_parser.add_argument('-n', '--name', default=None,
                                   help="name of the input model.")
     simulate_parser.add_argument('-p', '--population_size', default=1, type=int,
@@ -63,7 +67,9 @@ def parse_args():
                               override default)")
 
     # Benchmark subcommand
-    benchmark_parser = subparsers.add_parser("benchmark", help="Benchmark a model.")
+    benchmark_parser = subparsers.add_parser("validate", 
+                                            parents=[shared_parser],
+                                            help="Benchmark a model.")
     benchmark_parser.add_argument('-r', '--results', default="./../results/New-Benchmark/",
                                    help="directory where benchmark results will be saved")
     benchmark_parser.add_argument('-n', '--name', default=None, 

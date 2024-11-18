@@ -23,7 +23,6 @@ def append_subfolder(folder: str | os.PathLike, subfolder: str,
     """
 
     folder = Path(folder)
-
     try:
         assert folder.exists()
     except:

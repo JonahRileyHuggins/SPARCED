@@ -47,7 +47,6 @@ def create_model(model_name: str, model_path: str | os.PathLike,
         assert not loadFile(str(antimony_file_path)) == -1
     except:
         print("{name}: Failed to load Antimony file".format(name=model_name))
-        print(getLastError())
         sys.exit(0)
     else:
          if verbose: print("{name}: Success loading Antimony file"
@@ -61,8 +60,6 @@ def create_model(model_name: str, model_path: str | os.PathLike,
     except:
         print("{name}: Failed to convert Antimony file to SBML"
              .format(name=model_name))
-        
-        print(getLastError())
         sys.exit(0)
     else:
         if verbose: print("{name}: Success converting Antimony file to SBML"

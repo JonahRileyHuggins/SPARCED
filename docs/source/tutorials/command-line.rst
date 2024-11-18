@@ -46,7 +46,7 @@ Available Commands
 1. **Compile Models**:
    Compile an Antimony or SBML model:
    ::
-      sparced compile --input <model_file> --output <output_directory>
+      sparced compile --name <model_name> --output <output_directory>
 
    - `--input`: Path to the Antimony or SBML model file.
    - `--output`: Directory to save the compiled model.
