@@ -1,0 +1,21 @@
+observableId	simulationConditionId	measurement	time	datasetId
+L timecourse	low increase	0.01	0	low experiments
+L timecourse	low increase	0.0099	1	low experiments
+L timecourse	low increase	0.003	4	low experiments
+L timecourse	low increase	0.0015	8	low experiments
+L timecourse	low increase	0	24	low experiments
+L timecourse	high increase	10	0	high experiments
+L timecourse	high increase	9	1	high experiments
+L timecourse	high increase	3	4	high experiments
+L timecourse	high increase	1.5	8	high experiments
+L timecourse	high increase	0	24	high experiments
+LR timecourse	low increase	0.01	0	low experiments
+LR timecourse	low increase	0.0099	1	low experiments
+LR timecourse	low increase	0.003	4	low experiments
+LR timecourse	low increase	0.0015	8	low experiments
+LR timecourse	low increase	0	24	low experiments
+LR timecourse	high increase	10	0	high experiments
+LR timecourse	high increase	9	1	high experiments
+LR timecourse	high increase	3	4	high experiments
+LR timecourse	high increase	1.5	8	high experiments
+LR timecourse	high increase	0	24	high experiments

@@ -34,6 +34,8 @@ def append_subfolder(folder: str | os.PathLike, subfolder: str,
 
     subfolder_path = (folder / subfolder) if subfolder is not None else None
 
+    print(subfolder_path)
+
     if subfolder_path is not None:
         try:
             assert subfolder_path.exists()

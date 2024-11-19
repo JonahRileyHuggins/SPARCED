@@ -52,7 +52,7 @@ def parse_args():
                                   help="desired cell population size for the simulation")
     simulate_parser.add_argument('-t', '--time', default=1.0, type=float,
                                   help="desired virtual duration of the simulation (h)")
-    simulate_parser.add_argument('-r', '--results', default="./../results/New-Simulation/",
+    simulate_parser.add_argument('-r', '--results', default="./results/New-Simulation/",
                                   help="directory where simulation results will be saved")
     simulate_parser.add_argument('-s', '--simulation',           default="GrowthStim",
                         help="desired name for the simulation output files")
