@@ -1,11 +1,11 @@
 # The SPARCED Installation Guide for Absolute Beginners
-_Written by Aurore Amrit_
+_Written by Aurore Amrit_ and Jonah R. Huggins
 
 Hi! 🌄
 
 If you are new to SPARCED and wish to get a working environment setup on
 Ubuntu, then you are at the right place!
-This is a document I wrote as a summer intern at the Birtwistle lab to make the
+This is document was started by Aurore while she was a summer intern at the Birtwistle lab to make the
 process easier for newcomers like me 🙂
 
 ## Environment
@@ -27,6 +27,39 @@ sudo apt-get upgrade
 end of the name of a file (for example because of version numbers) while
 entering a command in your terminal, just press ```[tab]``` and see if it
 fills in correctly.
+
+## Command Line Interface Installation
+The requirements file provided in the root directory of this project should have 
+all of the required materials to install SPARCED dependencies in Ubuntu 22.04. 
+To execute the script, execute the following commands:
+```bash
+chmod +x ./requirements.txt
+sudo ./requirements.txt
+```
+
+After installation is complete, restart your shell and test the installation via:
+```bash
+sparced -h
+```
+Correct installation should output the following help information:
+```
+usage: SPARCED [-h] {compile,simulate,validate} ...
+
+SPARCED CLI tool.
+
+positional arguments:
+  {compile,simulate,validate}
+                        Subcommands: compile, simulate, benchmark
+    compile             Compile a model.
+    simulate            Run a simulation.
+    validate            Benchmark a model.
+
+options:
+  -h, --help            show this help message and exit
+```
+
+If successful, the below configurations are not necessary. This is a conda-free
+installation.
 
 ## VirtualBox Guest Additions
 _If you are not using VirtualBox, skip this section._

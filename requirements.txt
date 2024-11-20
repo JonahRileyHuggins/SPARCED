@@ -1,8 +1,24 @@
-amici==0.11.12
-antimony==2.12.0.1
-matplotlib==3.8.0
-numpy==1.26.4
-pandas==2.2.1
-python-libsbml==5.18.0
-pyYAML==6.0.1
-scipy==1.12.0
+#!/bin/bash
+
+#--apt-package dependencies install script --#
+#for Linux/Ubuntu 22.04 Desktop distro's only#
+
+# Add environment variables to .bashrc if not already present
+grep -qxF 'export BLAS_LIBS=-lopenblas' ~/.bashrc || echo 'export BLAS_LIBS=-lopenblas' >> ~/.bashrc
+grep -qxF 'export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH' ~/.bashrc || echo 'export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH' >> ~/.bashrc
+source ~/.bashrc
+
+# Update and upgrade the system
+sudo apt-get update && sudo apt-get upgrade -y
+
+# Install necessary dependencies
+sudo apt install -y libgl1-mesa-glx libegl1-mesa libxrandr2 libxss1 libxcursor1 \
+	libxcomposite1 libasound2 libxi6 libxtst6 libatlas-base-dev \
+	openmpi-bin openmpi-common libopenmpi-dev libgtk2.0-dev gcc libopenblas-dev \
+	g++ cmake make python3-pip pipx libgfortran5 libatomic1 swig swig4.0
+
+# Ensure pipx path
+pipx ensurepath
+
+# Install the Python package with pipx
+pipx install . --verbose
