@@ -156,9 +156,6 @@ class Visualizer:
             plot_information[column] = self.visualization_df[column][ith_plotId]
 
         # Swap the 'lin' attribute for 'linear'
-        print(plot_information)
-        print(plot_information['xScale'])
-        print(scale_dict[plot_information['xScale']])
         plot_information['xScale'] = scale_dict[plot_information['xScale']]
         plot_information['yScale'] = scale_dict[plot_information['yScale']]
 

@@ -39,13 +39,8 @@ def benchmark_model(args):
     """Handle the benchmark subcommand. Script to automate model-data comparisons, \
     'benchmarks'. 
 """
-    # print(f"Benchmarking results directory: {args.results}")
-    from validation.simulation.run_benchmark import RunBenchmark
-    rb = RunBenchmark()
-    rb.run()
-    rb.observable_calculation()
-    rb.run_visualizer()
-    rb.return_sedml()
+    from validation.launchers import launch_validation
+    launch_validation() # Process parsed arguments and launch validation
 
 
 

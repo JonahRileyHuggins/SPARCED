@@ -1,0 +1,62 @@
+Bootstrap: docker
+From: ubuntu:22.04
+
+%files
+    ../../ /SPARCED
+
+%post
+    # Set shell and environment
+    export DEBIAN_FRONTEND=noninteractive
+    export SHELL=/bin/bash
+
+    # Export variables for the build process
+    export BLAS_LIBS=-lopenblas
+    export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+
+    # Update and install basic dependencies
+    apt-get update && apt-get install -y --no-install-recommends \
+        build-essential \
+        curl \
+        git \
+        python3-pip \
+        python3-venv \
+        rsync \
+        openmpi-bin \
+        openmpi-common \
+        libopenmpi-dev \
+        gcc \
+        libopenblas-dev \
+        g++ \
+        cmake \
+        make \
+        python3-pip \
+        pipx \
+        libgfortran5 \
+        libatomic1 \
+        swig \
+        && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+    # Ensure pipx path
+    pipx ensurepath
+
+    # Change to SPARCED directory
+    cd /SPARCED
+
+    # Install the SPARCED package using pipx
+    pipx install . --verbose --force
+
+%environment
+    # Set up runtime environment variables
+    export PATH=/root/.local/bin:$PATH
+    export BLAS_LIBS=-lopenblas
+    export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+
+%runscript
+    # Default command for the container
+    exec sparced "$@"
+
+%help
+    This container enables cross-platform installation of SPARCED tools.
+    Concerns and questions should be posted directly on our project
+    Repository page at https://github.com/SPARCED/SPARCED/issues
+

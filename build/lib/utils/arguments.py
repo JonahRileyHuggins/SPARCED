@@ -21,7 +21,7 @@ def parse_args():
     shared_parser.add_argument('-v', '--verbose', action='store_false', help="Enable verbose output.")
     shared_parser.add_argument('-y', '--yaml', default="config.yaml", help="YAML file with input configuration.")
     shared_parser.add_argument('-i', '--input_data', default="data/",
-                                 help="name of the model subfolder containing SPARCED formatted input files")
+                                 help="name of the subfolder containing SPARCED formatted input files")
     shared_parser.add_argument('-m', '--model',                default="./models/",
                         help="relative path to the directory containing the \
                               models folders")
@@ -70,23 +70,28 @@ def parse_args():
     benchmark_parser = subparsers.add_parser("validate", 
                                             parents=[shared_parser],
                                             help="Benchmark a model.")
+    # -- Lowercase
+    benchmark_parser.add_argument('-rs', '--return_sedml',        default=False,
+                        help="return the SED-ML file")
     benchmark_parser.add_argument('-r', '--results', default="./../results/New-Benchmark/",
                                    help="directory where benchmark results will be saved")
     benchmark_parser.add_argument('-n', '--name', default=None, 
                                   help="name to save the benchmark results")
-    benchmark_parser.add_argument('-b', '--benchmark',            default="stochastic-expression",
+    benchmark_parser.add_argument('-b', '--benchmark', default=None,
+                                  required=False,
                                   help="name of the benchmark to be used")
     benchmark_parser.add_argument('-c', '--cores',                default=1,
                         help="number of cores to use for a parallel process")
     benchmark_parser.add_argument('-bd', '--benchmark_description', default=None,
                         help="description of the benchmark")
+    benchmark_parser.add_argument( '-a', '--run_all', help="run all benchmarks \
+                                  in the benchmarks directory. This will override \
+                                  the -b flag",
+                                  required=False, default=None)
     # -- Uppercase
     benchmark_parser.add_argument('-O', '--Observable',           default=1,
                         help="only the observable in observables.tsv is calculated (1) \
                               or if the entire simulation is saved (0)")
-    # -- Lowercase
-    benchmark_parser.add_argument('-rs', '--return_sedml',        default=False,
-                        help="return the SED-ML file")
 
 
     return(parser.parse_args())

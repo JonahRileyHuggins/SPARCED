@@ -10,9 +10,9 @@ Keywords: mechanistic modeling,single-cell models,simulation,systems biology
 Requires-Python: >=3.10
 Description-Content-Type: text/markdown
 License-File: LICENSE.txt
-Requires-Dist: h5py<4.0,>=3.11
-Requires-Dist: numpy<2.0,>=1.26.0
-Requires-Dist: scipy<2.0,>=1.12.0
+Requires-Dist: h5py==3.11
+Requires-Dist: numpy==1.26.0
+Requires-Dist: scipy==1.12.0
 Requires-Dist: sympy==1.12
 Requires-Dist: pandas==2.2.1
 Requires-Dist: matplotlib==3.8.0

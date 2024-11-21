@@ -55,16 +55,16 @@ class RunBenchmark:
     output:
         returns the results of the SPARCED model unit test simulation
     """
-    def __init__(self):
+    def __init__(self, yaml_path: str):
 
         try:
             # yaml_path = os.path.join(wd, args.benchmark)
-            yaml_path = os.path.abspath(args.benchmark)
+            yaml_path = os.path.abspath(yaml_path)
 
             assert os.path.exists(yaml_path)
 
         except AssertionError:
-            raise FileNotFoundError(f"{args.benchmark} is not a valid benchmark")
+            raise FileNotFoundError(f"{yaml_path} is not a valid benchmark")
 
         self.yaml_file = yaml_path
         self.benchmark = args.benchmark
@@ -216,6 +216,7 @@ class RunBenchmark:
         """
         if self.rank == 0 and self.observable == 1:
 
+            # TODO: Remove unnecessary dunder call
             self.results_dictionary = ObservableCalculator(self).__call__()
 
             RunBenchmark.save_results(self)
