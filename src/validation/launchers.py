@@ -41,7 +41,7 @@ def launch_validation() -> None:
         within the model directory
     """
 
-    if args.run_all:
+    if args.run_all is not False:
         run_all_benchmarks()
     else:
         assert args.benchmark is not None, "Error: No benchmark provided, \
