@@ -84,10 +84,10 @@ def parse_args():
                         help="number of cores to use for a parallel process")
     benchmark_parser.add_argument('-bd', '--benchmark_description', default=None,
                         help="description of the benchmark")
-    benchmark_parser.add_argument('--run_all', '-a', help="run all benchmarks \
+    benchmark_parser.add_argument( '-a', '--run_all', help="run all benchmarks \
                                   in the benchmarks directory. This will override \
                                   the -b flag",
-                                  required=False, default=False)
+                                  required=False, default='./benchmarks/')
     # -- Uppercase
     benchmark_parser.add_argument('-O', '--Observable',           default=1,
                         help="only the observable in observables.tsv is calculated (1) \

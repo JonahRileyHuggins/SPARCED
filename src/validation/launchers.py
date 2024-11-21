@@ -42,7 +42,6 @@ def launch_validation() -> None:
     """
 
     if args.run_all:
-        assert args.input_data is not None, "Error: No input data directory provided"
         run_all_benchmarks()
     else:
         assert args.benchmark is not None, "Error: No benchmark provided"
@@ -59,7 +58,7 @@ def run_all_benchmarks() -> None:
     Returns:
         None
     """
-    benchmarks = _get_list_of_benchmarks(args.input_data)
+    benchmarks = _get_list_of_benchmarks(args.run_all)
 
     for yaml_path in benchmarks:
 
