@@ -15,7 +15,8 @@ Before running the Python files, ensure you have the following installed:
 2. Required dependencies from `requirements.txt`:
    Run:
    ::
-       pip install -r requirements.txt
+        chmod +x requirements.txt
+        ./requirements.txt
 
 3. SPARCED source code properly cloned or installed.
 

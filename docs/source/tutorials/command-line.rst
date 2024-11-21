@@ -14,9 +14,10 @@ Before using the CLI, ensure the following:
 
 1. **SPARCED Installed as a CLI Tool**:
    The `sparced` CLI tool is installed and available in your environment. If not, 
-   install it using pipx:
+   install it using the requirements file in the project directory:
    ::
-      pipx install <path_to_sparced_package>
+      chmod +x requirements.txt
+      ./requirements.txt
 
 2. **Verify Installation**:
    Run the following command to verify:
@@ -38,7 +39,7 @@ Use the following syntax:
 
 Example:
 ::
-   sparced simulate --name SPARCED_standard --condition data/simulation/standard_GeneReg.txt
+   sparced simulate --name SPARCED_standard
 
 Available Commands
 -------------------------------------------------------------------------------
@@ -53,12 +54,12 @@ Available Commands
 
    Example:
    ::
-      sparced compile --input models/SPARCED_standard.sbml --output compiled_models/
+      sparced compile --name SPARCED_standard --output compiled_models/
 
 2. **Run Simulations**:
    Execute simulations using a specified model and condition file:
    ::
-      sparced simulate --model <model_name> --condition <condition_file>
+      sparced simulate --name <model_name> --condition <condition_file>
 
    - `--model`: Name of the model (e.g., `SPARCED_standard`).
    - `--condition`: Path to the condition file.
@@ -67,40 +68,20 @@ Available Commands
    ::
       sparced simulate --name SPARCED_standard --condition data/simulation/standard_GeneReg.txt
 
-3. **Generate Benchmarks**:
-   Create a new benchmark YAML file:
-   ::
-      sparced generate-benchmark --name <benchmark_name> --output <output_file>
-
-   - `--name`: Name of the benchmark.
-   - `--output`: Path to save the benchmark file.
-
-   Example:
-   ::
-      sparced generate-benchmark --name TRAIL-response --output benchmarks/TRAIL-response.yml
+   - `--benchmark`: Name of the benchmark.
+   - `--Observable`: Boolean flag for whether the validation pipeline returns all results (False) \
+   or only the observable results (True).
 
 4. **Validate Benchmarks**:
    Compare a model's output to a benchmark:
    ::
       sparced validate --benchmark <benchmark_file>
 
-   - `--benchmark`: Path to the benchmark YAML file.
+   - `--benchmark`: Path to the benchmark YAML file. 
 
    Example:
    ::
       sparced validate --benchmark benchmarks/TRAIL-response.yml
-
-5. **Visualize Results**:
-   Generate visualizations from simulation results:
-   ::
-      sparced visualize --input <results_directory> --output <output_file>
-
-   - `--input`: Directory containing simulation results.
-   - `--output`: File path for saving the visualization.
-
-   Example:
-   ::
-      sparced visualize --input results/New-Simulation/Control --output figures/Control_Visualization.png
 
 Advanced Options
 ===============================================================================
@@ -111,9 +92,9 @@ To view all options for a specific command, use the `--help` flag:
 
 For example:
 ::
-   sparced run --help
+   sparced simulate --help
 
-This will display detailed information about the `run` command and its options.
+This will display detailed information about the `simulate` command and its options.
 
 Examples
 ===============================================================================
@@ -122,17 +103,12 @@ Here are a few example workflows:
 
 1. **Compile and Run a Model**:
    ::
-      sparced compile --input models/SPARCED_standard.ant --output compiled_models/
-      sparced simulate --model SPARCED_standard --condition data/simulation/standard_GeneReg.txt
+      sparced compile --name SPARCED_standard
+      sparced simulate --name SPARCED_standard 
 
-2. **Generate and Validate a Benchmark**:
+2. **Validate a Benchmark**:
    ::
-      sparced generate-benchmark --name TRAIL-response --output benchmarks/TRAIL-response.yml
-      sparced validate --benchmark benchmarks/TRAIL-response.yml
-
-3. **Visualize Results**:
-   ::
-      sparced visualize --input results/New-Simulation/Control --output figures/Control_Plot.png
+      sparced validate --benchmark benchmarks/TRAIL-response/TRAIL-response.yml
 
 Troubleshooting
 ===============================================================================
@@ -143,9 +119,10 @@ If you encounter issues while using the CLI tool, check the following:
    Ensure the CLI tool is installed in your environment and accessible via the `sparced` command.
 
 2. **Dependencies**:
-   Verify all dependencies are installed:
+   Verify the command line Interface was installed properly:
    ::
-      pip install -r requirements.txt
+      pipx list
+   The output should include `sparced`.
 
 3. **Log Files**:
    Some commands may produce log files for debugging. Check the output directory for logs.
