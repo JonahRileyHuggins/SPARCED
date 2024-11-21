@@ -78,7 +78,7 @@ def parse_args():
     benchmark_parser.add_argument('-n', '--name', default=None, 
                                   help="name to save the benchmark results")
     benchmark_parser.add_argument('-b', '--benchmark', default=None,
-                                  required=True,
+                                  required=False,
                                   help="name of the benchmark to be used")
     benchmark_parser.add_argument('-c', '--cores',                default=1,
                         help="number of cores to use for a parallel process")
