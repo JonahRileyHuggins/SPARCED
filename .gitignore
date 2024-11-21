@@ -9,7 +9,7 @@ SPARCED/results/*
 !SPARCED/results/Control
 SPARCED/results/New-Simulation/*
 !SPARCED/results/New-Simulation/README.md
-SPARCED/models/*/amici_*/*
+SPARCED/models/*/amici_*/
 SPARCED/models/SPARCED_standard/results
 SPARCED/models/SPARCED_standard/
 SPARCED/models/SPARCED_TGFb
