@@ -40,8 +40,7 @@ def launch_validation() -> None:
         simulation results for all benchmarks to a 'results' directory
         within the model directory
     """
-
-    if args.run_all is not False:
+    if args.run_all is not None:
         assert args.run_all is not None, "Error: No benchmark provided, \
             either provide a benchmark or use the --run_all flag to run all benchmarks."
         run_all_benchmarks()
