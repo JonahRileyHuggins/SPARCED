@@ -87,7 +87,7 @@ def parse_args():
     benchmark_parser.add_argument( '-a', '--run_all', help="run all benchmarks \
                                   in the benchmarks directory. This will override \
                                   the -b flag",
-                                  required=False, default='./benchmarks/')
+                                  required=False, default=None)
     # -- Uppercase
     benchmark_parser.add_argument('-O', '--Observable',           default=1,
                         help="only the observable in observables.tsv is calculated (1) \

@@ -42,6 +42,8 @@ def launch_validation() -> None:
     """
 
     if args.run_all is not False:
+        assert args.run_all is not None, "Error: No benchmark provided, \
+            either provide a benchmark or use the --run_all flag to run all benchmarks."
         run_all_benchmarks()
     else:
         assert args.benchmark is not None, "Error: No benchmark provided, \
