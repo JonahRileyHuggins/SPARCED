@@ -110,6 +110,18 @@ Here are a few example workflows:
    ::
       sparced validate --benchmark benchmarks/TRAIL-response/TRAIL-response.yml
 
+MPI Support
+===============================================================================
+The SPARCED CLI supports MPI for parallel processing for (only) the validate function.
+ To enable MPI, call the `mpiexec` command before the `sparced` command:
+   ::
+      mpiexec -n <num_processes> sparced validate [options]
+
+For example:
+   ::
+      mpiexec -n 4 sparced simulate --benchmark benchmarks/TRAIL-response/TRAIL-response.yml
+
+
 Troubleshooting
 ===============================================================================
 
