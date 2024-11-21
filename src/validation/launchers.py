@@ -85,7 +85,7 @@ def run_single_benchmark(benchmark: str) -> None:
 
     # Run the benchmark
     print(f"Running benchmark {os.path.basename(benchmark)}")
-    rb = RunBenchmark()
+    rb = RunBenchmark(benchmark)
     rb.run()
     rb.observable_calculation()
     rb.run_visualizer()
