@@ -22,7 +22,6 @@ From: ubuntu:22.04
         python3-pip \
         python3-venv \
         python3-dev \
-        python3-pip \
         rsync \
         openmpi-bin \
         openmpi-common \
@@ -40,18 +39,33 @@ From: ubuntu:22.04
         libsbml-dev \
         && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-    # Change to SPARCED directory
+    # Set pipx directories to persistent paths
+    export PIPX_HOME=/usr/local/pipx
+    export PIPX_BIN_DIR=/usr/local/bin
+    mkdir -p $PIPX_HOME $PIPX_BIN_DIR
+
+    # Ensure pipx environment is set up
+    export PATH=$PIPX_BIN_DIR:$PATH
+
+    # Change permissions for /SPARCED
+    chmod -R 777 /SPARCED
+
+
+    # Navigate to the SPARCED path
     cd /SPARCED
 
-    # Install the SPARCED package using pipx
+    # Install your package
     pipx ensurepath
     pipx install . --verbose --force
 
-    # Add /usr/local/bin to runtime PATH
-    echo 'export PATH=/usr/local/bin:$PATH' >> $SINGULARITY_ENVIRONMENT
-
     # Verify the installation
-    #ls -l /root/.local/bin/sparced || { echo "SPARCED installation failed"; exit 1; }
+    if [ ! -x "$PIPX_BIN_DIR/sparced" ]; then
+        echo "SPARCED installation failed" >&2
+        exit 1
+    fi
+
+    # Add pipx bin directory to runtime PATH
+    echo 'export PATH=/root/.local/bin:$PATH' >> $SINGULARITY_ENVIRONMENT
 
 %environment
     # Set up runtime environment variables
@@ -68,4 +82,3 @@ From: ubuntu:22.04
     This container enables cross-platform installation of SPARCED tools.
     Concerns and questions should be posted directly on our project
     Repository page at https://github.com/SPARCED/SPARCED/issues
-
