@@ -9,3 +9,4 @@ Documentation for SPARCED
     notebook
     hands-on
     command-line
+    container
