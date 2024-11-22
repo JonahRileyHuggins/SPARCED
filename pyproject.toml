@@ -42,6 +42,9 @@ Repository = "https://github.com/JonahRileyHuggins/SPARCED"
 [project.scripts]
 sparced = "cli:main"
 
+[tool.setuptools]
+packages = ["src"]
+
 [tool.setuptools.package-data]
 "sparced" = ["*.yaml", "*.json", "*.ini"]
 

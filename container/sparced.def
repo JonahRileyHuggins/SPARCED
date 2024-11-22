@@ -18,17 +18,17 @@ From: ubuntu:22.04
         build-essential \
         curl \
         git \
+        nano \
         python3-pip \
         python3-venv \
-        python3-pip \
         python3-dev \
-        libsbml-dev \
+        python3-pip \
         rsync \
         openmpi-bin \
         openmpi-common \
         libopenmpi-dev \
-        gcc \
         libopenblas-dev \
+        gcc \
         g++ \
         cmake \
         make \
@@ -37,16 +37,21 @@ From: ubuntu:22.04
         libatomic1 \
         swig \
         libhdf5-dev \
+        libsbml-dev \
         && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-    # Ensure pipx path
-    pipx ensurepath
 
     # Change to SPARCED directory
     cd /SPARCED
 
     # Install the SPARCED package using pipx
+    pipx ensurepath
     pipx install . --verbose --force
+
+    # Add /usr/local/bin to runtime PATH
+    echo 'export PATH=/usr/local/bin:$PATH' >> $SINGULARITY_ENVIRONMENT
+
+    # Verify the installation
+    #ls -l /root/.local/bin/sparced || { echo "SPARCED installation failed"; exit 1; }
 
 %environment
     # Set up runtime environment variables
@@ -56,6 +61,7 @@ From: ubuntu:22.04
 
 %runscript
     # Default command for the container
+    cd /SPARCED
     exec sparced "$@"
 
 %help
