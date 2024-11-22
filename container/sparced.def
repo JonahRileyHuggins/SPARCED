@@ -2,7 +2,7 @@ Bootstrap: docker
 From: ubuntu:22.04
 
 %files
-    ../../ /SPARCED
+    /home/jonah/SPARCED /SPARCED
 
 %post
     # Set shell and environment
@@ -20,6 +20,9 @@ From: ubuntu:22.04
         git \
         python3-pip \
         python3-venv \
+        python3-pip \
+        python3-dev \
+        libsbml-dev \
         rsync \
         openmpi-bin \
         openmpi-common \
@@ -29,11 +32,11 @@ From: ubuntu:22.04
         g++ \
         cmake \
         make \
-        python3-pip \
         pipx \
         libgfortran5 \
         libatomic1 \
         swig \
+        libhdf5-dev \
         && apt-get clean && rm -rf /var/lib/apt/lists/*
 
     # Ensure pipx path
