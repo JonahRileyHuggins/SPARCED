@@ -1,5 +1,5 @@
 # Must be built from the root directory of the repo
-# BUILD: docker build -t sparced -f docker/Dockerfile .
+# BUILD: docker build -t sparced -f container/Dockerfile .
 # TEST LOCAL (optional): docker run -p 8888:8888 --name test1 -i -t sparced
 # TAG: docker tag sparced birtwistlelab/sparced:latest
 # PUSH: docker push birtwistlelab/sparced:latest
