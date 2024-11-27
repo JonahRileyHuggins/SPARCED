@@ -74,6 +74,9 @@ The following table summarizes standard prefixes for species modifiers:
    * - `i`
      - Inactivated state
      - `i_Cdk4`
+   * - `m`
+     - mRNA species of Gene names
+     - `m_CCND1`
 
 Suffixes
 --------
