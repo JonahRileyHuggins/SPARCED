@@ -1,7 +1,7 @@
 Species Naming Convention
 =========================
 
-This page defines the standardized naming conventions for species in mechanistic models, designed for compatibility with PEtab, SBML, and PCRE2.
+This page defines the standardized naming conventions for species in SPARCED, designed for compatibility with PEtab, SBML, and PCRE2.
 
 General Principles
 ------------------
@@ -113,7 +113,7 @@ Potential Pitfalls
 
 2. **Complex Names Becoming Too Long**:
    - Avoid redundancy in component names.
-   - Use short, standard prefixes for PTMs.
+   - Use short, standard prefixes for PTMs. Look at synonyms on UniProt for inspiration.
 
 3. **Tool Compatibility**:
    - Avoid special characters like parentheses `()` or symbols like `&` that might break tools.
