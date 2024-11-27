@@ -10,3 +10,4 @@ Documentation for SPARCED
     hands-on
     command-line
     container
+    Building-SPARCED-Input-Files/Species-Nomenclature

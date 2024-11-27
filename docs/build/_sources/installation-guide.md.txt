@@ -7,11 +7,11 @@ Hi! 🌄
 If you are new to SPARCED and wish to get a working environment setup on
 Ubuntu, then you are at the right place!
 This is document was started by Aurore while she was a summer intern at the Birtwistle lab to make the
-process easier for newcomers like me 🙂
+process easier for newcomers like you 🙂
 
 ## Environment
 
-I am running an **Ubuntu 22.04 LTS** virtual machine on **VirtualBox**.
+SPARCED runs on **Ubuntu 22.04 LTS** , either as virtual machine on **VirtualBox**, a container (Singularity or Dockerfile), or on Windows-Subsystem for Linux. 
 This guide should work even if you are using another hypervisor than VirtualBox
 or that you are running Ubuntu directly on your computer.
 With a few arrangements, the described steps should also work for other

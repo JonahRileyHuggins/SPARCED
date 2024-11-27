@@ -17,7 +17,6 @@ Users are anticipated to compare simulation results to prior validated results.
 # -----------------------Package Import & Defined Arguements-------------------#
 import os
 from utils.arguments import parse_args
-import subprocess, sys
 from typing import List
 from validation.simulation.run_benchmark import RunBenchmark
 

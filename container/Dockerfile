@@ -7,7 +7,10 @@
 FROM ubuntu:22.04
 
 # Copy SPARCED files (ensure build context matches path)
-COPY ../* /SPARCED/
+COPY ../* ./SPARCED/
+
+# Set working directory
+WORKDIR /SPARCED
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -19,7 +22,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PIPX_BIN_DIR=/usr/local/bin
 
 # Remove .git directory from SPARCED
-RUN rm -rf /SPARCED/.git
+RUN rm -rf ./SPARCED/.git
 
 # Update and install basic dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -49,11 +52,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Create persistent paths for pipx
 RUN mkdir -p $PIPX_HOME $PIPX_BIN_DIR
 
-# Set working directory
-WORKDIR /SPARCED
-
 # Set permissions
-RUN chmod -R 777 /SPARCED && chown -R root:root /SPARCED
+RUN chmod -R 777 ./SPARCED && chown -R root:root ./SPARCED
 
 # Install Python dependencies using pipx
 RUN pipx ensurepath
