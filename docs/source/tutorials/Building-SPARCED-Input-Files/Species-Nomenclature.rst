@@ -19,23 +19,27 @@ The general structure for species names is as follows:
    [Modifiers][Residue&Position]_[BaseSpecies][__[AdditionalSpecies]][_Compartment]
 
 Where:
-- **Modifiers**: Prefixes indicating the modification state (e.g., `p` for phosphorylation, `u` for ubiquitination).
-- **Residue&Position**: For species with specific post-translational modification (PTM) sites, denote the residue and its position (e.g., `S15` for serine 15).
-- **BaseSpecies**: The core species name (e.g., `CyclinD`, `Cdk4`).
-- **AdditionalSpecies**: For complexes, additional species are concatenated using `__` (double underscores).
-- **Compartment**: The compartment is specified only when the species is outside its default "home" compartment.
+------
+- `Modifiers`: Prefixes indicating the modification state (e.g., `p` for phosphorylation, `u` for ubiquitination).
+- `Residue&Position`: For species with specific post-translational modification (PTM) sites, denote the residue and its position (e.g., `S15` for serine 15).
+- `BaseSpecies`: The core species name (e.g., `CyclinD`, `Cdk4`).
+- `AdditionalSpecies`: For complexes, additional species are concatenated using `__` (double underscores).
+- `Compartment`: The compartment is specified only when the species is outside its default "home" compartment.
 
 Examples
 --------
 
 1. **Single Species with PTM**:
-   - `pS15_TGFb_cytoplasm`: TGFb phosphorylated at serine 15, located in the cytoplasm.
 
+   * `pS15_TGFb_cytoplasm`: TGFb phosphorylated at serine 15, located in the cytoplasm.
+|
 2. **Two-Component Complex**:
-   - `pS15_CyclinD__pT298_Cdk4_nucleus`: CyclinD phosphorylated at serine 15 and Cdk4 phosphorylated at threonine 298, in the nucleus.
 
+   * `pS15_CyclinD__pT298_Cdk4_nucleus`: CyclinD phosphorylated at serine 15 and Cdk4 phosphorylated at threonine 298, in the nucleus.
+|
 3. **Multi-Component Complex**:
-   - `pS15_CyclinD__pT298_Cdk4__pY104_EGFR_membrane`: CyclinD, Cdk4, and EGFR phosphorylated at specific residues, forming a complex at the membrane.
+
+   * `pS15_CyclinD__pT298_Cdk4__pY104_EGFR_membrane`: CyclinD, Cdk4, and EGFR phosphorylated at specific residues, forming a complex at the membrane.
 
 Prefixes
 --------
@@ -58,6 +62,15 @@ The following table summarizes standard prefixes for species modifiers:
    * - `m`
      - Methylation
      - `mK9_HistoneH3`
+   * - `a`
+     - Acetylation
+     - `aK27_HistoneH3`
+   * - `g`
+     - Glycosylation
+     - `gN100_EGFR`
+   * - `c`
+     - Cysteinylation
+     - `cC100_EGFR`
    * - `i`
      - Inactivated state
      - `i_Cdk4`

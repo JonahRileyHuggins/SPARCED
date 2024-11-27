@@ -191,22 +191,45 @@
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[Modifiers][Residue&amp;Position]_[BaseSpecies][__[AdditionalSpecies]][_Compartment]
 </pre></div>
 </div>
-<p>Where:
-- <strong>Modifiers</strong>: Prefixes indicating the modification state (e.g., <cite>p</cite> for phosphorylation, <cite>u</cite> for ubiquitination).
-- <strong>Residue&amp;Position</strong>: For species with specific post-translational modification (PTM) sites, denote the residue and its position (e.g., <cite>S15</cite> for serine 15).
-- <strong>BaseSpecies</strong>: The core species name (e.g., <cite>CyclinD</cite>, <cite>Cdk4</cite>).
-- <strong>AdditionalSpecies</strong>: For complexes, additional species are concatenated using <cite>__</cite> (double underscores).
-- <strong>Compartment</strong>: The compartment is specified only when the species is outside its default “home” compartment.</p>
+</section>
+<section id="where">
+<h2>Where:<a class="headerlink" href="#where" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><cite>Modifiers</cite>: Prefixes indicating the modification state (e.g., <cite>p</cite> for phosphorylation, <cite>u</cite> for ubiquitination).</p></li>
+<li><p><cite>Residue&amp;Position</cite>: For species with specific post-translational modification (PTM) sites, denote the residue and its position (e.g., <cite>S15</cite> for serine 15).</p></li>
+<li><p><cite>BaseSpecies</cite>: The core species name (e.g., <cite>CyclinD</cite>, <cite>Cdk4</cite>).</p></li>
+<li><p><cite>AdditionalSpecies</cite>: For complexes, additional species are concatenated using <cite>__</cite> (double underscores).</p></li>
+<li><p><cite>Compartment</cite>: The compartment is specified only when the species is outside its default “home” compartment.</p></li>
+</ul>
 </section>
 <section id="examples">
 <h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
 <ol class="arabic simple">
-<li><p><strong>Single Species with PTM</strong>:
-- <cite>pS15_TGFb_cytoplasm</cite>: TGFb phosphorylated at serine 15, located in the cytoplasm.</p></li>
-<li><p><strong>Two-Component Complex</strong>:
-- <cite>pS15_CyclinD__pT298_Cdk4_nucleus</cite>: CyclinD phosphorylated at serine 15 and Cdk4 phosphorylated at threonine 298, in the nucleus.</p></li>
-<li><p><strong>Multi-Component Complex</strong>:
-- <cite>pS15_CyclinD__pT298_Cdk4__pY104_EGFR_membrane</cite>: CyclinD, Cdk4, and EGFR phosphorylated at specific residues, forming a complex at the membrane.</p></li>
+<li><p><strong>Single Species with PTM</strong>:</p>
+<ul class="simple">
+<li><p><cite>pS15_TGFb_cytoplasm</cite>: TGFb phosphorylated at serine 15, located in the cytoplasm.</p></li>
+</ul>
+</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Two-Component Complex</strong>:</p>
+<ul class="simple">
+<li><p><cite>pS15_CyclinD__pT298_Cdk4_nucleus</cite>: CyclinD phosphorylated at serine 15 and Cdk4 phosphorylated at threonine 298, in the nucleus.</p></li>
+</ul>
+</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>Multi-Component Complex</strong>:</p>
+<ul class="simple">
+<li><p><cite>pS15_CyclinD__pT298_Cdk4__pY104_EGFR_membrane</cite>: CyclinD, Cdk4, and EGFR phosphorylated at specific residues, forming a complex at the membrane.</p></li>
+</ul>
+</li>
 </ol>
 </section>
 <section id="prefixes">
@@ -238,7 +261,19 @@
 <td><p>Methylation</p></td>
 <td><p><cite>mK9_HistoneH3</cite></p></td>
 </tr>
-<tr class="row-odd"><td><p><cite>i</cite></p></td>
+<tr class="row-odd"><td><p><cite>a</cite></p></td>
+<td><p>Acetylation</p></td>
+<td><p><cite>aK27_HistoneH3</cite></p></td>
+</tr>
+<tr class="row-even"><td><p><cite>g</cite></p></td>
+<td><p>Glycosylation</p></td>
+<td><p><cite>gN100_EGFR</cite></p></td>
+</tr>
+<tr class="row-odd"><td><p><cite>c</cite></p></td>
+<td><p>Cysteinylation</p></td>
+<td><p><cite>cC100_EGFR</cite></p></td>
+</tr>
+<tr class="row-even"><td><p><cite>i</cite></p></td>
 <td><p>Inactivated state</p></td>
 <td><p><cite>i_Cdk4</cite></p></td>
 </tr>
