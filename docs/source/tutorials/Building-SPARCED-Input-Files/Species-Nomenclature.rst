@@ -27,7 +27,7 @@ Where:
 - `Compartment`: The compartment is specified only when the species is outside its default "home" compartment.
 
 Examples
---------
+^^^^^^^^
 
 1. **Single Species with PTM**:
 
@@ -102,21 +102,25 @@ For complexes, each species is listed in order, separated by double underscores 
 
 **Examples**:
 ^^^^^^^^^^^^^
+|
    - Single PTM Complex: `pS15_CyclinD__Cdk4_cytoplasm`
    - Multi-PTM Complex: `pS15_CyclinD__pT298_Cdk4__pY104_EGFR_membrane`
-
+|
 Potential Pitfalls
 ------------------
 
 1. **Ambiguity in Residue Position**:
+
    - Always specify residues and positions for clarity in PTM names.
    - Example: Avoid `p_CyclinD` if `pS15_CyclinD` is more precise.
-
+|
 2. **Complex Names Becoming Too Long**:
+
    - Avoid redundancy in component names.
    - Use short, standard prefixes for PTMs. Look at synonyms on UniProt for inspiration.
-
+|
 3. **Tool Compatibility**:
+
    - Avoid special characters like parentheses `()` or symbols like `&` that might break tools.
 
 Regex Validation

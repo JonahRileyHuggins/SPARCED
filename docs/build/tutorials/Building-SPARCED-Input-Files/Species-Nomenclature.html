@@ -201,9 +201,8 @@
 <li><p><cite>AdditionalSpecies</cite>: For complexes, additional species are concatenated using <cite>__</cite> (double underscores).</p></li>
 <li><p><cite>Compartment</cite>: The compartment is specified only when the species is outside its default “home” compartment.</p></li>
 </ul>
-</section>
 <section id="examples">
-<h2>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h2>
+<h3>Examples<a class="headerlink" href="#examples" title="Link to this heading">¶</a></h3>
 <ol class="arabic simple">
 <li><p><strong>Single Species with PTM</strong>:</p>
 <ul class="simple">
@@ -231,6 +230,7 @@
 </ul>
 </li>
 </ol>
+</section>
 </section>
 <section id="prefixes">
 <h2>Prefixes<a class="headerlink" href="#prefixes" title="Link to this heading">¶</a></h2>
@@ -315,25 +315,43 @@
 <p>For complexes, each species is listed in order, separated by double underscores (<cite>__</cite>). If a component species has PTMs, these are specified as part of its name. Compartments are only appended to the entire complex name, not individual components.</p>
 <section id="id1">
 <h3><strong>Examples</strong>:<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
-<blockquote>
-<div><ul class="simple">
-<li><p>Single PTM Complex: <cite>pS15_CyclinD__Cdk4_cytoplasm</cite></p></li>
-<li><p>Multi-PTM Complex: <cite>pS15_CyclinD__pT298_Cdk4__pY104_EGFR_membrane</cite></p></li>
-</ul>
-</div></blockquote>
+<div class="line-block">
+<div class="line">- Single PTM Complex: <cite>pS15_CyclinD__Cdk4_cytoplasm</cite>
+- Multi-PTM Complex: <cite>pS15_CyclinD__pT298_Cdk4__pY104_EGFR_membrane</cite></div>
+<div class="line"><br /></div>
+</div>
 </section>
 </section>
 <section id="potential-pitfalls">
 <h2>Potential Pitfalls<a class="headerlink" href="#potential-pitfalls" title="Link to this heading">¶</a></h2>
 <ol class="arabic simple">
-<li><p><strong>Ambiguity in Residue Position</strong>:
-- Always specify residues and positions for clarity in PTM names.
-- Example: Avoid <cite>p_CyclinD</cite> if <cite>pS15_CyclinD</cite> is more precise.</p></li>
-<li><p><strong>Complex Names Becoming Too Long</strong>:
-- Avoid redundancy in component names.
-- Use short, standard prefixes for PTMs. Look at synonyms on UniProt for inspiration.</p></li>
-<li><p><strong>Tool Compatibility</strong>:
-- Avoid special characters like parentheses <cite>()</cite> or symbols like <cite>&amp;</cite> that might break tools.</p></li>
+<li><p><strong>Ambiguity in Residue Position</strong>:</p>
+<ul class="simple">
+<li><p>Always specify residues and positions for clarity in PTM names.</p></li>
+<li><p>Example: Avoid <cite>p_CyclinD</cite> if <cite>pS15_CyclinD</cite> is more precise.</p></li>
+</ul>
+</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p><strong>Complex Names Becoming Too Long</strong>:</p>
+<ul class="simple">
+<li><p>Avoid redundancy in component names.</p></li>
+<li><p>Use short, standard prefixes for PTMs. Look at synonyms on UniProt for inspiration.</p></li>
+</ul>
+</li>
+</ol>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p><strong>Tool Compatibility</strong>:</p>
+<ul class="simple">
+<li><p>Avoid special characters like parentheses <cite>()</cite> or symbols like <cite>&amp;</cite> that might break tools.</p></li>
+</ul>
+</li>
 </ol>
 </section>
 <section id="regex-validation">
