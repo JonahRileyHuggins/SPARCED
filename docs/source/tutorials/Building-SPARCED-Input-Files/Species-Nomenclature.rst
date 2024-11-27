@@ -101,6 +101,7 @@ Guidelines for Complexes
 For complexes, each species is listed in order, separated by double underscores (`__`). If a component species has PTMs, these are specified as part of its name. Compartments are only appended to the entire complex name, not individual components.
 
 **Examples**:
+^^^^^^^^^^^^^
    - Single PTM Complex: `pS15_CyclinD__Cdk4_cytoplasm`
    - Multi-PTM Complex: `pS15_CyclinD__pT298_Cdk4__pY104_EGFR_membrane`
 
