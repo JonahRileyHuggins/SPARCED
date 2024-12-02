@@ -112,7 +112,8 @@
 <li class="toctree-l2"><a class="reference internal" href="tutorials/hands-on.html">SPARCED Hands-On Primer Tutorial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/command-line.html">Using the SPARCED Command Line Interface (CLI)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="tutorials/container.html">Building and Running the SPARCED Singularity Container</a></li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/Building-SPARCED-Input-Files/Species-Nomenclature.html">Species Naming Convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html">SPARCED input file format specification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/Species-Nomenclature.html">Species Naming Convention</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="papers/summary.html">Replicate Published Papers</a><ul>
@@ -249,17 +250,66 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="tutorials/Building-SPARCED-Input-Files/Species-Nomenclature.html">Species Naming Convention</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Building-SPARCED-Input-Files/Species-Nomenclature.html#general-principles">General Principles</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Building-SPARCED-Input-Files/Species-Nomenclature.html#naming-structure">Naming Structure</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Building-SPARCED-Input-Files/Species-Nomenclature.html#where">Where:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Building-SPARCED-Input-Files/Species-Nomenclature.html#examples">Examples</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Building-SPARCED-Input-Files/Species-Nomenclature.html#prefixes">Prefixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Building-SPARCED-Input-Files/Species-Nomenclature.html#suffixes">Suffixes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Building-SPARCED-Input-Files/Species-Nomenclature.html#guidelines-for-complexes">Guidelines for Complexes</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Building-SPARCED-Input-Files/Species-Nomenclature.html#potential-pitfalls">Potential Pitfalls</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Building-SPARCED-Input-Files/Species-Nomenclature.html#regex-validation">Regex Validation</a></li>
-<li class="toctree-l3"><a class="reference internal" href="tutorials/Building-SPARCED-Input-Files/Species-Nomenclature.html#automating-naming">Automating Naming</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html">SPARCED input file format specification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#purpose">Purpose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#general-principles">General Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#overview">Overview</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#general-remarks">General Remarks</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#species-table">Species table</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#detailed-field-descriptions">Detailed field descriptions</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#ratelaws-table">Ratelaws Table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#id1">Detailed Field Descriptions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#notes-for-users">Notes for Users</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#compartments-table">Compartments Table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#id2">Detailed Field Descriptions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#id3">Notes for Users</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#observables-table">Observables table</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#id4">Detailed field descriptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#omicsdata-table">OmicsData Table</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#id5">Detailed field descriptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#id6">Notes for Users</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#genereg-table">GeneReg table</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#id7">Detailed field descriptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#id8">Usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#guidelines-for-extension">Guidelines for Extension</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#initializer-file-optional">Initializer file (Optional)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#id9">Detailed field descriptions</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/SPARCED%20v2.html#id10">Usage</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/Species-Nomenclature.html">Species Naming Convention</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/Species-Nomenclature.html#general-principles">General Principles</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/Species-Nomenclature.html#naming-structure">Naming Structure</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/Species-Nomenclature.html#where">Where:</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/Species-Nomenclature.html#examples">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/Species-Nomenclature.html#prefixes">Prefixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/Species-Nomenclature.html#suffixes">Suffixes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/Species-Nomenclature.html#guidelines-for-complexes">Guidelines for Complexes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/Species-Nomenclature.html#id1"><strong>Examples</strong>:</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/Species-Nomenclature.html#potential-pitfalls">Potential Pitfalls</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/Species-Nomenclature.html#regex-validation">Regex Validation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/SPARCED%20Data%20Format/Species-Nomenclature.html#automating-naming">Automating Naming</a></li>
 </ul>
 </li>
 </ul>

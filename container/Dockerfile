@@ -7,10 +7,14 @@
 FROM ubuntu:22.04
 
 # Copy SPARCED files (ensure build context matches path)
-COPY ../* ./SPARCED/
+RUN mkdir -p /SPARCED
+COPY . /SPARCED/
 
 # Set working directory
 WORKDIR /SPARCED
+
+# Debug after copying files
+RUN echo "After Copying Files:" && pwd && echo "Contents:" && ls -la
 
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
@@ -53,7 +57,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN mkdir -p $PIPX_HOME $PIPX_BIN_DIR
 
 # Set permissions
-RUN chmod -R 777 ./SPARCED && chown -R root:root ./SPARCED
+# RUN chmod -R 777 /SPARCED && chown -R root:root /SPARCED
 
 # Install Python dependencies using pipx
 RUN pipx ensurepath

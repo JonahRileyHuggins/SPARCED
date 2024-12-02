@@ -10,4 +10,5 @@ Documentation for SPARCED
     hands-on
     command-line
     container
-    Building-SPARCED-Input-Files/Species-Nomenclature
+    SPARCED Data Format/SPARCED v2
+    SPARCED Data Format/Species-Nomenclature

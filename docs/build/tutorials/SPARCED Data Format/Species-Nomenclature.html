@@ -10,7 +10,7 @@
     <link rel="icon" type="image/x-icon" href="">
 
   
-  <title>Species Naming Convention &mdash; SPARCED 2.0.0 documentation</title>
+  <title>Species Naming Conventions &mdash; SPARCED 2.0.0 documentation</title>
   
 
   
@@ -38,7 +38,7 @@
     <link rel="top" title="SPARCED 2.0.0 documentation" href="../../index.html"/>
         <link rel="up" title="Tutorials" href="../summary.html"/>
         <link rel="next" title="Replicate Published Papers" href="../../papers/summary.html"/>
-        <link rel="prev" title="Building and Running the SPARCED Singularity Container" href="../container.html"/>
+        <link rel="prev" title="SPARCED input file format specification" href="SPARCED%20v2.html"/>
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta http-equiv="cache-control" content="public" />
@@ -113,7 +113,8 @@
 <li class="toctree-l2"><a class="reference internal" href="../hands-on.html">SPARCED Hands-On Primer Tutorial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../command-line.html">Using the SPARCED Command Line Interface (CLI)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../container.html">Building and Running the SPARCED Singularity Container</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Species Naming Convention</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPARCED%20v2.html">SPARCED input file format specification</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Species Naming Conventions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../papers/summary.html">Replicate Published Papers</a><ul>
@@ -173,8 +174,8 @@
 	  <dark-mode-toggle appearance="toggle" dark="switch to light mode" light="switch to dark mode">
 	  </dark-mode-toggle>
 	</div>
-  <section id="species-naming-convention">
-<h1>Species Naming Convention<a class="headerlink" href="#species-naming-convention" title="Link to this heading">¶</a></h1>
+  <section id="species-naming-conventions">
+<h1>Species Naming Conventions<a class="headerlink" href="#species-naming-conventions" title="Link to this heading">¶</a></h1>
 <p>This page defines the standardized naming conventions for species in SPARCED, designed for compatibility with PEtab, SBML, and PCRE2.</p>
 <section id="general-principles">
 <h2>General Principles<a class="headerlink" href="#general-principles" title="Link to this heading">¶</a></h2>
@@ -277,6 +278,10 @@
 <td><p>Inactivated state</p></td>
 <td><p><cite>i_Cdk4</cite></p></td>
 </tr>
+<tr class="row-odd"><td><p><cite>m</cite></p></td>
+<td><p>mRNA species of Gene names</p></td>
+<td><p><cite>m_CCND1</cite></p></td>
+</tr>
 </tbody>
 </table>
 </section>
@@ -304,8 +309,11 @@
 <tr class="row-even"><td><p><cite>_nucleus</cite></p></td>
 <td><p>Species in the nucleus.</p></td>
 </tr>
-<tr class="row-odd"><td><p><cite>_membrane</cite></p></td>
+<tr class="row-odd"><td><p><cite>_endosome</cite></p></td>
 <td><p>Species bound to a membrane.</p></td>
+</tr>
+<tr class="row-even"><td><p><cite>_mitochondria</cite></p></td>
+<td><p>Species in the mitochondria.</p></td>
 </tr>
 </tbody>
 </table>
@@ -316,8 +324,8 @@
 <section id="id1">
 <h3><strong>Examples</strong>:<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <div class="line-block">
-<div class="line">- Single PTM Complex: <cite>pS15_CyclinD__Cdk4_cytoplasm</cite>
-- Multi-PTM Complex: <cite>pS15_CyclinD__pT298_Cdk4__pY104_EGFR_membrane</cite></div>
+<div class="line">- Single PTM Complex: <cite>pS15_CyclinD__Cdk4_cytoplasm</cite></div>
+<div class="line">- Multi-PTM Complex: <cite>pS15_CyclinD__pT298_Cdk4__pY104_EGFR_membrane</cite></div>
 <div class="line"><br /></div>
 </div>
 </section>
@@ -395,7 +403,7 @@
         <a href="../../papers/summary.html" class="btn btn-neutral float-right" title="Replicate Published Papers">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="../container.html" class="btn btn-neutral" title="Building and Running the SPARCED Singularity Container"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="SPARCED%20v2.html" class="btn btn-neutral" title="SPARCED input file format specification"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

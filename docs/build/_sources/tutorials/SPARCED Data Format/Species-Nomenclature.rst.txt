@@ -1,5 +1,5 @@
-Species Naming Convention
-=========================
+Species Naming Conventions
+==========================
 
 This page defines the standardized naming conventions for species in SPARCED, designed for compatibility with PEtab, SBML, and PCRE2.
 
@@ -109,6 +109,7 @@ For complexes, each species is listed in order, separated by double underscores 
 ^^^^^^^^^^^^^
 |
    - Single PTM Complex: `pS15_CyclinD__Cdk4_cytoplasm`
+|
    - Multi-PTM Complex: `pS15_CyclinD__pT298_Cdk4__pY104_EGFR_membrane`
 |
 Potential Pitfalls
