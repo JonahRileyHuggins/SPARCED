@@ -37,7 +37,7 @@
         <link rel="search" title="Search" href="../search.html"/>
     <link rel="top" title="SPARCED 2.0.0 documentation" href="../index.html"/>
         <link rel="up" title="Tutorials" href="summary.html"/>
-        <link rel="next" title="Replicate Published Papers" href="../papers/summary.html"/>
+        <link rel="next" title="SPARCED input file format specification" href="SPARCED%20Data%20Format/SPARCED%20v2.html"/>
         <link rel="prev" title="Using the SPARCED Command Line Interface (CLI)" href="command-line.html"/>
 
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -85,25 +85,12 @@
 <li class="toctree-l2"><a class="reference internal" href="../about.html#acknowledgments">Acknowledgments</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="reference internal" href="../contents.html">Contents Table</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../about.html">About</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation-guide.html">The SPARCED Installation Guide for Absolute Beginners</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="summary.html">Tutorials</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../papers/summary.html">Replicate Published Papers</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../reference/summary.html">Reference Documentation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../future-dev.html">Future developments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../license.html">License</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../contents.html#indices-and-tables">Indices and tables</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="../installation-guide.html">The SPARCED Installation Guide for Absolute Beginners</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#environment">Environment</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#command-line-interface-installation">Command Line Interface Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#virtualbox-guest-additions">VirtualBox Guest Additions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#openmpi">OpenMPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#openmpi-on-windows">OpenMPI on Windows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#git-github-ssh">Git, GitHub &amp; SSH</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#anaconda">Anaconda</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#todo-docker">TODO: Docker</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#sparced">SPARCED 🎆</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../installation-guide.html#clean">Clean</a></li>
 </ul>
@@ -113,6 +100,8 @@
 <li class="toctree-l2"><a class="reference internal" href="hands-on.html">SPARCED Hands-On Primer Tutorial</a></li>
 <li class="toctree-l2"><a class="reference internal" href="command-line.html">Using the SPARCED Command Line Interface (CLI)</a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Building and Running the SPARCED Singularity Container</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPARCED%20Data%20Format/SPARCED%20v2.html">SPARCED input file format specification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="SPARCED%20Data%20Format/Species-Nomenclature.html">Species Naming Conventions</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../papers/summary.html">Replicate Published Papers</a><ul>
@@ -205,9 +194,9 @@ If not installed, refer to the [Singularity Installation Guide](<a class="refere
 <blockquote>
 <div><p>Use the following command to build the container from the provided definition file:
 <code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">singularity</span> <span class="pre">build</span> <span class="pre">dist/sparced.sif</span> <span class="pre">container/sparced.def</span>
+<span class="pre">singularity</span> <span class="pre">build</span> <span class="pre">--fakeroot</span> <span class="pre">container/sparced.sif</span> <span class="pre">container/sparced.def</span>
 <span class="pre">`</span></code>
-This will create the <cite>sparced.sif</cite> file in the <cite>dist/</cite> directory.</p>
+This will create the <cite>sparced.sif</cite> file in the <cite>container/</cite> directory.</p>
 <p><strong>Note:</strong> Ensure the <cite>SPARCED/</cite> directory does not include unnecessary files (e.g., <cite>.git</cite>) by excluding them in the definition file or using a cleanup process.</p>
 </div></blockquote>
 <hr class="docutils" />
@@ -218,7 +207,7 @@ This will create the <cite>sparced.sif</cite> file in the <cite>dist/</cite> dir
 <blockquote>
 <div><p>To access an interactive shell within the container:
 <code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">singularity</span> <span class="pre">shell</span> <span class="pre">dist/sparced.sif</span>
+<span class="pre">singularity</span> <span class="pre">shell</span> <span class="pre">container/sparced.sif</span>
 <span class="pre">`</span></code>
 This drops you into the container environment where you can navigate and run commands.</p>
 <p><strong>Example Command:</strong>
@@ -232,7 +221,7 @@ This drops you into the container environment where you can navigate and run com
 <blockquote>
 <div><p>To execute the default command defined in the container (e.g., running <cite>sparced</cite>):
 <code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">singularity</span> <span class="pre">run</span> <span class="pre">dist/sparced.sif</span>
+<span class="pre">singularity</span> <span class="pre">run</span> <span class="pre">container/sparced.sif</span>
 <span class="pre">`</span></code></p>
 </div></blockquote>
 </section>
@@ -241,7 +230,7 @@ This drops you into the container environment where you can navigate and run com
 <blockquote>
 <div><p>To ensure the container can read/write files on your host system, use the <cite>–bind</cite> flag:
 <code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">singularity</span> <span class="pre">shell</span> <span class="pre">--bind</span> <span class="pre">/path/to/SPARCED:/SPARCED</span> <span class="pre">dist/sparced.sif</span>
+<span class="pre">singularity</span> <span class="pre">shell</span> <span class="pre">--bind</span> <span class="pre">/path/to/SPARCED:/SPARCED</span> <span class="pre">container/sparced.sif</span>
 <span class="pre">`</span></code>
 This binds the <cite>SPARCED</cite> directory on your host to the container, allowing full access during execution.</p>
 </div></blockquote>
@@ -251,7 +240,7 @@ This binds the <cite>SPARCED</cite> directory on your host to the container, all
 <blockquote>
 <div><p>Use the <cite>exec</cite> command to run specific commands in the container:
 <code class="docutils literal notranslate"><span class="pre">`bash</span>
-<span class="pre">singularity</span> <span class="pre">exec</span> <span class="pre">dist/sparced.sif</span> <span class="pre">sparced</span> <span class="pre">compile</span> <span class="pre">-n</span> <span class="pre">Basic_model</span>
+<span class="pre">singularity</span> <span class="pre">exec</span> <span class="pre">container/sparced.sif</span> <span class="pre">sparced</span> <span class="pre">compile</span> <span class="pre">-n</span> <span class="pre">Basic_model</span>
 <span class="pre">`</span></code></p>
 <p>This runs the <cite>sparced</cite> tool directly inside the container.</p>
 </div></blockquote>
@@ -270,7 +259,7 @@ This binds the <cite>SPARCED</cite> directory on your host to the container, all
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../papers/summary.html" class="btn btn-neutral float-right" title="Replicate Published Papers">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="SPARCED%20Data%20Format/SPARCED%20v2.html" class="btn btn-neutral float-right" title="SPARCED input file format specification">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="command-line.html" class="btn btn-neutral" title="Using the SPARCED Command Line Interface (CLI)"><span class="fa fa-arrow-circle-left"></span> Previous</a>
