@@ -52,7 +52,7 @@ module every 30(s) and are used in translation rate laws.
    * - `speciesId`
      - `compartment`
      - `initialConcentration`
-     - `UniProt`
+     - `annotation`
    * - STRING
      - STRING
      - FLOAT
@@ -81,13 +81,14 @@ is required for compatibility with PEtab, SBML, and PCRE2.
 - `initialConcentration` [FLOAT, NOT NULL]: The initial concentration of the species.
     - Must be a non-negative number.
 
-- `UniProt` [STRING, OPTIONAL]: The UniProt identifiers for the species.
+- `Annotation` [STRING, OPTIONAL]: The UniProt or Ensembl-transcript identifiers for the species.
     - Multiple UniProt identifiers should be separated by commas.
     - Must be consistent with the species name.
     - Preferably, in the same order as the species name. 
     - For species identifiers representing multiple proteins (i.e. `Cd` represents in 
     this case CyclinD1, CyclinD2, and CyclinD3), the UniProt identifiers should be
     separated by commas in alpha-numeric order.
+    - For mRNA species (denoted by `m_`), Ensembl transcript identifiers should be used.
 
 Ratelaws Table
 --------------

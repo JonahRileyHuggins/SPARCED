@@ -15,7 +15,7 @@ Output: MPI tasks for each rank, MPI task assignment, and MPI results aggregatio
 import numpy
 import pandas
 import mpi4py.MPI as MPI
-from validation.simulation.petab_file_loader import PEtabFileLoader
+from utils.petab_file_loader import PEtabFileLoader
 from validation.simulation.utils import Utils
 
 

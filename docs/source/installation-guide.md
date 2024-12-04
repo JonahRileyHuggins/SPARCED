@@ -69,8 +69,8 @@ docker run -it --rm -v C:\Users\<username>\path\to\SPARCED:/SPARCED sparced-tool
 **`--rm`**
 
 * **Stands for:** *Remove*
-* **Function:** Automatically removes the container when it stops.
-* **Why use it?**
+* **Function:** Automatically removes the container when it stops
+* **Why use it**
   * Prevents the accumulation of stopped containers that would otherwise take up system resources.
   * Useful for temporary containers where you don't need to persist the container itself after it has run.
 

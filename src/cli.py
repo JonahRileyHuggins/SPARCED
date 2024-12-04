@@ -42,7 +42,12 @@ def benchmark_model(args):
     from validation.launchers import launch_validation
     launch_validation() # Process parsed arguments and launch validation
 
-
+def visualize_data(args):
+    """Handle the visualize subcommand. Script to automate model-data comparisons, \
+    'benchmarks'. 
+"""
+    from visualization.launchers import launch_visualizer
+    launch_visualizer() # Process parsed arguments and launch visualization
 
 def main():
     """Main entry point."""
@@ -54,6 +59,8 @@ def main():
         simulate_model(args)
     elif args.command == "validate":
         benchmark_model(args)
+    elif args.command == "visualize":
+        visualize_data(args)
     else:
         print("No valid command provided. Use --help for guidance.")
 

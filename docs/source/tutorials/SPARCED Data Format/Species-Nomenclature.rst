@@ -24,7 +24,7 @@ Where:
 - `Residue&Position`: For species with specific post-translational modification (PTM) sites, denote the residue and its position (e.g., `S15` for serine 15).
 - `BaseSpecies`: The core species name (e.g., `CyclinD`, `Cdk4`).
 - `AdditionalSpecies`: For complexes, additional species are concatenated using `__` (double underscores).
-- `Compartment`: The compartment is specified only when the species is outside its default "home" compartment.
+- `Compartment`: compartments are always added to the end of the entire species entries.
 
 Examples
 ^^^^^^^^
@@ -35,11 +35,11 @@ Examples
 |
 2. **Two-Component Complex**:
 
-   * `pS15_CyclinD__pT298_Cdk4_nucleus`: CyclinD phosphorylated at serine 15 and Cdk4 phosphorylated at threonine 298, in the nucleus.
+   * `pS15_CyclinD__pT298_Cdk4`: CyclinD phosphorylated at serine 15 and Cdk4 phosphorylated at threonine 298.
 |
 3. **Multi-Component Complex**:
 
-   * `pS15_CyclinD__pT298_Cdk4__pY104_EGFR_membrane`: CyclinD, Cdk4, and EGFR phosphorylated at specific residues, forming a complex at the membrane.
+   * `pS15_CyclinD__pT298_Cdk4__pY104_EGFR_extracellular`: CyclinD, Cdk4, and EGFR phosphorylated at specific residues, forming a complex in the extracellular space.
 
 Prefixes
 --------
@@ -59,12 +59,12 @@ The following table summarizes standard prefixes for species modifiers:
    * - `u`
      - Ubiquitination
      - `uK48_TGFbR1`
-   * - `m`
+   * - `met`
      - Methylation
-     - `mK9_HistoneH3`
-   * - `a`
+     - `metK9_HistoneH3`
+   * - `acet`
      - Acetylation
-     - `aK27_HistoneH3`
+     - `acetK27_HistoneH3`
    * - `g`
      - Glycosylation
      - `gN100_EGFR`
@@ -74,6 +74,9 @@ The following table summarizes standard prefixes for species modifiers:
    * - `i`
      - Inactivated state
      - `i_Cdk4`
+   * - `a`
+     - Activated state
+     - `a_Cdk4`
    * - `m`
      - mRNA species of Gene names
      - `m_CCND1`
@@ -83,7 +86,7 @@ Suffixes
 
 The following table summarizes compartment suffixes and their use cases:
 
-.. list-table:: Suffixes for Compartments
+.. list-table:: Suffixes for Compartments and mRNA variant numbers
    :header-rows: 1
    :widths: 30 70
 
@@ -91,14 +94,17 @@ The following table summarizes compartment suffixes and their use cases:
      - Description
    * - `_extracellular`
      - Species outside the cell.
-   * - `_cytoplasm`
+   * - `_cyt`
      - Species in the cytoplasm.
-   * - `_nucleus`
+   * - `_nuc`
      - Species in the nucleus.
-   * - `_endosome`
+   * - `_endo`
      - Species bound to a membrane.
-   * - `_mitochondria`
+   * - `_mito`
      - Species in the mitochondria.
+   * - `_NNN` (e.g., `_201`)`
+     - `201`
+     - mRNA variant number for Gene names (where `NNN` is a 3-digit number).
 
 Guidelines for Complexes
 ------------------------
@@ -110,7 +116,7 @@ For complexes, each species is listed in order, separated by double underscores 
 |
    - Single PTM Complex: `pS15_CyclinD__Cdk4_cytoplasm`
 |
-   - Multi-PTM Complex: `pS15_CyclinD__pT298_Cdk4__pY104_EGFR_membrane`
+   - Multi-PTM Complex: `pS15_CyclinD__pT298_Cdk4__pY104_EGFR_extracellular`
 |
 Potential Pitfalls
 ------------------

@@ -1,4 +1,3 @@
-# TODO: change this to the main entrypoint script for python script execution.
 # -*- coding: utf-8 -*-
 #!/usr/bin/env python
 """
