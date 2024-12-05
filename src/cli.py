@@ -14,6 +14,7 @@ The script is executed by running the following command in the terminal:
     $ SPARCED compile
     $ SPARCED simulate
     $ SPARCED validate
+    $ SPARCED visualize
     $ SPARCED -h
 """
 

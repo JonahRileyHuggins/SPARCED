@@ -30,7 +30,7 @@ def parse_args():
                               hard-coded values/behaviors")
 
     # Define subcommands
-    subparsers = parser.add_subparsers(dest="command", help="Subcommands: compile, simulate, benchmark")
+    subparsers = parser.add_subparsers(dest="command", help="Subcommands: compile, simulate, validate, visualize")
 
     # Compile subcommand
     compile_parser = subparsers.add_parser("compile", 
@@ -97,7 +97,6 @@ def parse_args():
     visualize_parser = subparsers.add_parser("visualize",
                                              parents=[shared_parser],
                                              help="Visualize a dataset.")
-
     #-- Lowercase
     visualize_parser.add_argument('-o', '--output', default=None,
                                     help="output path to save the visualization")
@@ -108,7 +107,7 @@ def parse_args():
                                     file")
     visualize_parser.add_argument('-f', '--from_script', default=None,
                                     help="flag to indicate that the visualization is being run from a custom script")
-    parser.add_argument('--catchall', '-c', type=str,
+    visualize_parser.add_argument('--catchall', '-c', type=str,
                                     help="A JSON string containing additional arguments to pass to the custom script.")
 
     return(parser.parse_args())
