@@ -102,9 +102,9 @@ def parse_args():
                                     help="output path to save the visualization")
     visualize_parser.add_argument('-n', '--name', default=None,
                                     help="name of the output file")
-    visualize_parser.add_argument('-y', '--yaml_path', default=None,
-                                    help="path to the yaml file containing the visualization PEtab\
-                                    file")
+    # visualize_parser.add_argument('-y', '--yaml_path', default=None,
+    #                                 help="path to the yaml file containing the visualization PEtab\
+    #                                 file")
     visualize_parser.add_argument('-f', '--from_script', default=None,
                                     help="flag to indicate that the visualization is being run from a custom script")
     visualize_parser.add_argument('--catchall', '-c', type=str,

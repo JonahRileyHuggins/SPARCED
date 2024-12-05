@@ -18,7 +18,7 @@ Output: The output of this script will be the visualization of the PEtab file in
 import os
 import sys
 import json
-from time import datetime
+from datetime import datetime
 import pandas as pd
 
 from utils.arguments import parse_args
@@ -36,7 +36,7 @@ def launch_visualizer() -> None:
     if args.from_script:
         run_custom_script(args.input_data, args.from_script, args.output_path, args.file_name)
     else:
-        run_visualizer(args.input_data, args.yaml_path, args.output_path, args.file_name)
+        run_visualizer(args.input_data, args.yaml, args.output, args.name)
 
 
 def run_visualizer(input_data: os.PathLike | str, yaml_path: os.PathLike | str,
