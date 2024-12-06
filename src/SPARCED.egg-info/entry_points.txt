@@ -1,0 +1,2 @@
+[console_scripts]
+sparced = cli.cli:main

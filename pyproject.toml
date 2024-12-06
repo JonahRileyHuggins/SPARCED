@@ -36,17 +36,17 @@ keywords = ["mechanistic modeling", "single-cell models", "simulation", "systems
 readme = {file = "README.md", content-type = "text/markdown"}
 
 [project.urls]
-Homepage = "https://github.com/JonahRileyHuggins/SPARCED/tree/benchmark_adjustments"
+Homepage = "https://github.com/JonahRileyHuggins/SPARCED/"
 Repository = "https://github.com/JonahRileyHuggins/SPARCED"
 
 [project.scripts]
-sparced = "cli:main"
+sparced = "cli.cli:main"
 
 [tool.setuptools]
-packages = ["src"]
+# Specify the src directory as a package
+packages = { find = { where = ["src"] } }
 
 [tool.setuptools.package-data]
-"sparced" = ["*.yaml", "*.json", "*.ini"]
-
+"src" = ["**/*.yaml", "**/*.json", "**/*.ini"]
 [tool.setuptools.exclude-package-data]
 "*" = ["*.tmp", "*.log"]
