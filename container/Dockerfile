@@ -13,9 +13,6 @@ COPY . /SPARCED/
 # Set working directory
 WORKDIR /SPARCED
 
-# Debug after copying files
-RUN echo "After Copying Files:" && pwd && echo "Contents:" && ls -la
-
 # Set environment variables
 ENV DEBIAN_FRONTEND=noninteractive \
     SHELL=/bin/bash \
@@ -61,7 +58,7 @@ RUN mkdir -p $PIPX_HOME $PIPX_BIN_DIR
 
 # Install Python dependencies using pipx
 RUN pipx ensurepath
-RUN pipx install dist/SPARCED2.0-py3-none-any.whl --verbose --force
+RUN pipx install dist/SPARCED-2.0-py3-none-any.whl --verbose --force
 
 # Set default shell
 SHELL ["/bin/bash", "-c"]

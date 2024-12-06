@@ -20,4 +20,4 @@ sudo apt install -y openmpi-bin openmpi-common libopenmpi-dev \
 pipx ensurepath
 
 # Install the Python package with pipx
-pipx install dist/SPARCED2.0-py3-none-any.whl --verbose --force
+pipx install dist/SPARCED-2.0-py3-none-any.whl --verbose --force
