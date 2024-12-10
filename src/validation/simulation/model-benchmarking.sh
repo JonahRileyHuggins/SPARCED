@@ -18,7 +18,7 @@
 # Requirements: anaconda3
 #               openmpi
 #
-# Notes:        The use of this file is intended for use on systems using SLURM
+# Notes:        This file is intended for use on systems using SLURM
 #               Job Scheduler. 
 ###############################################################################
 #SBATCH --job-name model_validation

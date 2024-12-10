@@ -34,7 +34,7 @@ def launch_visualizer() -> None:
 
     """
     if args.from_script:
-        run_custom_script(args.input_data, args.from_script, args.output_path, args.file_name)
+        run_custom_script(args.input_data, args.from_script, args.output, args.name)
     else:
         run_visualizer(args.input_data, args.yaml, args.output, args.name)
 

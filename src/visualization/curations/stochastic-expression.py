@@ -20,8 +20,18 @@ import sys
 import pickle
 import matplotlib.pyplot as plt
 import numpy as np
-from src.utils.arguments import parse_args
-from time import datetime
+
+# Import fixed path to the src directory
+try: 
+    sys.path.append(os.path.join(os.getcwd(), 'src'))
+
+except FileNotFoundError:
+    print('The system cannot find the specified src code path, verify the \
+          stochastic-expression.py script is in the `curations` directory.')
+    sys.exit(1)
+
+from utils.arguments import parse_args
+from datetime import datetime
 
 # Parse command line arguments
 args = parse_args()
@@ -48,8 +58,8 @@ def stochastic_expression(data_path: str, output_path: str = os.getcwd(),
 
     benchmark1_key = [key for key in data.keys()][0]
 
-    ax[0].plot(data[benchmark1_key]['toutS']/3600.0,
-        data[benchmark1_key]['xoutG'][:,115],'b',linewidth=4)
+    ax[0].plot(data[benchmark1_key]['time']/3600.0,
+        data[benchmark1_key][''],'b',linewidth=4)
 
     ax[0].grid(True)
     ax[0].set_xlim(0, 24)
