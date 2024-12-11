@@ -46,6 +46,22 @@ From: ubuntu:22.04
         libsbml-dev \
         && apt-get clean && rm -rf /var/lib/apt/lists/*
 
+    # Installing packages for OpenMPI
+    echo "Installing Open MPI"
+    export OMPI_DIR=/opt/ompi
+    export OMPI_VERSION=4.0.1
+    export OMPI_URL="https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-$OMPI_VERSION.tar.bz2"
+    mkdir -p /tmp/ompi
+    mkdir -p /opt
+    # Download
+    cd /tmp/ompi && wget -O openmpi-$OMPI_VERSION.tar.bz2 $OMPI_URL && tar -xjf openmpi-$OMPI_VERSION.tar.bz2
+    # Compile and install
+    cd /tmp/ompi/openmpi-$OMPI_VERSION && ./configure --prefix=$OMPI_DIR && make install
+    # Set env variables so we can compile our application
+    export PATH=$OMPI_DIR/bin:$PATH
+    export LD_LIBRARY_PATH=$OMPI_DIR/lib:$LD_LIBRARY_PATH
+    export MANPATH=$OMPI_DIR/share/man:$MANPATH
+
     # Set pipx directories to persistent paths
     export PIPX_HOME=/usr/local/pipx
     export PIPX_BIN_DIR=/usr/local/bin
@@ -73,22 +89,6 @@ From: ubuntu:22.04
 
     # Add pipx bin directory to runtime PATH
     echo 'export PATH=/root/.local/bin:$PATH' >> $SINGULARITY_ENVIRONMENT
-
-    # Installing packages for OpenMPI
-    echo "Installing Open MPI"
-    export OMPI_DIR=/opt/ompi
-    export OMPI_VERSION=4.0.1
-    export OMPI_URL="https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-$OMPI_VERSION.tar.bz2"
-    mkdir -p /tmp/ompi
-    mkdir -p /opt
-    # Download
-    cd /tmp/ompi && wget -O openmpi-$OMPI_VERSION.tar.bz2 $OMPI_URL && tar -xjf openmpi-$OMPI_VERSION.tar.bz2
-    # Compile and install
-    cd /tmp/ompi/openmpi-$OMPI_VERSION && ./configure --prefix=$OMPI_DIR && make install
-    # Set env variables so we can compile our application
-    export PATH=$OMPI_DIR/bin:$PATH
-    export LD_LIBRARY_PATH=$OMPI_DIR/lib:$LD_LIBRARY_PATH
-    export MANPATH=$OMPI_DIR/share/man:$MANPATH
 
 %environment
     # Set up runtime environment variables
