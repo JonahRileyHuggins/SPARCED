@@ -129,10 +129,7 @@ class Utils:
 
                 results[identifier] = {
                     "conditionId": condition_id,
-                    "cell": cell,
-                    "xoutS": None,
-                    "toutS": None,
-                    "xoutG": None,
+                    "cell": cell
                 }
 
         return results

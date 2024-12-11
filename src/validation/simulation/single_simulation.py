@@ -25,6 +25,7 @@ import importlib
 import numpy as np
 import pandas as pd
 from validation.simulation.utils import Utils as utils
+from utils.combine_results import combine_results
 
 # Get the directory path
 wd = os.path.dirname(os.path.abspath(__file__))
@@ -129,7 +130,7 @@ class Simulator:
             f_omics=self.f_omics,
         )
 
-        results = (xoutS_all, tout_all, xoutG_all)
+        results = combine_results(self.model, xoutS_all, xoutG_all, tout_all)
 
         return results
     
@@ -154,7 +155,7 @@ class Simulator:
 
         xoutS_all, tout_all = RunAMICI(simulation_timeframe, self.model)
 
-        results = (xoutS_all, tout_all)
+        results = combine_results(self.model, xoutS_all, None, tout_all)
 
         return results
 

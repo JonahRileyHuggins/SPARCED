@@ -25,7 +25,7 @@ import os
 import yaml
 import pickle
 from datetime import date
-from validation.simulation.job_organization import Organizer as org
+import validation.simulation.job_organization as org
 from utils.arguments import parse_args
 from validation.simulation.utils import Utils
 from validation.simulation.single_simulation import Simulator
@@ -157,15 +157,15 @@ class RunBenchmark:
             if self.rank == 0:
 
                 # Store rank 0's results prior to storing other ranks
-                self.results_dictionary = org.results_storage(
-                    results_dict=self.results_dictionary, results_catalogue=parcel
+                self.results_dictionary = org.store_results(
+                    results_dict=self.results_dictionary, individual_parcel=parcel
                 )
 
                 # Define the total number of jobs for the results aggregation stage
                 total_jobs = Utils._total_tasks(self.conditions_df, self.measurement_df)
 
                 # Collect results from other ranks and store in results dictionary
-                self.results_dictionary = org.results_aggregation(
+                self.results_dictionary = org.aggregate_other_rank_results(
                     size=self.size,
                     communicator=self.communicator,
                     results_dict=self.results_dictionary,
@@ -217,7 +217,7 @@ class RunBenchmark:
         if self.rank == 0 and self.observable == 1:
 
             # TODO: Remove unnecessary dunder call
-            self.results_dictionary = ObservableCalculator(self).__call__()
+            self.results_dictionary = ObservableCalculator(self).run()
 
             RunBenchmark.save_results(self)
 
