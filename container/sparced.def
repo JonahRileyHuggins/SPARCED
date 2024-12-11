@@ -20,8 +20,10 @@ From: ubuntu:22.04
     # Update and install basic dependencies
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
+        bash \
         curl \
         git \
+        wget \
         python3-pip \
         python3-venv \
         python3-dev \
@@ -32,8 +34,10 @@ From: ubuntu:22.04
         libopenblas-dev \
         gcc \
         g++ \
+        gfortran \
         cmake \
         make \
+        file \
         pipx \
         libgfortran5 \
         libatomic1 \
@@ -54,7 +58,6 @@ From: ubuntu:22.04
     chmod -R 777 /SPARCED
     chown -R root:root /SPARCED
 
-
     # Navigate to the SPARCED path
     cd /SPARCED
 
@@ -71,11 +74,35 @@ From: ubuntu:22.04
     # Add pipx bin directory to runtime PATH
     echo 'export PATH=/root/.local/bin:$PATH' >> $SINGULARITY_ENVIRONMENT
 
+    # Installing packages for OpenMPI
+    echo "Installing Open MPI"
+    export OMPI_DIR=/opt/ompi
+    export OMPI_VERSION=4.0.1
+    export OMPI_URL="https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-$OMPI_VERSION.tar.bz2"
+    mkdir -p /tmp/ompi
+    mkdir -p /opt
+    # Download
+    cd /tmp/ompi && wget -O openmpi-$OMPI_VERSION.tar.bz2 $OMPI_URL && tar -xjf openmpi-$OMPI_VERSION.tar.bz2
+    # Compile and install
+    cd /tmp/ompi/openmpi-$OMPI_VERSION && ./configure --prefix=$OMPI_DIR && make install
+    # Set env variables so we can compile our application
+    export PATH=$OMPI_DIR/bin:$PATH
+    export LD_LIBRARY_PATH=$OMPI_DIR/lib:$LD_LIBRARY_PATH
+    export MANPATH=$OMPI_DIR/share/man:$MANPATH
+
 %environment
     # Set up runtime environment variables
     export PATH=/root/.local/bin:$PATH
     export BLAS_LIBS=-lopenblas
     export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+
+    # Setup varaibles for OpenMPI support within the container
+    export OMPI_DIR=/opt/ompi
+    export SINGULARITY_OMPI_DIR=$OMPI_DIR
+    export SINGULARITYENV_APPEND_PATH=$OMPI_DIR/bin
+    export SINGULAIRTYENV_APPEND_LD_LIBRARY_PATH=$OMPI_DIR/lib
+
+    # Ensures the container is bound to the local instance of SPARCED for cross operation.
     export SINGULARITY_BINDPATH="./SPARCED:/SPARCED:rw"
 
 %runscript
