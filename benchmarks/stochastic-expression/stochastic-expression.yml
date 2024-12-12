@@ -11,5 +11,3 @@ problems:
     - observables.tsv
     sbml_files:
     - ../../models/SPARCED_standard/sbml_SPARCED_standard.xml
-    visualization_files:
-    - visualizations.tsv

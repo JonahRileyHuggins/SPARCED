@@ -14,7 +14,8 @@ Output: dictionary containing the observables of interest
 # -----------------------Package Import & Defined Arguements-------------------#
 import re
 import numpy as np
-
+from typing import List
+import pandas as pd
 #-------------------------Initialization & Variables---------------------------#
 class ObservableCalculator:
     """This class is designed to calculate observable values from simulation results."""
@@ -112,23 +113,13 @@ class ObservableCalculator:
             observable_formula = observable_formula.iloc[0]
 
             # Search the observable formula for species names
-            species = re.findall(
-                r"\b[A-Za-z](?:[A-Za-z0-9_]*[A-Za-z0-9])?\b", observable_formula
-            )
+            species = get_valid_species(observable_formula)
 
             for species_i in species:
 
-                # Construct the regex pattern to match the species name exactly
-                pattern = r"{}".format(re.escape(species_i))
-                replacement_value = self.results_dict[entry].get(species_i)
-                replacement_value = replacement_value.to_numpy()
-                replacement_value_str = f"np.array({replacement_value.tolist()})"
-
-                # Replace only the exact matches of the species name in the formula
-                observable_formula = re.sub(pattern,
-                                            replacement_value_str,
-                                            observable_formula
-                                            )
+                observable_formula = self.swap_species_for_array(
+                    entry, species_i, observable_formula
+                )
 
             observable_answer = eval(observable_formula)
 
@@ -243,3 +234,89 @@ class ObservableCalculator:
         observable_answer = observable_answer[timepoint_indices]
 
         return observable_answer
+
+    def swap_species_for_array(self, dict_entry: str, species_i: str, 
+                            observable_formula: str) -> str:
+        """
+        Takes a species identifier and returns the corresponding array from the results_dict.
+
+        Parameters:
+        - dict_entry (str): The identifier for a particular simulation result for a single condition.
+        - species_i (str): The species identifier.
+        - observable_formula (str): The formula containing species and mathematical expressions.
+
+        Returns:
+        - observable_formula (str): The observable formula with the species replaced by the array.
+
+        Raises:
+        - KeyError: If the species identifier is not found in the results dictionary.
+        - ValueError: If the replacement value cannot be converted to a NumPy array.
+        """
+        try:
+            # Validate inputs
+            if not isinstance(dict_entry, str):
+                raise TypeError("The dict_entry must be a string.")
+            if not isinstance(species_i, str):
+                raise TypeError("The species_i must be a string.")
+            if not isinstance(observable_formula, str):
+                raise TypeError("The observable_formula must be a string.")
+
+            # Retrieve the replacement value from the results dictionary
+            replacement_value = self.results_dict.get(dict_entry, {}).get(species_i)
+
+            if replacement_value is None:
+                raise KeyError(f"Species '{species_i}' not found in results_dict for entry '{dict_entry}'.")
+
+            # Convert to NumPy array
+            if isinstance(replacement_value, pd.Series):
+                replacement_value = replacement_value.to_numpy()
+            elif not isinstance(replacement_value, np.ndarray):
+                raise ValueError(f"Replacement value for species '{species_i}' is not a valid array or Series.")
+
+            # Prepare replacement string
+            replacement_value_str = f"np.array({replacement_value.tolist()})"
+
+            # Replace only exact matches of the species name in the formula
+            observable_formula = re.sub(fr"\b{re.escape(species_i)}\b",
+                                        replacement_value_str,
+                                        observable_formula)
+
+            return observable_formula
+
+        except Exception as e:
+            print(f"Error in swap_species_for_array: {e}")
+            raise
+
+
+def get_valid_species(observable_formula: str) -> List[str]:
+    """
+    Extract valid species identifiers from an observable formula based on PEtab naming conventions.
+
+    Parameters:
+    - observable_formula (str): The formula containing species and mathematical expressions.
+
+    Returns:
+    - List[str]: A list of valid species identifiers.
+
+    Raises:
+    - ValueError: If no valid species are found in the observable formula.
+    """
+    try:
+        if not isinstance(observable_formula, str):
+            raise TypeError("Input observable_formula must be a string.")
+
+        # Regex for PEtab-compliant species identifiers
+        petab_species_regex = r"[a-zA-Z_][a-zA-Z_\d]*"
+
+        # Split the formula by mathematical operators and filter valid species
+        components = re.split(r"[+\-*/() ]", observable_formula)
+        valid_species = [c for c in components if re.match(petab_species_regex, c)]
+
+        if not valid_species:
+            raise ValueError("No valid species found in the observable formula.")
+
+        return valid_species
+
+    except Exception as e:
+        print(f"Error in get_valid_species: {e}")
+        return []

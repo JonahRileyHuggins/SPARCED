@@ -216,7 +216,6 @@ class RunBenchmark:
         """
         if self.rank == 0 and self.observable == 1:
 
-            # TODO: Remove unnecessary dunder call
             self.results_dictionary = ObservableCalculator(self).run()
 
             RunBenchmark.save_results(self)
