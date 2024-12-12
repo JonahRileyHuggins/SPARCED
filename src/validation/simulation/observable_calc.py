@@ -182,7 +182,7 @@ class ObservableCalculator:
         return np.array(measurements)
 
 
-    def _timepoint_reduction(self, time: np.array) -> np.array:
+    def timepoint_reduction(self, time: np.array) -> np.array:
         """Reduce the number of timepoints in the simulation results. to match
             the number of timepoints in the experimental data.
 
@@ -225,7 +225,7 @@ class ObservableCalculator:
             return observable_answer
 
         # Find the minimum number of timepoints in the measurement data
-        min_timepoint_idx = self._timepoint_reduction(time)
+        min_timepoint_idx = self.timepoint_reduction(time)
 
         # Now find the indices of the filtered_toutS in toutS (if needed)
         timepoint_indices = np.where(np.isin(time, min_timepoint_idx))

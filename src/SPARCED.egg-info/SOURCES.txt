@@ -31,6 +31,7 @@ src/simulation/utils/initial_conditions.py
 src/simulation/utils/output.py
 src/utils/__init__.py
 src/utils/arguments.py
+src/utils/combine_results.py
 src/utils/data_handling.py
 src/utils/petab_file_loader.py
 src/utils/sanitize.py
@@ -52,5 +53,8 @@ src/validation/visualization/visualization.py
 src/visualization/__init__.py
 src/visualization/launchers.py
 src/visualization/visualizer.py
+src/visualization/curations/TRAIL-Time-To-Death.py
+src/visualization/curations/p53-dynamics.py
+src/visualization/curations/proliferation-and-growth.py
 src/visualization/curations/stochastic-expression.py
 src/visualization/modules/cell_death_metrics.py
