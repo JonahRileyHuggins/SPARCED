@@ -30,6 +30,10 @@ The model_specifications.tsv file is a SPARCED-specific file needed for specifyi
 * `heterogenize` [NUMERIC OR STRING, OPTIONAL]
   Time length for simulated cells to be ran in a serum starved state to enable diversity among initial conditions between stochastic cells. in the time unit specified in the SBML model.
 
+#### Note On Scientific Notation in Observable Formulas
+
+Given that species can have arbitrary names, we insist on using explict exponential notation for observable formulas rather than scientific notation. As one could imagine, its rather hard to separate the species 'E' from species 'Cd' if scientific notation is used (e.g. 'CdE-9' wouldn't be interpreted as "Cd times ten to the negative ninth power", but "Cd * E - 9").
+
 ## Usage
 
 To validate a single model benchmark (i.e. 'Stochastic Expression'), users pass the coresponding yaml file path to the benchmarking operation script. For simplicity, the names of each benchmark have been also used as the names for each yaml file. To operate, simply iterate the following command (CLI) within the SPARCED/benchmarks directory:

@@ -68,9 +68,12 @@ The following table summarizes standard prefixes for species modifiers:
    * - `g`
      - Glycosylation
      - `gN100_EGFR`
-   * - `c`
+   * - `cys`
      - Cysteinylation
      - `cC100_EGFR`
+   * - `cl`
+     - Cleavage
+     - `cl_CASP3`
    * - `i`
      - Inactivated state
      - `i_Cdk4`

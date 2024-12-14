@@ -20,6 +20,11 @@ From: ubuntu:22.04
     # Update and install basic dependencies
     apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
+        libssl-dev \
+        libmunge-dev \
+        libmunge2 \
+        munge \
+        munge-tools \
         bash \
         curl \
         git \
@@ -92,6 +97,7 @@ From: ubuntu:22.04
 
 %environment
     # Set up runtime environment variables
+    export PMIX_MCA_psec=^munge
     export PATH=/root/.local/bin:$PATH
     export BLAS_LIBS=-lopenblas
     export LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
