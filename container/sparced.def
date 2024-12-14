@@ -24,7 +24,6 @@ From: ubuntu:22.04
         libmunge-dev \
         libmunge2 \
         munge \
-        munge-tools \
         bash \
         curl \
         git \

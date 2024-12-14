@@ -18,11 +18,14 @@ import os
 from utils.arguments import parse_args
 from typing import List
 from validation.simulation.run_benchmark import RunBenchmark
-
+import mpi4py.MPI as MPI
 
 # Parse the arguements
 args = parse_args()
 
+# Load the MPI communicator
+communicator = MPI.COMM_WORLD
+rank = communicator.Get_rank()
 
 # -----------------------Function to Run All Benchmarks-------------------------#
 def launch_validation() -> None:
@@ -83,7 +86,8 @@ def run_single_benchmark(benchmark: str) -> None:
                                        directory and try again."
 
     # Run the benchmark
-    print(f"Running benchmark {os.path.basename(benchmark)}")
+    if rank == 0:
+        print(f"Running benchmark {os.path.basename(benchmark)}")
     rb = RunBenchmark(benchmark)
     rb.run()
     rb.observable_calculation()
