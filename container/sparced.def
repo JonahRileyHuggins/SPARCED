@@ -2,7 +2,8 @@ Bootstrap: docker
 From: ubuntu:22.04
 
 %files
-    /home/jonah/SPARCED /SPARCED
+    ### Change to user directory version of SPARCED
+    /path/to/SPARCED /SPARCED
 
 %post
 
@@ -53,8 +54,12 @@ From: ubuntu:22.04
     # Installing packages for OpenMPI
     echo "Installing Open MPI"
     export OMPI_DIR=/opt/ompi
-    export OMPI_VERSION=4.0.1
-    export OMPI_URL="https://download.open-mpi.org/release/open-mpi/v4.0/openmpi-$OMPI_VERSION.tar.bz2"
+    ### Inspect host MPI version and change line 57
+    export OMPI_VERSION=5.0.1
+    # Using string manipulation
+    export VAR_VERSION="${OMPI_VERSION%.*}"  # Remove everything after the last dot
+
+    export OMPI_URL="https://download.open-mpi.org/release/open-mpi/v$VAR_VERSION/openmpi-$OMPI_VERSION.tar.bz2"
     mkdir -p /tmp/ompi
     mkdir -p /opt
     # Download
