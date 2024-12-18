@@ -65,7 +65,7 @@ class ObservableCalculator:
                 observable_dict[entry][f"simulation {observableId}"] = observable_array
 
             # reduce timepoints in the simulation to only experimental match
-            observable_dict[entry]["time"] = self._timepoint_reduction(
+            observable_dict[entry]["time"] = self.timepoint_reduction(
                 self.results_dict[entry]["time"]
                 )
 

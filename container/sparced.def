@@ -26,16 +26,10 @@ From: ubuntu:22.04
         libmunge2 \
         munge \
         bash \
-        curl \
-        git \
         wget \
         python3-pip \
         python3-venv \
         python3-dev \
-        rsync \
-        openmpi-bin \
-        openmpi-common \
-        libopenmpi-dev \
         libopenblas-dev \
         gcc \
         g++ \
