@@ -61,25 +61,20 @@ class ObservableCalculator:
                     observableId, entry
                 )
 
+                # add any potential experimental data to the observable_dict
+                experimental_data = self.extract_experimental_data(
+                    observableId, self.results_dict[entry]["conditionId"]
+                )
+
                 # add the observable to the observable_arrays dictionary
                 observable_dict[entry][f"simulation {observableId}"] = observable_array
+
+                observable_dict[entry][f"experiment {observableId}"] = experimental_data
 
             # reduce timepoints in the simulation to only experimental match
             observable_dict[entry]["time"] = self.timepoint_reduction(
                 self.results_dict[entry]["time"]
                 )
-
-            # add the observable values to the results_dict if the
-            # observable is associated with the conditionId in the measurement_df
-            grouped_identifiers = self.measurement_df.groupby(
-                ["simulationConditionId", "observableId"]
-            )
-
-            for (cond_id, obs_id), group in grouped_identifiers:
-                if cond_id == self.results_dict[entry]["conditionId"]:
-                    observable_dict[entry][f"experiment {obs_id}"] = (
-                        self._add_experimental_data(cond_id, obs_id)
-                    )
 
         return observable_dict
 
@@ -132,54 +127,6 @@ class ObservableCalculator:
         except AssertionError as e:
             print(e)
             pass
-
-
-    def _add_experimental_data(self, conditionId: str, observableId: str) -> np.array:
-        """
-        Returns a dictionary of experimental data for each observable and condition,
-        matching simulation results dictionary format.
-
-        Parameters:
-        - entry str: String of the identifier for a particular simulation \
-                     result for a single condition.
-
-        Returns:
-        - entry (tuple): Modified results_dict entry containing the simulation \
-                         results and experimental data.
-        """
-
-        if "preequilibrationConditionId" in self.measurement_df.columns:
-
-            # Account for the preequilibration condition
-            preequilibration_condition = self.measurement_df.loc[
-                self.measurement_df["simulationConditionId"]
-                == self.measurement_df["preequilibrationConditionId"]
-            ]
-
-            if not preequilibration_condition.empty:
-                non_preequilibration_df = self.measurement_df.drop(
-                    preequilibration_condition.index
-                )
-
-            else:
-                non_preequilibration_df = self.measurement_df
-
-        else:
-            non_preequilibration_df = self.measurement_df
-
-        # look for experimental data in the measurements file by exculding all
-        #  NaN values in measurement_df['measurement']
-        if self.measurement_df["measurement"].isna().all():
-            print("No experimental data to compare to")
-            return self.results_dict
-
-        # match the experimental data to the simulation results
-        measurements = self.measurement_df["measurement"][
-            (self.measurement_df["simulationConditionId"] == conditionId)
-            & (self.measurement_df["observableId"] == observableId)
-        ]
-
-        return np.array(measurements)
 
 
     def timepoint_reduction(self, time: np.array) -> np.array:
@@ -235,6 +182,7 @@ class ObservableCalculator:
 
         return observable_answer
 
+
     def swap_species_for_array(self, dict_entry: str, species_i: str, 
                             observable_formula: str) -> str:
         """
@@ -288,6 +236,39 @@ class ObservableCalculator:
             raise
 
 
+    def extract_experimental_data(self, observableId: str, conditionId: str):
+        """
+        Extract experimental data for a given observable and condition from the measurement dataframe.
+
+        Parameters:
+        - observableId (str): The observable identifier.
+        - conditionId (str): The condition identifier.
+
+        Returns:
+        - np.array: The experimental data for the given observable and condition.
+        """
+        try:
+            # Filter the measurement dataframe for the given observable and condition
+            filtered_df = self.measurement_df[
+                (self.measurement_df["observableId"] == observableId) &
+                (self.measurement_df["simulationConditionId"] == conditionId)
+            ].dropna(subset=["measurement"]).sort_values("time")
+
+                # Extract the experimental data
+            if filtered_df.empty:
+                print(f"No data found for observableId '{observableId}' and conditionId '{conditionId}'.")
+                return np.array([])
+
+            # Extract the experimental data
+            experimental_data = filtered_df["measurement"].to_numpy()
+
+            return experimental_data
+
+        except Exception as e:
+            print(f"Error in extract_experimental_data: {e}")
+            return np.array([])
+
+
 def get_valid_species(observable_formula: str) -> List[str]:
     """
     Extract valid species identifiers from an observable formula based on PEtab naming conventions.
@@ -320,3 +301,5 @@ def get_valid_species(observable_formula: str) -> List[str]:
     except Exception as e:
         print(f"Error in get_valid_species: {e}")
         return []
+
+
