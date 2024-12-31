@@ -1,0 +1,19 @@
+compilation:
+    root: "model"
+    compartments: "Compartments.tsv"
+    observables: "None"
+    ratelaws: "Ratelaws.tsv"
+    species: "Species.tsv"
+    stoicmat: "StoicMat.tsv"
+simulation:
+    root: "simulation"
+    omics:
+    genereg:
+    perturbations:
+        root: "perturbations"
+        default: "default.txt"
+    incubation:
+        root: "perturbations"
+        default: "default.txt"
+        duration: 60.0
+

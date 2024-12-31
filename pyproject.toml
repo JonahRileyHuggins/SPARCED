@@ -1,0 +1,52 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "SPARCED"
+version = "2.0"
+description = "A simple and efficient pipeline for constructing, merging, expanding and simulating large-scale, single-cell mechanistic models."
+authors = [
+    { name = "Cemal Erdem", email = "Cemal.erdem@umu.se" },
+    { name = "Aurore Amrit", email = "aurore.amrit@umu.se" },
+    { name = "Jonah Huggins", email = "JonahRileyHuggins@gmail.com" },
+    { name = "Arnab Mutsuddy", email = "Arnab.mutsuddy@gmail.com" },
+    { name = "Marc Birtwistle", email = "marc.birtwistle@gmail.com" }
+]
+license = {text = "GPL-2.0"}
+dependencies = [
+    "h5py==3.11",
+    "numpy==1.26.0",
+    "scipy==1.12.0",
+    "sympy==1.12",
+    "pandas==2.2.1",
+    "matplotlib==3.8.0",
+    "python-libsbml==5.18.0",
+    "swig==4.0.0",
+    "amici==0.11.12",
+    "antimony==2.12.0.1",
+    "pyyaml==6.0.1",
+    "mpi4py==3.1.6",
+    "phrasedml==1.3.0",
+    "lxml==5.3.0"
+]
+requires-python = ">=3.10"
+keywords = ["mechanistic modeling", "single-cell models", "simulation", "systems biology"]
+
+readme = {file = "README.md", content-type = "text/markdown"}
+
+[project.urls]
+Homepage = "https://github.com/JonahRileyHuggins/SPARCED/"
+Repository = "https://github.com/JonahRileyHuggins/SPARCED"
+
+[project.scripts]
+sparced = "cli.cli:main"
+
+[tool.setuptools]
+# Specify the src directory as a package
+packages = { find = { where = ["src"] } }
+
+[tool.setuptools.package-data]
+"src" = ["**/*.yaml", "**/*.json", "**/*.ini"]
+[tool.setuptools.exclude-package-data]
+"*" = ["*.tmp", "*.log"]
