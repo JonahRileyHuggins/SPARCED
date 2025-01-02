@@ -36,7 +36,6 @@
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" value="0.001" constant="true"/>
-      <parameter id="k2" value="0.001" constant="true"/>
     </listOfParameters>
     <listOfReactions>
       <reaction id="v1" reversible="false" fast="false">
@@ -54,26 +53,7 @@
               <ci> k1 </ci>
               <ci> L </ci>
               <ci> R </ci>
-              <cn type="integer"> 1 </cn>
-            </apply>
-          </math>
-        </kineticLaw>
-      </reaction>
-      <reaction id="v2" reversible="false" fast="false">
-        <listOfReactants>
-          <speciesReference species="LR" stoichiometry="1" constant="true"/>
-        </listOfReactants>
-        <listOfProducts>
-          <speciesReference species="L" stoichiometry="1" constant="true"/>
-          <speciesReference species="R" stoichiometry="1" constant="true"/>
-        </listOfProducts>
-        <kineticLaw>
-          <math xmlns="http://www.w3.org/1998/Math/MathML">
-            <apply>
-              <times/>
-              <ci> k2 </ci>
-              <ci> LR </ci>
-              <cn type="integer"> 1 </cn>
+              <ci> Cytoplasm </ci>
             </apply>
           </math>
         </kineticLaw>

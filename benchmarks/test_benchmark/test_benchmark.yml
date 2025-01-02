@@ -1,5 +1,5 @@
 format_version: 1 
-parameter_file: ../../models/Basic_model/out_Parameters.txt
+parameter_file: ../../SPARCED/models/Basic_model/data/model/output_parameters.txt
 problems: 
   - condition_files: 
     - conditions.tsv
@@ -8,6 +8,6 @@ problems:
     observable_files:
     - observables.tsv
     sbml_files:
-    - ../../models/Basic_model/sbml_Basic_model.xml
+    - ../../SPARCED/models/Basic_model/sbml_Basic_model.xml
     visualization_files:
     - visualizations.tsv

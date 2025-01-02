@@ -1,0 +1,32 @@
+# Erdem et al., Nat Commun 2022
+model Basic_model()
+
+# Compartments:
+Compartment Cytoplasm; 
+# Species:
+Species L in Cytoplasm;
+Species R in Cytoplasm;
+Species LR in Cytoplasm;
+
+# Reactions:
+v1: L + R => LR; (k1*L*R)*Cytoplasm;
+
+# Compartments initialization:
+Cytoplasm = 1.000000e+00;
+Cytoplasm has volume;
+
+# Species initialization:
+L = 0.000000e+00;
+R = 1.000000e+02;
+LR = 0.000000e+00;
+
+# Parameters initialization:
+ k1 = 1.000000e-03;
+
+# Unit definitions:
+  unit time_unit = second;
+  unit volume = litre;
+  unit substance = 1e-9 mole;
+  unit nM = 1e-9 mole / litre;
+
+end

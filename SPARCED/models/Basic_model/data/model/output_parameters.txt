@@ -1,3 +1,2 @@
 	value	rxn	idx
 k1	0.001	v1	0
-k2	0.001	v2	0

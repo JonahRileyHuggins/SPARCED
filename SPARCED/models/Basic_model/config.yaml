@@ -1,19 +1,30 @@
+# SPARCED Standard
+# Last update: 2025-01-02
+
+
+# General infos
+name: "Basic_model"
+header: "test model and benchmark for quickly assessing validation pipeline"
+location: "data"
+
+# Compilation
 compilation:
-    root: "model"
-    compartments: "Compartments.tsv"
-    observables: "None"
-    ratelaws: "Ratelaws.tsv"
-    species: "Species.tsv"
-    stoicmat: "StoicMat.tsv"
+    directory: "model"
+    files:
+      compartments: "Compartments.tsv"
+      output_parameters: "output_parameters.txt"  # This file is generated upon compilation
+      ratelaws: "Ratelaws.tsv"
+      species: "Species.tsv"
+
+# Simulation
 simulation:
-    root: "simulation"
-    omics:
-    genereg:
-    perturbations:
-        root: "perturbations"
-        default: "default.txt"
-    incubation:
-        root: "perturbations"
-        default: "default.txt"
-        duration: 60.0
+    directory: "simulation"    
+    files:
+      genes_regulation:
+      omics:
+
+# Experiment
+experiments:
+    directory: "experiments"
+    name: "experiment_1"  # Optional
 
