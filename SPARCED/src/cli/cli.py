@@ -14,7 +14,6 @@ The script is executed by running the following command in the terminal:
     $ SPARCED compile
     $ SPARCED simulate
     $ SPARCED validate
-    $ SPARCED visualize
     $ SPARCED -h
 """
 
@@ -43,13 +42,6 @@ def benchmark_model(args):
     from src.validation.launchers import launch_validation
     launch_validation() # Process parsed arguments and launch validation
 
-def visualize_data(args):
-    """Handle the visualize subcommand. Script to automate model-data comparisons, \
-    'benchmarks'. 
-    """
-    from src.visualization.launchers import launch_visualizer
-    launch_visualizer() # Process parsed arguments and launch visualization
-
 def main():
     """Main entry point."""
     args = parse_args()
@@ -60,8 +52,6 @@ def main():
         simulate_model(args)
     elif args.command == "validate":
         benchmark_model(args)
-    elif args.command == "visualize":
-        visualize_data(args)
     else:
         print("No valid command provided. Use --help for guidance.")
 

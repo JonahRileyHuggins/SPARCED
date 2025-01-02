@@ -35,7 +35,7 @@ def parse_args():
                               hard-coded values/behaviors")
 
     # Define subcommands
-    subparsers = parser.add_subparsers(dest="command", help="Subcommands: compile, simulate, validate, visualize")
+    subparsers = parser.add_subparsers(dest="command", help="Subcommands: compile, simulate, validate")
 
     # Compile subcommand
     compile_parser = subparsers.add_parser("compile", 
