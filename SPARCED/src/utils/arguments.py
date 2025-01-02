@@ -92,19 +92,4 @@ def parse_args():
                         help="only the observable in observables.tsv is calculated (1) \
                               or if the entire simulation is saved (0)")
 
-    # Visualize subcommand
-    visualize_parser = subparsers.add_parser("visualize",
-                                             parents=[shared_parser],
-                                             help="Visualize a dataset.")
-    #-- Lowercase
-    visualize_parser.add_argument('-o', '--output', default=None,
-                                    help="output path to save the visualization")
-    # visualize_parser.add_argument('-y', '--yaml_path', default=None,
-    #                                 help="path to the yaml file containing the visualization PEtab\
-    #                                 file")
-    visualize_parser.add_argument('-f', '--from_script', default=None,
-                                    help="flag to indicate that the visualization is being run from a custom script")
-    visualize_parser.add_argument('--catchall', '-c', type=str,
-                                    help="A JSON string containing additional arguments to pass to the custom script.")
-
     return(parser.parse_args())
