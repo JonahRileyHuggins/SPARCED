@@ -6,3 +6,4 @@ pandas==2.2.1
 python-libsbml==5.18.0
 pyYAML==6.0.1
 scipy==1.12.0
+petab==0.3.0

@@ -25,6 +25,7 @@ dependencies = [
     "swig==4.0.0",
     "amici==0.11.12",
     "antimony==2.12.0.1",
+    "petab==0.3.0",
     "pyyaml==6.0.1",
     "mpi4py==3.1.6",
     "phrasedml==1.3.0",
@@ -40,11 +41,11 @@ Homepage = "https://github.com/JonahRileyHuggins/SPARCED/"
 Repository = "https://github.com/JonahRileyHuggins/SPARCED"
 
 [project.scripts]
-sparced = "cli.cli:main"
+sparced = "src.cli.cli:main"
 
 [tool.setuptools]
 # Specify the src directory as a package
-packages = { find = { where = ["src"] } }
+packages = { find = { where = ["SPARCED"] } }
 
 [tool.setuptools.package-data]
 "src" = ["**/*.yaml", "**/*.json", "**/*.ini"]

@@ -2,7 +2,7 @@ import os
 import sys
 import yaml
 import pandas as pd
-from validation.simulation.utils import Utils as utils
+from src.validation.simulation.utils import Utils as utils
 
 class PEtabRules:
     """PEtab rules for the conditions, measurement, observable, and visualization dataframes

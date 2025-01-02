@@ -5,8 +5,8 @@
 # Feel free to copy it to modify the behavior and run your own
 # experiments.
 
-from compilation.compilation import create_and_compile_model
-from simulation.experiment import run_experiment
+from src.compilation.compilation import create_and_compile_model
+from src.simulation.experiment import run_experiment
 
 # 1. Compile the model
 # You may also want to comment this section out and run a model that was
