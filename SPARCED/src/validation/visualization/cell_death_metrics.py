@@ -39,7 +39,7 @@ class CellDeathMetrics:
             time_of_death[entry]['value'] = []
 
             # Definition point for a dead cell
-            dead_simulation = np.array(self.data[entry]['toutS']\
+            dead_simulation = np.array(self.data[entry]['time']\
                                         [self.data[entry][f'{self.observable_name}'] > 100.0])
             
             if dead_simulation.size > 0:

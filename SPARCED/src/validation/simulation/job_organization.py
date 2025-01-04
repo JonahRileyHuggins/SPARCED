@@ -12,7 +12,9 @@ Output: MPI tasks for each rank, MPI task assignment, and MPI results aggregatio
 
 """
 # -----------------------Package Import & Defined Arguements-------------------#
+import sys
 import numpy
+import importlib
 import pandas as pd
 import mpi4py.MPI as MPI
 from src.utils.petab_file_loader import PEtabFileLoader
@@ -105,6 +107,52 @@ def broadcast_petab_files(
         parameters_df,
         visualization_df,
     )
+
+def broadcast_simulation_files(sbml_file: str, communicator: MPI.Comm, rank: int) -> tuple:
+    """
+    Broadcasts the simulation files to all ranks.
+
+    Parameters:
+        sbml_file (str): The path to the SBML file.
+        communicator (MPI.Comm): The MPI communicator.
+        rank (int): The rank of the MPI process.
+
+    Returns:
+        tuple: The gene regulation and omics data as pandas DataFrames.
+    """
+    simulation_files = None
+
+    try:
+        if rank == 0:
+            # Extract simulation files on rank 0
+            genereg, omicsdata = Utils._extract_simulation_files(sbml_file)
+
+            # Package data for broadcasting
+            simulation_files = {
+                "genereg": genereg,
+                "omicsdata": omicsdata
+            }
+
+        # Broadcast simulation files from rank 0 to all ranks
+        simulation_files = communicator.bcast(simulation_files, root=0)
+
+        # Extract data from the broadcasted dictionary
+        genereg = simulation_files["genereg"]
+        omicsdata = simulation_files["omicsdata"]
+
+    except Exception as e:
+        # Ensure all ranks print the error and continue as AMICI
+        print(f"Rank {rank}: {e}")
+        print("No gene regulation or omics data files found. Continuing as Generic AMICI model.")
+
+        # Set default values for all ranks
+        genereg = None
+        omicsdata = None
+
+        # Ensure all ranks participate in the broadcast
+        simulation_files = communicator.bcast({"genereg": genereg, "omicsdata": omicsdata}, root=0)
+
+    return genereg, omicsdata
 
 def task_organization(
     rank: int,

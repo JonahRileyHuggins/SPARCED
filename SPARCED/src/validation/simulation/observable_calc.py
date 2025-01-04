@@ -93,40 +93,31 @@ class ObservableCalculator:
         Returns:
         - observable_array(np.array): Array containing the observable values.
         """
-        try:
-            assert (
-                observable in self.observable_df["observableId"].values,
-                f"{observable} is not in the observable dataframe",
+
+        # replace species name strings in the observable_formula with the
+        # corresponding species index in the results_dict
+        observable_formula = self.observable_df["observableFormula"][
+            self.observable_df["observableId"] == observable
+        ]
+
+        observable_formula = observable_formula.iloc[0]
+
+        # Search the observable formula for species names
+        species = get_valid_species(observable_formula)
+
+        for species_i in species:
+
+            observable_formula = self.swap_species_for_array(
+                entry, species_i, observable_formula
             )
 
-            # replace species name strings in the observable_formula with the
-            # corresponding species index in the results_dict
-            observable_formula = self.observable_df["observableFormula"][
-                self.observable_df["observableId"] == observable
-            ]
+        observable_answer = eval(observable_formula)
 
-            observable_formula = observable_formula.iloc[0]
+        time = self.results_dict[entry]["time"]
 
-            # Search the observable formula for species names
-            species = get_valid_species(observable_formula)
+        observable_answer = self.data_reduction(observable_answer, time)
 
-            for species_i in species:
-
-                observable_formula = self.swap_species_for_array(
-                    entry, species_i, observable_formula
-                )
-
-            observable_answer = eval(observable_formula)
-
-            time = self.results_dict[entry]["time"]
-
-            observable_answer = self.data_reduction(observable_answer, time)
-
-            return observable_answer
-
-        except AssertionError as e:
-            print(e)
-            pass
+        return observable_answer
 
 
     def timepoint_reduction(self, time: np.array) -> np.array:
@@ -146,14 +137,14 @@ class ObservableCalculator:
 
         unique_timepoints = self.measurement_df["time"].unique()
 
-        reduced_toutS = []
+        reduced_timepoints = []
 
         for t in unique_timepoints:
             closest_idx = np.argmin(np.abs(time - t))
-            reduced_toutS.append(time[closest_idx])
+            reduced_timepoints.append(time[closest_idx])
 
         # Convert to np.array and remove duplicates if any
-        return np.unique(np.array(reduced_toutS))
+        return np.unique(np.array(reduced_timepoints))
 
 
     def data_reduction(self, observable_answer: np.array, time: np.array) -> np.array:

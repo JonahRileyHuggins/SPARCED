@@ -81,9 +81,12 @@ class RunBenchmark:
         self.visualization_df) = org.broadcast_petab_files(
             self.rank, self.communicator, self.yaml_file
         )
-
-        # Pause placement to ensure all ranks receive the broadcasted files:
+        # Pause to allow for the broadcast to complete
         self.communicator.Barrier()
+
+        (self.f_genereg, self.f_omics) = org.broadcast_simulation_files(self.sbml_file, self.communicator, self.rank)
+        self.communicator.Barrier()
+
         # Catalogue each rank's list of tasks at root (rank 0)
         if self.rank == 0:
 
@@ -142,7 +145,9 @@ class RunBenchmark:
                 conditions_df=self.conditions_df,
                 measurement_df=self.measurement_df,
                 parameters_df=self.parameters_df,
-                sbml_file=self.sbml_file
+                sbml_file=self.sbml_file,
+                f_omics=self.f_omics,
+                f_genereg=self.f_genereg
             )
 
             results = simulator.run(condition)

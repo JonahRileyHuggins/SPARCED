@@ -24,6 +24,7 @@ import libsbml
 import importlib
 import numpy as np
 import pandas as pd
+import mpi4py
 
 from src.validation.simulation.utils import Utils as utils
 from src.utils.combine_results import combine_results
@@ -37,6 +38,8 @@ class Simulator:
         measurement_df: pd.DataFrame,
         parameters_df: pd.DataFrame,
         sbml_file: str,
+        f_omics: pd.DataFrame,
+        f_genereg: pd.DataFrame
     ):
         """This class is designed to simulate the experimental replicate model.
         input:
@@ -53,10 +56,11 @@ class Simulator:
         self.measurement_df = measurement_df
         self.parameters_df = parameters_df
         self.sbml_file = sbml_file
+        self.f_omics = f_omics
+        self.f_genereg = f_genereg
 
         # Load the SPARCED model
-        self.model, self.f_genereg, self.f_omics = self.load_sparced_model()
-
+        self.model = self.load_sparced_model()
 
     def run(self, condition: pd.Series) -> tuple:
         """
@@ -234,6 +238,7 @@ class Simulator:
                 self.model = utils._set_species_value(
                     self.model, perturbant, condition[perturbant]
                 )
+                break
             except:
                 pass
 
@@ -241,6 +246,7 @@ class Simulator:
                 self.model = utils._set_parameter_value(
                     self.model, perturbant, condition[perturbant]
                 )
+                break
             except:
                 pass
 
@@ -248,6 +254,7 @@ class Simulator:
                 self.model = utils._set_compartmental_volume(
                     self.model, perturbant, condition[perturbant]
                 )
+                break
             except:
                 pass
 
@@ -258,6 +265,7 @@ class Simulator:
                     gene=perturbant,
                     value=condition[perturbant],
                 )
+                break
             except:
                 pass
                 
@@ -311,21 +319,12 @@ class Simulator:
 
         Returns:
         - model (libsbml.Model): The SBML model
-        - genereg (pandas.DataFrame): The gene regulation pandas DataFrame
-        - omicsdata (pandas.DataFrame): The OmicsData pandas DataFrame
         """
         # Create an instance of the AMICI model.
         sys.path.append(self.sbml_file)
 
         # try:
         utils._add_amici_path(self.sbml_file)
-
-        # except:
-        #     # If amici model not found at the SBML file path, call the compilation-from SBML function
-        #     from compilation.create_model import create_model
-        #     # TODO: Fix this function to actually compile the model
-        #     # at the SBML file path.
-        #     create_model(self.sbml_file, self.sbml_file, {}, "parameters", False)
 
         sparced = utils._swig_interface_path(self.sbml_file)
         sys.path.append(sparced)
@@ -334,15 +333,4 @@ class Simulator:
         solver = model.getSolver()
         solver.setMaxSteps = 1e10
 
-        # Gene regulation and OmicsData files are used for stochastic gene
-        # expression.
-        try: # If this is a true SPARCED model, we should have these files
-            genereg, omicsdata = utils._extract_simulation_files(self.sbml_file)
-        
-        except Exception as e:
-            print(e)
-            print("This is not a SPARCED model. No gene regulation or omics data files found.")
-            genereg = None
-            omicsdata = None
-
-        return model, genereg, omicsdata
+        return model
