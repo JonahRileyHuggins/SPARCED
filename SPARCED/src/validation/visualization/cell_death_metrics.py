@@ -70,8 +70,8 @@ class CellDeathMetrics:
         condition_averaged_times = {}
 
         for entry in time_of_death:
-            condition = entry['conditionId']
-            time = entry['value']
+            condition = time_of_death[entry]['conditionId']
+            time = time_of_death[entry]['value']
             if condition not in condition_averaged_times:
                 condition_averaged_times[condition] = []
             
