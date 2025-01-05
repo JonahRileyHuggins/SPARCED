@@ -131,3 +131,37 @@ class CellDeathMetrics:
         return alive_ratio 
     
 
+
+class CellPopMetrics:
+    """
+    This class is designed to enable easy access and organization of cell population metrics
+    for the SPARCED model. It takes in a dictionary of loaded pickle results and creates a registry.
+    """
+    def __init__(self, data: dict):
+        """
+        Initializes the CellPopMetrics instance and creates a registry
+        of condition-matched cells.
+
+        Parameters:
+        - data (dict): Dictionary of loaded pickle results.
+        """
+        self.registry = {}
+        
+        for simulation in data:
+            # Gather the condition identifier and cell #
+            condition_id = data[simulation]['conditionId']
+
+            # Add the simulation to the appropriate list in the registry
+            self.registry.setdefault(condition_id, []).append(simulation)
+
+    def get_registry(self) -> dict:
+        """
+        Returns the registry of condition-matched cells.
+
+        Returns:
+        - dict: The registry with conditions as keys and lists of simulations as values.
+        """
+        return self.registry
+
+        
+
