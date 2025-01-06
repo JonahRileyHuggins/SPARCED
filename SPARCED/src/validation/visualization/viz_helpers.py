@@ -1,22 +1,47 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-script name: cell_death_metrics.py
-Created on April 24 18:00:00 2024
+script name: viz_helpers.py
+Created on Jan. 5th, 2025
 Author: Jonah R. Huggins
 
 Description: This script is designed as a helper script to visualizations
-             for population dynamics in the SPARCED model.
-
-Output: Metrics used for calculating the death of cells in the simulation
-
+             for various datasets in the SPARCED model.
 """
+
 #-----------------------Package Import & Defined Arguements-------------------#
 
 import numpy as np
+import pickle
 from typing import Optional
 
+#-----------------------Class Definitions-------------------------------------#
+
+class Helpers:
+    """
+    This class is designed to enable easy access and organization of various\
+     SPARCED model visualizations.
+    """
+    @staticmethod
+    def load_data(file_path):
+        """Load the pickle data from the specified file."""
+        with open(file_path, 'rb') as f:
+            return pickle.load(f)
+    
+    @staticmethod
+    def process_value(value):
+        """Ensure the value is numeric, extracting from a list if necessary."""
+        if isinstance(value, list):
+            if len(value) == 1:
+                return value[0]
+            raise ValueError("Expected a single-item list, but got multiple items.")
+        return value
+
+
 class CellDeathMetrics:
+    """
+    Functions for calculating SPARCED cell population death metrics
+    """
     def __init__(self, data, observable_name):
         """ This is extended functionality for the observable calculator class. 
         It is designed to calculate different death point metrics for each cell in the simulation results.
@@ -41,12 +66,11 @@ class CellDeathMetrics:
             # Definition point for a dead cell
             dead_simulation = np.array(self.data[entry]['time']\
                                         [self.data[entry][f'{self.observable_name}'] > 100.0])
-            
+
             if dead_simulation.size > 0:
                 dead_simulation_times = dead_simulation[0] # Grabs first instance of dead cell
                 # sends the time of death to the value list.
                 time_of_death[entry]['value'].extend(dead_simulation_times.flatten().tolist())
-                
 
             else:
                 time_of_death[entry]['value'].append(np.nan)
@@ -56,9 +80,8 @@ class CellDeathMetrics:
 
         # Final time of death variable contains len(data.keys()) matching entries
         # each with the corresponding conditionId and cell number, as well as the 
-        # time in which they died. 
+        # time in which they died.
         return time_of_death
-    
 
     def average_time_to_death(self):
         """Returns the average time to death for each condition in the results dictionary
@@ -81,7 +104,6 @@ class CellDeathMetrics:
             condition_averaged_times[condition] = np.mean(times)
         
         return condition_averaged_times
-
 
     def death_ratio(self, percent:Optional[bool] = False):
         """ Returns the ratio of dead cells for each condition in the results\
@@ -116,7 +138,6 @@ class CellDeathMetrics:
 
         return dead_cells
     
-    
     def alive_ratio(self, percent:Optional[bool] = False):
         """Returns the ratio of alive cells, should be proceeded by collect_the_dead function
         
@@ -129,7 +150,34 @@ class CellDeathMetrics:
             alive_ratio = [(1 - x) for x in death_ratio.values()]
 
         return alive_ratio 
-    
+
+    @staticmethod
+    def calculate_dead_cells(dead_cells, CELLS_PER_CONDITION):
+        """Calculate the percentage of dead cells at different time points."""
+        dead_cells_24to72 = {}
+        for simulation in dead_cells:
+            condition_id = dead_cells[simulation]['conditionId']
+            value = Helpers.process_value(value=dead_cells[simulation]['value'])
+
+            # Handle NaN values
+            if np.isnan(value):
+                value = 100 * 3600
+
+            # Initialize dictionary if not present
+            if condition_id not in dead_cells_24to72:
+                dead_cells_24to72[condition_id] = {'24': [], '48': [], '72': []}
+
+            # Categorize based on time thresholds
+            for threshold in ['24', '48', '72']:
+                if value <= int(threshold) * 3600:
+                    dead_cells_24to72[condition_id][threshold].append(1)
+
+        # Calculate percentages
+        for condition_id in dead_cells_24to72:
+            for key in dead_cells_24to72[condition_id]:
+                dead_cells_24to72[condition_id][key] = len(dead_cells_24to72[condition_id][key]) / CELLS_PER_CONDITION * 100
+
+        return dead_cells_24to72
 
 
 class CellPopMetrics:
@@ -162,6 +210,3 @@ class CellPopMetrics:
         - dict: The registry with conditions as keys and lists of simulations as values.
         """
         return self.registry
-
-        
-
