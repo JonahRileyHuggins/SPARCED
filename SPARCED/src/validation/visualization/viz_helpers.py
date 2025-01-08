@@ -10,10 +10,11 @@ Description: This script is designed as a helper script to visualizations
 """
 
 #-----------------------Package Import & Defined Arguements-------------------#
-
-import numpy as np
 import pickle
+import numpy as np
 from typing import Optional
+import matplotlib.pyplot as plt
+from matplotlib.gridspec import GridSpec
 
 #-----------------------Class Definitions-------------------------------------#
 
@@ -36,6 +37,31 @@ class Helpers:
                 return value[0]
             raise ValueError("Expected a single-item list, but got multiple items.")
         return value
+    
+    @staticmethod
+    def experiment_to_list(data: dict, key: str):
+        """Convert the experiment data to a list."""
+        return [data[condition][key] for condition in data]
+    
+    @staticmethod
+    def extract_experimental_data(data: dict):
+        """Extract the experimental data from the dictionary."""
+
+        data_dict = {}
+        for simulation in data:
+
+            data_dict[simulation] = {
+                'time': data[simulation]['time'],
+                'conditionId': data[simulation]['conditionId'],
+                'cell': data[simulation]['cell']
+            }
+
+            for key in data[simulation]: 
+
+                if 'experiment ' in key:
+                    data_dict[simulation][key] = data[simulation][key]
+
+        return data_dict
 
 
 class CellDeathMetrics:
@@ -53,7 +79,7 @@ class CellDeathMetrics:
         self.observable_name = observable_name
 
 
-    def time_to_death(self):
+    def time_to_death(self, threshold=100.0):
         """"Returns the time for each simulated cell death for each condition in the results dictionary
         
         output: dictionary containing the times to death for each cell per condition"""
@@ -64,8 +90,7 @@ class CellDeathMetrics:
             time_of_death[entry]['value'] = []
 
             # Definition point for a dead cell
-            dead_simulation = np.array(self.data[entry]['time']\
-                                        [self.data[entry][f'{self.observable_name}'] > 100.0])
+            dead_simulation = np.array(self.data[entry]['time'][self.data[entry][self.observable_name] > threshold])
 
             if dead_simulation.size > 0:
                 dead_simulation_times = dead_simulation[0] # Grabs first instance of dead cell
@@ -82,28 +107,6 @@ class CellDeathMetrics:
         # each with the corresponding conditionId and cell number, as well as the 
         # time in which they died.
         return time_of_death
-
-    def average_time_to_death(self):
-        """Returns the average time to death for each condition in the results dictionary
-        
-        output: dictionary containing the average time to death for each condition"""
-
-        time_of_death = self.time_to_death()
-
-        condition_averaged_times = {}
-
-        for entry in time_of_death:
-            condition = time_of_death[entry]['conditionId']
-            time = time_of_death[entry]['value']
-            if condition not in condition_averaged_times:
-                condition_averaged_times[condition] = []
-            
-            condition_averaged_times[condition].append(time)
-
-        for condition, times in condition_averaged_times.items():
-            condition_averaged_times[condition] = np.mean(times)
-        
-        return condition_averaged_times
 
     def death_ratio(self, percent:Optional[bool] = False):
         """ Returns the ratio of dead cells for each condition in the results\
@@ -179,6 +182,45 @@ class CellDeathMetrics:
 
         return dead_cells_24to72
 
+    @staticmethod
+    def match_calculate_dead_cells_struct(experimental_data: dict):
+        """
+        Takes the experimental data and matches the dictionary format of the calculated dead cells.
+
+        Parameters:
+        - experimental_data (dict): Dictionary containing the experimental data.
+
+        Returns:
+        - dict: Dictionary with the same structure as the calculated dead cells.
+        """
+
+        matched_dict = {}
+        processed_conditions = set()
+
+        for simulation_data in experimental_data.values():
+            condition_id = simulation_data['conditionId']
+
+            # Skip conditions that have already been processed
+            if condition_id in processed_conditions:
+                continue
+
+            # Initialize the nested structure for the new condition
+            matched_dict[condition_id] = {'24': np.nan, '48': np.nan, '72': np.nan}
+
+            for key, value in simulation_data.items():
+                if 'experiment ' in key:
+                    for idx, time_point in enumerate(['24', '48', '72']):
+                        # Only assign if the index is within the length of the value array
+                        if idx < len(value):
+                            matched_dict[condition_id][time_point] = (
+                                value[idx] if value[idx] is not None else np.nan
+                            )
+
+            # Mark the condition as processed
+            processed_conditions.add(condition_id)
+
+        return matched_dict
+
 
 class CellPopMetrics:
     """
@@ -202,6 +244,8 @@ class CellPopMetrics:
             # Add the simulation to the appropriate list in the registry
             self.registry.setdefault(condition_id, []).append(simulation)
 
+        self.data = data
+
     def get_registry(self) -> dict:
         """
         Returns the registry of condition-matched cells.
@@ -210,3 +254,212 @@ class CellPopMetrics:
         - dict: The registry with conditions as keys and lists of simulations as values.
         """
         return self.registry
+    
+    def cells_above_threshold(self, observable: str, threshold: int, experimental_data: Optional[str] = None) -> dict:
+        """ Returns the ratio of cells above a certain threshold for each condition in the results dictionary """
+        threshold_bins = {}
+
+        conds_registry = self.get_registry()
+
+        for simulation in self.data:
+            condition_id = self.data[simulation]['conditionId']
+
+            if condition_id not in threshold_bins:
+                threshold_bins[condition_id] = {}
+                threshold_bins[condition_id]['sim'] = []
+
+            if any(value > threshold for value in self.data[simulation][observable]):
+                threshold_bins[condition_id]['sim'].append(1)
+
+            if experimental_data:
+                threshold_bins[condition_id]['exp'] = self.data[simulation][experimental_data]
+
+
+        for condition_id in threshold_bins:
+            threshold_bins[condition_id]['sim'] = len(threshold_bins[condition_id]['sim']) / len(conds_registry[condition_id])
+
+        return threshold_bins
+
+
+class LeftRightSplit:
+    """
+    functions for splitting datasets into left and right visuals with the gridspec library.
+    """
+    def __init__(self, nrows, ncols, figsize: Optional[tuple] = None, width_ratios:Optional[list] = None):
+        # Create figure and GridSpec layout
+        fig = plt.figure(figsize=figsize)
+        gs = GridSpec(nrows, ncols, figure=fig, width_ratios=width_ratios)
+
+        # Plotting
+        axes_left = [fig.add_subplot(gs[i, 0]) for i in range(nrows)]
+        axes_right = [fig.add_subplot(gs[i, 1]) for i in range(nrows)]
+
+        self.fig = fig
+        self.axes_left = axes_left
+        self.axes_right = axes_right
+        self.gs = gs
+
+    def plot_left(self, data, conds_registry, dependent_var, independent_var, 
+                  colors: Optional[list] = None):
+        """Create the left plots."""
+
+        CONVERT_TO_HOURS = 3600
+
+        for i, condition in enumerate(conds_registry):
+
+            color = colors[i] if colors else None
+
+            for simulation in data:
+                if simulation in conds_registry[condition]:
+                    self.axes_left[i].plot(
+                        data[simulation][dependent_var] / CONVERT_TO_HOURS,
+                        data[simulation][independent_var], 
+                        linewidth=4, color=color
+                    )
+            self.axes_left[i].set_ylim(0, 400)
+            self.axes_left[i].set_xlim(0, 72)
+            self.axes_left[i].set_xticklabels(self.axes_left[i].get_xticks(), fontsize=16, weight='bold')
+            self.axes_left[i].set_yticklabels(self.axes_left[i].get_yticks(), fontsize=16, weight='bold')
+
+    def plot_left_bar(self, data, error_bars=True, x_labels=None, y_range=None, colors=None, CELLS_PER_CONDITION=1):
+        """
+        Generalized function to plot bar charts on given axes.
+
+        Parameters:
+        - axes (list): List of matplotlib axes to plot on.
+        - data (dict): Dictionary where keys are condition IDs and values are data for each bar plot.
+        - x_labels (list, optional): List of labels for the x-axis. If None, use keys from data.
+        - y_range (tuple, optional): Tuple specifying the (min, max) range for the y-axis. Default is None.
+        - colors (list, optional): List of colors for the bars. Default is None.
+        """
+
+        for i, condition_id in enumerate(data):
+            # Extract values ensuring scalars are used
+            values = [data[condition_id][key] if not isinstance(data[condition_id][key], np.ndarray)
+                    else data[condition_id][key].item()
+                    for key in data[condition_id]]
+
+            std_err = None
+            if error_bars:
+
+                std_err = np.array([
+                    np.sqrt(val * (100 - val) / CELLS_PER_CONDITION) 
+                    for val in values
+                ])
+
+            color = colors[i] if colors else None
+
+            self.axes_left[i].bar(data[condition_id].keys(), values, yerr=std_err, color=color)
+
+            # Set y-axis limits if specified
+            if y_range:
+                self.axes_left[i].set_ylim(y_range)
+
+            # Styling the y-tick labels
+            self.axes_left[i].set_yticklabels(self.axes_left[i].get_yticks(), fontsize=16, weight='bold')
+
+            # Custom x-tick labels if provided, else show index labels
+            if x_labels and i == len(self.axes_left) - 1:  # Only set x-tick labels on the last subplot
+                self.axes_left[i].set_xticklabels(x_labels, fontsize=16, weight='bold')
+            elif i < len(self.axes_left) - 1:
+                self.axes_left[i].set_xticks([]) #Hide x-ticks for non-bottom plots
+
+
+
+    def plot_right(self, data, error_bars=True, x_labels=None, y_range=None, colors=None, CELLS_PER_CONDITION=1):
+        """
+        Generalized function to plot bar charts on given axes.
+
+        Parameters:
+        - axes (list): List of matplotlib axes to plot on.
+        - data (dict): Dictionary where keys are condition IDs and values are data for each bar plot.
+        - x_labels (list, optional): List of labels for the x-axis. If None, use keys from data.
+        - y_range (tuple, optional): Tuple specifying the (min, max) range for the y-axis. Default is None.
+        - colors (list, optional): List of colors for the bars. Default is None.
+        """
+
+        for i, condition_id in enumerate(data):
+            # Extract values ensuring scalars are used
+            values = [data[condition_id][key] if not isinstance(data[condition_id][key], np.ndarray)
+                    else data[condition_id][key].item()
+                    for key in data[condition_id]]
+
+            std_err = None
+            if error_bars:  # Plot error bars if provided
+                std_err = np.array([
+                    np.sqrt(val * (100 - val) / CELLS_PER_CONDITION) 
+                    for val in values
+                ])
+
+            color = colors[i] if colors else None
+
+            self.axes_right[i].bar(data[condition_id].keys(), values, yerr=std_err, color=color)
+
+            # Set y-axis limits if specified
+            if y_range:
+                self.axes_right[i].set_ylim(y_range)
+            
+            # Styling the y-tick labels
+            self.axes_right[i].set_yticklabels(self.axes_right[i].get_yticks(), fontsize=16, weight='bold')
+            
+            # Custom x-tick labels if provided, else show index labels
+            if x_labels and i == len(self.axes_right) - 1:  # Only set x-tick labels on the last subplot
+                self.axes_right[i].set_xticklabels(x_labels, fontsize=16, weight='bold')
+            elif i < len(self.axes_right) - 1:
+                self.axes_right[i].set_xticks([])  # Hide x-ticks for non-bottom plots
+
+    def add_text(self, text, x, y, fontsize=16, weight='bold'):
+        """
+        Add text to the specified axes.
+
+        Parameters:
+        - text (str): Text to add to the axes.
+        - x (float): X-coordinate for the text.
+        - y (float): Y-coordinate for the text.
+        - axes (matplotlib.axes.Axes): Axes to add the text to.
+        - fontsize (int, optional): Font size for the text. Default is 16.
+        - weight (str, optional): Font weight for the text. Default is 'bold'.
+
+        Returns:
+        - matplotlib.text.Text: Text object added to the axes.
+        """
+        self.fig.text(x, y, text, fontsize=fontsize, weight=weight)
+
+    def turn_off_axes(self):
+        """Turn off the axes for the figure."""
+        for ax in self.axes_left + self.axes_right:
+            ax.axis('off')
+
+    def disable_axes_labels(self, axes=None, x_axis=False, y_axis=False):
+        """
+        Disables a particular axis label on the specified axes.
+
+        Parameters:
+        - axes (list, optional): List of axes to disable the labels on. Default is None.
+        - x_axis (bool, optional): Whether to disable the x-axis labels. Default is False.
+        - y_axis (bool, optional): Whether to disable the y-axis labels. Default is False.
+
+        Returns:
+        """
+        if axes is None or axes == 'all':
+            axes = self.axes_left + self.axes_right
+
+        elif axes is 'left':
+            axes = self.axes_left
+
+        elif axes is 'right':
+            axes = self.axes_right
+
+        for ax in axes:
+            if x_axis:
+                ax.set_xticklabels([])
+            if y_axis:
+                ax.set_yticklabels([])
+
+    def show(self):
+        """Show the figure."""
+        plt.show()
+
+    def save_plot(self, file_name, dpi=300):
+        """Save the plot to a file."""
+        self.fig.savefig(file_name, dpi=dpi)
