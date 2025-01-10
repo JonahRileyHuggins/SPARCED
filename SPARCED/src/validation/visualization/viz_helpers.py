@@ -108,6 +108,28 @@ class CellDeathMetrics:
         # time in which they died.
         return time_of_death
 
+    def average_time_to_death(self):
+        """Returns the average time to death for each condition in the results dictionary
+        
+        output: dictionary containing the average time to death for each condition"""
+
+        time_of_death = self.time_to_death()
+
+        condition_averaged_times = {}
+
+        for entry in time_of_death:
+            condition = time_of_death[entry]['conditionId']
+            time = time_of_death[entry]['value']
+            if condition not in condition_averaged_times:
+                condition_averaged_times[condition] = []
+            
+            condition_averaged_times[condition].append(time)
+
+        for condition, times in condition_averaged_times.items():
+            condition_averaged_times[condition] = np.mean(times)
+        
+        return condition_averaged_times
+
     def death_ratio(self, percent:Optional[bool] = False):
         """ Returns the ratio of dead cells for each condition in the results\
               dictionary

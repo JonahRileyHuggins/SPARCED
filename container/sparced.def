@@ -48,7 +48,7 @@ From: ubuntu:22.04
     # Installing packages for OpenMPI
     echo "Installing Open MPI"
     export OMPI_DIR=/opt/ompi
-    ### Inspect host MPI version and change line 57
+    ### Inspect host MPI version and change line 52
     export OMPI_VERSION=5.0.1
     # Using string manipulation
     export VAR_VERSION="${OMPI_VERSION%.*}"  # Remove everything after the last dot
