@@ -58,8 +58,8 @@ SPARCED/src/validation/simulation/observable_calc.py
 SPARCED/src/validation/simulation/run_benchmark.py
 SPARCED/src/validation/simulation/single_simulation.py
 SPARCED/src/validation/simulation/utils.py
-SPARCED/src/validation/visualization/cell_death_metrics.py
 SPARCED/src/validation/visualization/visualization.py
+SPARCED/src/validation/visualization/viz_helpers.py
 SPARCED/toolkit/__init__.py
 SPARCED/toolkit/protlig.py
 SPARCED/toolkit/volcalc.py

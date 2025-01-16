@@ -10,6 +10,7 @@ Species LR in Cytoplasm;
 
 # Reactions:
 v1: L + R => LR; (k1*L*R)*Cytoplasm;
+v2: LR => L + R; (k2*LR)*Cytoplasm;
 
 # Compartments initialization:
 Cytoplasm = 1.000000e+00;
@@ -22,6 +23,7 @@ LR = 0.000000e+00;
 
 # Parameters initialization:
  k1 = 1.000000e-03;
+k2 = 1.000000e-03;
 
 # Unit definitions:
   unit time_unit = second;

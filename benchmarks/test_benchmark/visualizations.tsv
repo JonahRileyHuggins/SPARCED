@@ -1,5 +1,7 @@
 plotId	plotName	plotTypeSimulation	datasetId	xValues	xLabel	yValues	yLabel	legendEntry	Color
 plot1	low increase	LinePlot	low experiments	time	Time (hours)	L timecourse	L Concentration (nM)	Low L Sim	red
-plot2	high increase	LinePlot	high experiments	time	Time (hours)	LR timecourse	L Concentration (nM)	High L Sim	red
-plot3	low LR	LinePlot	low experiments	time	Time (hours)	L timecourse	LR Concentration (nM)	Low LR Sim	red
+plot2	high increase	LinePlot	high experiments	time	Time (hours)	L timecourse	L Concentration (nM)	High L Sim	red
+plot3	low LR	LinePlot	low experiments	time	Time (hours)	LR timecourse	LR Concentration (nM)	Low LR Sim	red
 plot4	high LR	LinePlot	high experiments	time	Time (hours)	LR timecourse	LR Concentration (nM)	High LR Sim	red
+plot5	low increase	LinePlot	low experiments	time	Time (hours)	R timecourse	R Concentration (nM)	Low R Sim	red
+plot6	high increase	LinePlot	high experiments	time	Time (hours)	R timecourse	R Concentration (nM)	High R Sim	red

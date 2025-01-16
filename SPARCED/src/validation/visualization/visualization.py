@@ -221,7 +221,7 @@ class Visualizer:
         """
 
         # conditional to check if the experiment data exists
-        if f'experiment {attribute}' in self.results_dict[identifier].keys():
+        if f'experiment {attribute}' in self.results_dict[identifier].keys() and not None:
             plot_info['Exp yValues'] = self.results_dict[identifier][f'experiment {attribute}']
             plot_info['Exp Color'] = 'black'
             plot_info['Exp legendEntry'] = 'experiment'

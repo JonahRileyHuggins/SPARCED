@@ -69,7 +69,8 @@ class ObservableCalculator:
                 # add the observable to the observable_arrays dictionary
                 observable_dict[entry][f"simulation {observableId}"] = observable_array
 
-                observable_dict[entry][f"experiment {observableId}"] = experimental_data
+                if experimental_data is not None:
+                    observable_dict[entry][f"experiment {observableId}"] = experimental_data
 
             # reduce timepoints in the simulation to only experimental match
             observable_dict[entry]["time"] = self.timepoint_reduction(
@@ -246,10 +247,10 @@ class ObservableCalculator:
             ].dropna(subset=["measurement"]).sort_values("time")
 
                 # Extract the experimental data
-            if filtered_df.empty:
+            if filtered_df.empty or filtered_df["measurement"].isna().all():
                 print(f"No experimental data found for observableId '{observableId}'"\
                       f" and conditionId '{conditionId}'.")
-                return np.array([])
+                return None
 
             # Extract the experimental data
             experimental_data = filtered_df["measurement"].to_numpy()
