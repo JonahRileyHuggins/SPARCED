@@ -5,7 +5,7 @@
 # Experiment settings
 name: "Experiment_1-Default"
 stamp: True
-output_directory: "./../results/"
+output_directory: "./SPARCED/results/"
 population_size: 1
 verbose: True
 exchange: 30

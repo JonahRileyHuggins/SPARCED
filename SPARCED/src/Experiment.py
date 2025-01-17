@@ -67,12 +67,9 @@ class Experiment:
             species[p_name] = p_value
         return(species)
 
-    def extract_species_initial_conditions(self, species: dict[str, float]
-                                            ) -> np.ndarray:
-        initial_conditions = []
-        for value in species.values():
-            initial_conditions.append(value)
-        return(initial_conditions)
+    def extract_species_initial_conditions(self, species: dict[str, float]) -> np.ndarray:
+        initial_conditions = np.array(list(species.values()), dtype=np.float64)
+        return initial_conditions
 
     def load_model_module(self, model_name, amici_path, verbose):
         sys.path.insert(0, os.path.abspath(amici_path))

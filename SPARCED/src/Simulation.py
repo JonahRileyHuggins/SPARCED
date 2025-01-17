@@ -9,7 +9,7 @@ import pandas as pd
 
 import src.constants as const
 
-from src.simulation.RunSPARCED import RunSPARCED
+from src.simulation.RunSPARCED import RunSPARCED, RunAMICI
 from src.utils.combine_results import combine_results
 from src.utils.files_handling import *
 
@@ -33,16 +33,22 @@ class Simulation:
 
         # TODO: handle the case when no simulation files are provided
         # TODO: pass content of those simulation files, we could load this only once
-        genes_file = pd.read_csv(simulation_files[const.YAML_GENES_REGULATION], header=0, index_col=0, sep='\t')
-        omics_file = pd.read_csv(simulation_files[const.YAML_OMICS_DATA], header=0, index_col=0, sep='\t')
-        species_levels, genes_levels, time = RunSPARCED(self.is_deterministic,
-                                                        self.duration,
-                                                        initial_conditions,
-                                                        [],
-                                                        sbml_file,
-                                                        model,
-                                                        genes_file,
-                                                        omics_file)
+        if simulation_files['omics'] is not None and simulation_files['gene_regulation'] is not None:
+            genes_file = pd.read_csv(simulation_files[const.YAML_GENES_REGULATION], header=0, index_col=0, sep='\t')
+            omics_file = pd.read_csv(simulation_files[const.YAML_OMICS_DATA], header=0, index_col=0, sep='\t')
+            species_levels, genes_levels, time = RunSPARCED(self.is_deterministic,
+                                                            self.duration,
+                                                            initial_conditions,
+                                                            [],
+                                                            sbml_file,
+                                                            model,
+                                                            genes_file,
+                                                            omics_file)
+        
+        else:
+            species_levels, time = RunAMICI(self.duration, model)
+            genes_levels = None
+
         if self.verbose:
             print(f"SPARCED VERBOSE: {self.name} n°{self.number} " +
                    "is now over. Saving results, do not exit.\n")
