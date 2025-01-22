@@ -33,7 +33,7 @@ class Simulation:
 
         # TODO: handle the case when no simulation files are provided
         # TODO: pass content of those simulation files, we could load this only once
-        if simulation_files['omics'] is not None and simulation_files['gene_regulation'] is not None:
+        if simulation_files['omics'] is not None and simulation_files['genes_regulation'] is not None:
             genes_file = pd.read_csv(simulation_files[const.YAML_GENES_REGULATION], header=0, index_col=0, sep='\t')
             omics_file = pd.read_csv(simulation_files[const.YAML_OMICS_DATA], header=0, index_col=0, sep='\t')
             species_levels, genes_levels, time = RunSPARCED(self.is_deterministic,

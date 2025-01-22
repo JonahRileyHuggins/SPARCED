@@ -1,4 +1,4 @@
-species	compartment	IC_Xinitialized
-L	Cytoplasm	0		
-R	Cytoplasm	100		
-LR	Cytoplasm	0		
+species	compartment	IC_Xinitialized		
+_L_	Cytoplasm	0		
+_R_	Cytoplasm	100		
+_LR_	Cytoplasm	0		
