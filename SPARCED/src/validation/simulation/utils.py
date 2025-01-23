@@ -501,9 +501,11 @@ class Utils:
 
         if gene in omics_data.index:
             # Update values
-            omics_data.loc[gene, "kTCleak"] = value
-            omics_data.loc[gene, "kTCmaxs"] = value
-            omics_data.loc[gene, "kTCd"] = value
+            omics_data.loc[gene, "kTCleak"] = 0.0
+            omics_data.loc[gene, "kTCmaxs"] = 0.0
+            omics_data.loc[gene, "kTCd"] = 0.0
+
+            omics_data.loc[gene, "Exp RNA"] = value
 
         return omics_data
 

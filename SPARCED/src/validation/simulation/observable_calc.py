@@ -20,6 +20,8 @@ import pandas as pd
 class ObservableCalculator:
     """This class is designed to calculate observable values from simulation results."""
 
+    UNIFORM_EXPERIMENTAL_DATA = True # default value for if the measurement data is uniform in no values or all values
+
     def __init__(self, parent):
         """This class is designed to calculate observable values from \
             simulation results.
@@ -35,6 +37,16 @@ class ObservableCalculator:
         self.observable_df = parent.observable_df
         self.measurement_df = parent.measurement_df
 
+        # evaluate whether the measurement data is uniform in no values or all values
+        if self.measurement_df['measurement'].isna().all() or self.measurement_df['measurement'].notna().all():
+            # print("The measurement data is uniform in no values or all values")
+            self.UNIFORM_EXPERIMENTAL_DATA = True
+        
+        else:
+            print("The measurement data is not uniform in no values or all values")
+            self.UNIFORM_EXPERIMENTAL_DATA = False
+
+
     def run(self):
         """isolate only the observables of interest from the simulation data. \
         Primary function is to cut down on data saved.
@@ -42,7 +54,7 @@ class ObservableCalculator:
         Returns: modified results dictionary containing only the observables of 
         interest
         """
-        observableIds = self.observable_df["observableId"].unique()
+        observable_condition_groups = self.group_conditions_and_observables()
 
         # Stores the calculated observable values for each observable and condition
         observable_dict = {}
@@ -54,31 +66,42 @@ class ObservableCalculator:
                 "cell": self.results_dict[entry]["cell"]
             }
 
-            for observableId in observableIds:
+            time = self.results_dict[entry]["time"]
+
+            for idx, group in observable_condition_groups:
+                
+                _, observableId = idx
+                
+                if observableId in observable_dict[entry]:
+                    continue
 
                 # calculate the observable values from the simulation results
                 observable_array = self.observable_caluculator(
                     observableId, entry
                 )
 
-                # add any potential experimental data to the observable_dict
-                experimental_data = self.extract_experimental_data(
-                    observableId, self.results_dict[entry]["conditionId"]
-                )
+                # reduce the observable data to only the timepoints in the experimental data
+                observable_array = self.data_reduction(observable_array, time, group)
 
                 # add the observable to the observable_arrays dictionary
                 observable_dict[entry][f"simulation {observableId}"] = observable_array
 
-                if experimental_data is not None:
-                    observable_dict[entry][f"experiment {observableId}"] = experimental_data
+                # extract the experimental data for the given observable and condition
+                if self.UNIFORM_EXPERIMENTAL_DATA and not self.measurement_df['measurement'].isna().all():
+                    observable_dict[entry][f"experiment {observableId}"] = self.extract_experimental_data(group)
 
-            # reduce timepoints in the simulation to only experimental match
-            observable_dict[entry]["time"] = self.timepoint_reduction(
-                self.results_dict[entry]["time"]
-                )
+                # reduce timepoints in the simulation to only experimental match
+                if self.UNIFORM_EXPERIMENTAL_DATA:
+                    observable_dict[entry]["time"] = self.timepoint_reduction(
+                        time, group
+                    )
+                
+                else:
+                    observable_dict[entry][f"{observableId} time"] = self.timepoint_reduction(
+                        time, group
+                    ) 
 
         return observable_dict
-
 
     def observable_caluculator(
         self, observable: str, entry: str
@@ -114,26 +137,22 @@ class ObservableCalculator:
 
         observable_answer = eval(observable_formula)
 
-        time = self.results_dict[entry]["time"]
-
-        observable_answer = self.data_reduction(observable_answer, time)
-
         return observable_answer
 
-
-    def timepoint_reduction(self, time: np.array) -> np.array:
+    def timepoint_reduction(self, time: np.array, group: pd.DataFrame) -> np.array:
         """Reduce the number of timepoints in the simulation results. to match
             the number of timepoints in the experimental data.
 
         Parameters:
         - toutS (np.array): The timepoints from the simulation results.
+        - group (pd.DataFrameGroupBy): Grouped measurement dataframe.
 
         Returns:
         - toutS (np.array): The reduced timepoints.
         """
         # Ensure experimental values in the measurement
         # before reducing the timepoints, if none are found, return the original
-        if self.measurement_df["measurement"].isna().all():
+        if group["measurement"].isna().all():
             return time
 
         unique_timepoints = self.measurement_df["time"].unique()
@@ -147,24 +166,27 @@ class ObservableCalculator:
         # Convert to np.array and remove duplicates if any
         return np.unique(np.array(reduced_timepoints))
 
-
-    def data_reduction(self, observable_answer: np.array, time: np.array) -> np.array:
+    def data_reduction(self, observable_answer: np.array, 
+                       time: np.array, 
+                       group: pd.DataFrame
+                       ) -> np.array:
         """Reduce the data to only the timepoints in the experimental data.
 
         Parameters:
         - observable_answer (np.array): The observable values from the simulation.
         - time (np.array): Array of timepoints recorded during the simulation.
+        - group (pd.DataFrameGroupBy): Grouped measurement dataframe.
 
         Returns:
         - observable_answer (np.array): The reduced observable values.
         """
-        # Ensure first that there is no experimental values in the measurement
+        # Ensure first that there is no experimental values in the group's measurement
         # before reducing the timepoints, if none are found, return the original
-        if self.measurement_df["measurement"].isna().all():
+        if group["measurement"].isna().all():
             return observable_answer
 
         # Find the minimum number of timepoints in the measurement data
-        min_timepoint_idx = self.timepoint_reduction(time)
+        min_timepoint_idx = self.timepoint_reduction(time, group)
 
         # Now find the indices of the filtered_toutS in toutS (if needed)
         timepoint_indices = np.where(np.isin(time, min_timepoint_idx))
@@ -228,28 +250,22 @@ class ObservableCalculator:
             raise
 
 
-    def extract_experimental_data(self, observableId: str, conditionId: str):
+    def extract_experimental_data(self, group: pd.DataFrame) -> np.array:
         """
         Extract experimental data for a given observable and condition from the measurement dataframe.
 
         Parameters:
-        - observableId (str): The observable identifier.
-        - conditionId (str): The condition identifier.
+        - group (pd.DataFrameGroupBy): Grouped measurement dataframe.
 
         Returns:
         - np.array: The experimental data for the given observable and condition.
         """
         try:
             # Filter the measurement dataframe for the given observable and condition
-            filtered_df = self.measurement_df[
-                (self.measurement_df["observableId"] == observableId) &
-                (self.measurement_df["simulationConditionId"] == conditionId)
-            ].dropna(subset=["measurement"]).sort_values("time")
+            filtered_df = group.dropna(subset=["measurement"]).sort_values("time")
 
-                # Extract the experimental data
+            # Extract the experimental data
             if filtered_df.empty or filtered_df["measurement"].isna().all():
-                print(f"No experimental data found for observableId '{observableId}'"\
-                      f" and conditionId '{conditionId}'.")
                 return None
 
             # Extract the experimental data
@@ -260,6 +276,24 @@ class ObservableCalculator:
         except Exception as e:
             print(f"Error in extract_experimental_data: {e}")
             return np.array([])
+        
+        
+    def group_conditions_and_observables(self) -> pd.core.groupby.generic.DataFrameGroupBy:
+        """
+        Group conditions and observables in the measurement dataframe.
+
+        Returns:
+        - pd.DataFrame: The grouped measurement dataframe.
+        """
+        try:
+            # Group conditions and observables in the measurement dataframe
+            grouped_df = self.measurement_df.groupby(["simulationConditionId", "observableId"])
+
+            return grouped_df
+
+        except Exception as e:
+            print(f"Error in group_conditions_and_observables: {e}")
+            return pd.DataFrame()
 
 
 def get_valid_species(observable_formula: str) -> List[str]:
@@ -294,5 +328,4 @@ def get_valid_species(observable_formula: str) -> List[str]:
     except Exception as e:
         print(f"Error in get_valid_species: {e}")
         return []
-
 
