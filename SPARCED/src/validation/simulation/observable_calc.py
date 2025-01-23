@@ -87,7 +87,7 @@ class ObservableCalculator:
                 observable_dict[entry][f"simulation {observableId}"] = observable_array
 
                 # extract the experimental data for the given observable and condition
-                if self.UNIFORM_EXPERIMENTAL_DATA and not self.measurement_df['measurement'].isna().all():
+                if not self.measurement_df['measurement'].isna().all():
                     observable_dict[entry][f"experiment {observableId}"] = self.extract_experimental_data(group)
 
                 # reduce timepoints in the simulation to only experimental match
