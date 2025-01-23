@@ -1,0 +1,30 @@
+# SPARCED Standard
+# Last update: 2024-12-06
+
+
+# General infos
+name: "SPARCED_TGFb"
+header: "Erdem et al., Nat Commun 2022"
+location: "data"
+
+# Compilation
+compilation:
+    directory: "model"
+    files:
+      compartments: "TGFb_Compartments.txt"
+      output_parameters: "output_parameters.txt"  # This file is generated upon compilation
+      ratelaws: "TGFb_Ratelaws.txt"
+      species: "TGFb_Species.txt"
+
+# Simulation
+simulation:
+    directory: "simulation"    
+    files:
+      genes_regulation: "TGFb_GeneReg.txt"
+      omics: "TGFb_OmicsData.txt"
+
+# Experiment
+experiments:
+    directory: "experiments"
+    name: "experiment_1"  # Optional
+
