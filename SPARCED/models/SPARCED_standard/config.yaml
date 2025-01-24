@@ -14,7 +14,7 @@ compilation:
       compartments: "legacy_Compartments.txt"
       output_parameters: "output_parameters.txt"  # This file is generated upon compilation
       ratelaws: "ratelaws.txt"
-      species: "legacy_Species.txt"
+      species: "renamed_Species.txt"
 
 # Simulation
 simulation:
