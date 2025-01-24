@@ -20,7 +20,7 @@ import pandas as pd
 
 # Parse the command line arguments
 parser = argparse.ArgumentParser(description='Generate the observable formula for a given observable')
-parser.add_argument('--input', '-i', type=str, required=True, help='The input species or annotation number')
+parser.add_argument('--input', '-i', type=str, nargs='+', required=True, help='The input species or annotation number')
 parser.add_argument('--yaml', '-y', type=str, required=True, help='The path to the YAML configuration file')
 args = parser.parse_args()
 
@@ -154,6 +154,22 @@ class UserInput:
         Parse the input components from *args. 
         - Supports both space- or comma-separated strings.
         """
+        input_components = []
+        
+        for arg in args:
+            if isinstance(arg, list):
+                # Flatten list by extneding it into input_components
+                input_components.extend(arg)
+
+            elif isinstance(arg, str):
+                # Handle comma- or space-separated strings
+                input_components.extend(arg.replace(',', ' ').split())
+
+            else:
+                raise ValueError(f"Unsupported input type: {type(arg)}. Expected str or list.")
+            
+            return input_components
+        
         input_string = ' '.join(args)
         input_string = input_string.replace(',', ' ')
         input_string = input_string.split()
@@ -240,11 +256,9 @@ class SpeciesQuery:
         species_df = self.model_files['species']
 
         species_df['species'] = species_df['species'].astype(str)
-        print(species_df['species'].head())
         matching_species = species_df.loc[
         species_df['species'].str.contains(re.escape(component), na=False), 'species'
         ]
-        print(matching_species)
         return matching_species.tolist()
 
 
@@ -275,7 +289,6 @@ class SpeciesQuery:
         for component in self.user_input.input_components:
             if self.component_types[component] == 'is species':
                 species_set = set(self.get_species_given_component(component))
-                print(species_set)
             elif self.component_types[component] == 'is not a species':
                 species_set = set(self.get_species_given_annotation(component))
             else:
@@ -372,6 +385,9 @@ class ObservableBuilder:
         num_instances = 0
 
         for component in self.species_query.user_input.input_components:
+
+            component = SpeciesRules.add_underscores(component)
+            
             num_instances += queried_specie.count(component)
 
         return num_instances
