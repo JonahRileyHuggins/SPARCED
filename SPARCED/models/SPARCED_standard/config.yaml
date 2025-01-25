@@ -1,5 +1,5 @@
 # SPARCED Standard
-# Last update: 2024-12-06
+# Last update: 2025-01-25
 
 
 # General infos
@@ -11,17 +11,17 @@ location: "data"
 compilation:
     directory: "model"
     files:
-      compartments: "legacy_Compartments.txt"
+      compartments: "standard_Compartments.txt"
       output_parameters: "output_parameters.txt"  # This file is generated upon compilation
-      ratelaws: "ratelaws.txt"
-      species: "renamed_Species.txt"
+      ratelaws: "standard_Ratelaws2.txt"
+      species: "standard_Species.txt"
 
 # Simulation
 simulation:
     directory: "simulation"    
     files:
-      genes_regulation: "legacy_GeneReg.txt"
-      omics: "legacy_OmicsData.txt"
+      genes_regulation: "standard_GeneReg.txt"
+      omics: "standard_OmicsData.txt"
 
 # Experiment
 experiments:
