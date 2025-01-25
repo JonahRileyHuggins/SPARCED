@@ -55,7 +55,7 @@ class ObservableCalculator:
         interest
         """
         observable_condition_groups = self.group_conditions_and_observables()
-
+        
         # Stores the calculated observable values for each observable and condition
         observable_dict = {}
 
@@ -69,12 +69,12 @@ class ObservableCalculator:
             time = self.results_dict[entry]["time"]
 
             for idx, group in observable_condition_groups:
-                
-                _, observableId = idx
-                
-                if observableId in observable_dict[entry]:
-                    continue
 
+                conditionId, observableId = idx
+
+                if conditionId not in observable_dict[entry]['conditionId']:
+                    continue
+                
                 # calculate the observable values from the simulation results
                 observable_array = self.observable_caluculator(
                     observableId, entry
