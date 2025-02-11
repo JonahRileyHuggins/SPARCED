@@ -41,7 +41,8 @@ class Simulator:
         f_omics: pd.DataFrame,
         f_genereg: pd.DataFrame
     ):
-        """This class is designed to simulate the experimental replicate model.
+        """
+        This class is designed to simulate the experimental replicate model.
         input:
             yaml_file: str - path to the YAML file
             model: str - path to the SBML model
@@ -62,7 +63,7 @@ class Simulator:
         # Load the SPARCED model
         self.model = self.load_sparced_model()
 
-    def run(self, condition: pd.Series) -> tuple:
+    def run(self, condition: pd.Series) -> pd.DataFrame:
         """
         This function A). runs a decision based on if gene regulation
         and omics data are present in the model, and B). runs the simulation
@@ -73,7 +74,7 @@ class Simulator:
             condition (pd.Series): The condition to simulate
 
         Returns:
-            results (tuple): A tuple of the simulation results
+            results (pd.DataFrame): dataframe of simulation results
         """
         if self.f_genereg is not None and self.f_omics is not None:
             results = self.run_sparced_simulation(condition)
@@ -82,7 +83,6 @@ class Simulator:
             results = self.run_amici_simulation(condition)
 
         return results
-
 
     def run_sparced_simulation(self, condition: pd.Series) -> np.ndarray:
         """This function runs the simulation for a single condition.
@@ -93,14 +93,17 @@ class Simulator:
         Returns:
             result: pd.DataFrame - the simulation results
         """
-        # Look for heterogenize parameters in the condition
-        if "heterogenize" in condition and not math.isnan(condition["heterogenize"]):
-            self.model = self.heterogenize(condition)
 
-        if "preequilibrationConditionId" in condition and not math.isnan(
-            condition["preequilibrationConditionId"]
-        ):
-            self.model.preequilibrate(condition)
+        # Find gene sampling method, flagD
+        perturbations = list(self.conditions_df.columns[2:]) ### Should probably use actual PEtab column name, "every column after conditionName"
+
+        flagD = self.determine_hybrid_flag(perturbations=perturbations)
+
+        # Look for heterogenize parameters in the condition
+        self.model = self.heterogenize(condition)
+
+        # Look for preequilibration parameters in the condition
+        self.model = self.preequilibrate(condition, flagD)
 
         # # Set the perturbations for the simulation
         self.model, self.f_omics = self.set_perturbations(condition)
@@ -111,13 +114,6 @@ class Simulator:
         ].max()
 
         self.model.setTimepoints(np.linspace(0, 30))
-
-        # Find gene sampling method, flagD
-        perturbations = list(self.conditions_df.columns[2:])
-        if "flagD" in perturbations:
-            flagD = condition["flagD"]
-        else:
-            flagD = 1
 
         # Run the simulation
         xoutS_all, xoutG_all, tout_all = RunSPARCED(
@@ -134,7 +130,6 @@ class Simulator:
         results = combine_results(self.model, xoutS_all, xoutG_all, tout_all)
 
         return results
-    
 
     def run_amici_simulation(self, condition: pd.Series) -> tuple:
         """This function runs the AMICI simulation for a single condition.
@@ -160,19 +155,20 @@ class Simulator:
 
         return results
 
-
-    def preequilibrate(self, condition: pd.Series) -> pd.DataFrame:
+    def preequilibrate(self, condition: pd.Series, flagD: bool) -> pd.DataFrame:
         """This function assigns a set of conditions that replicate
         prior experimental conditions before the primary stimulus of
         interest.
 
-        input:
-            condition: pd.Series - the condition to simulate
+        Parameters:
+        - condition (pd.Series): the condition to simulate
+        - flagD (bool): the flag for if the simulation is deterministic or stochastic
 
-        output:
-            preequilibrated_model: pd.DataFrame - the preequilibrated model
+        Returns:
+        - preequilibrated_model (pd.DataFrame) the preequilibrated model
+            OR 
+        - model (pd.DataFrame): the model, sans preequilibration condition
         """
-
         # Isolate the preequilibration condition if included in the measurement
         # table
         preequilibrate_condition = (
@@ -191,11 +187,6 @@ class Simulator:
 
         # set perturbations for the simulation
         self.model, self.f_omics = self.set_perturbations(condition)
-
-        # Find gene sampling method, flagD
-        flagD = self.conditions_df.loc[
-            self.conditions_df["conditionId"] == preequilibrate_condition[0], "flagD"
-        ].values[0]
 
         # Find the time frame for the preequilibration simulation
         simulation_timeframe = self.measurement_df["time"][
@@ -259,7 +250,6 @@ class Simulator:
                 pass
 
             try:
-                # Change the OmicsData values and save the prior values
                 self.f_omics = utils._set_transcription_values(
                     omics_data=self.f_omics,
                     gene=perturbant,
@@ -272,30 +262,42 @@ class Simulator:
         return self.model, self.f_omics
 
     def heterogenize(self, condition: pd.Series) -> libsbml.Model:
-        """This function runs the 'runSPARCED function and returns the final
+        """
+        This function runs the 'runSPARCED' function and returns the final
         values, thus creating the simulated appearance of asynchrony among
         replicates.
-        input:
-            condition: pd.Series - the condition to simulate
-        output:
-            heterogenized_initial_values: pd.DataFrame - the heterogenized
-            initial values
+
+        Parameters:
+        - condition (pd.Series): the condition to simulate
+
+        Returns:
+        - model (libsbml.Model): the updated SBML model with initial states set 
+                                with stochastic heterogenization applied to the
+                                model.
+            OR
+        - model (libsbml.Model): the original SBML model if no heterogenization
+                                is required.
         """
 
-        heterogenize = condition["heterogenize"]
+        if "heterogenize_time" not in condition or math.isnan(condition["heterogenize_time"]):
+            return self.model
+
+        heterogenize = condition["heterogenize_time"]
 
         simulation_time = int(heterogenize) / 3600
 
         self.model.setTimepoints(np.linspace(0, 30))
 
         # TODO: Find a better mechanism for setting signaling ligands to 0
+        # Maybe build it into the SBML annotation, then leverage component annotations.
+        # Especially since heterogenization is always going to be serum starved.
         growth_factors = ["E", "H", "HGF", "P", "F", "I", "INS"]
 
         for species in growth_factors:
-            self.model = utils._set_species_value(self.model, species, 0)
+            self.model = utils._set_species_value(self.model, species, 0) # Set growth factors to 0
 
         xoutS_all, _, _ = RunSPARCED(
-            flagD=0,
+            flagD=0, # Heterogenization requires the stochastic solver
             th=simulation_time,
             spdata=[],
             genedata=[],
@@ -308,7 +310,6 @@ class Simulator:
         self.model.setInitialStates(xoutS_all[-1])
 
         return self.model
-
 
     def load_sparced_model(self):
         """
@@ -323,7 +324,6 @@ class Simulator:
         # Create an instance of the AMICI model.
         sys.path.append(self.sbml_file)
 
-        # try:
         utils._add_amici_path(self.sbml_file)
 
         sparced = utils._swig_interface_path(self.sbml_file)
@@ -334,3 +334,31 @@ class Simulator:
         solver.setMaxSteps = 1e10
 
         return model
+
+    @staticmethod
+    def determine_hybrid_flag(perturbations: pd.Series) -> int:
+        """
+        Determines if hybrid is an included flag within the individual perturbation, 
+        and if so, sets the model solver accordingly. 
+
+        Parameters:
+        - peterubations (pd.Series): key-value pair structure of perturbation identifiers
+                                     (assigned following PEtab conditions table standard)
+                                    matched to associated values. 
+
+        Returns:
+        - flagD (int): Deterministic decision flag for if the SPARCED model will solve 
+                       the system deterministically, or use the integrated hybrid simulation 
+                       setting, enabling stochastic trajectories.
+        """
+        if "hybrid" in perturbations:
+            if perturbations["hybrid"]:  # If hybrid is True
+                flagD = 0
+            
+            else:
+                flagD = 1
+
+        else:
+            flagD = 1
+
+        return flagD

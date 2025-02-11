@@ -151,7 +151,7 @@ class RunBenchmark:
             )
 
             results = simulator.run(condition)
-
+            
             # Results are packaged into a single object to reduce the number of items sent via MPI
             parcel = org.package_results(
                 results=results,

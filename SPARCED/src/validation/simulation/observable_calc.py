@@ -39,7 +39,7 @@ class ObservableCalculator:
 
         # evaluate whether the measurement data is uniform in no values or all values
         if self.measurement_df['measurement'].isna().all() or self.measurement_df['measurement'].notna().all():
-            # print("The measurement data is uniform in no values or all values")
+
             self.UNIFORM_EXPERIMENTAL_DATA = True
         
         else:
@@ -48,11 +48,14 @@ class ObservableCalculator:
 
 
     def run(self):
-        """isolate only the observables of interest from the simulation data. \
-        Primary function is to cut down on data saved.
+        """
+        Isolate only the observables of interest from the simulation data. \
+        Primary function is to enable streamline model-to-data comparison \
+        and cut down on data saved.
 
-        Returns: modified results dictionary containing only the observables of 
-        interest
+        Returns: 
+        - observable_dict (dict): modified results dictionary containing only the 
+        observables of interest. 
         """
         observable_condition_groups = self.group_conditions_and_observables()
         
@@ -106,7 +109,8 @@ class ObservableCalculator:
     def observable_caluculator(
         self, observable: str, entry: str
     ) -> np.array:
-        """Calculate the observable values from the simulation results.
+        """
+        Calculate the observable values from the simulation results.
 
         Parameters:
         - observable (str): The observable of interest. Should be a column in \
@@ -115,7 +119,7 @@ class ObservableCalculator:
             result for a single condition.
 
         Returns:
-        - observable_array(np.array): Array containing the observable values.
+        - observable_array (np.array): Array containing the observable values.
         """
 
         # replace species name strings in the observable_formula with the

@@ -1,4 +1,4 @@
 observableId	observableFormula	noiseFormula
-L timecourse	L	1
-LR timecourse	LR	1
-R timecourse	R	1
+L timecourse	_L_	1
+LR timecourse	_LR_	1
+R timecourse	_R_	1

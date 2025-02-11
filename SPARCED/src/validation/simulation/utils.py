@@ -169,11 +169,11 @@ class Utils:
         list_of_jobs = []
 
         for condition in filtered_conditions:
-            if "num_cells" not in condition:
+            if "cell_number" not in condition:
                 condition_cell = f"{condition['conditionId']}+0"
                 list_of_jobs.append(condition_cell)
             else:
-                for cell in range(condition["num_cells"]):
+                for cell in range(condition["cell_number"]):
                     condition_cell = f"{condition['conditionId']}+{cell}"
                     list_of_jobs.append(condition_cell)
 
@@ -275,12 +275,18 @@ class Utils:
         # Get the initial values
         species_initializations = np.array(model.getInitialStates())
 
-        # Set the initial values
-        index = species_ids.index(species)
+        # Error handling so that hard-coded species in SPARCED don't break the code
+        # If an alternate model is ran through this process. 
+        try:
+            # Set the initial values
+            index = species_ids.index(species)
 
-        species_initializations[index] = species_value
+            species_initializations[index] = species_value
 
-        model.setInitialStates(species_initializations)
+            model.setInitialStates(species_initializations)
+
+        except ValueError:
+            pass
 
         return model
 
