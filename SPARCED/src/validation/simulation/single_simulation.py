@@ -94,10 +94,7 @@ class Simulator:
             result: pd.DataFrame - the simulation results
         """
 
-        # Find gene sampling method, flagD
-        perturbations = list(self.conditions_df.columns[2:]) ### Should probably use actual PEtab column name, "every column after conditionName"
-
-        flagD = self.determine_hybrid_flag(perturbations=perturbations)
+        flagD = self.determine_hybrid_flag(condition)
 
         # Look for heterogenize parameters in the condition
         self.model = self.heterogenize(condition)
@@ -114,6 +111,7 @@ class Simulator:
         ].max()
 
         self.model.setTimepoints(np.linspace(0, 30))
+
 
         # Run the simulation
         xoutS_all, xoutG_all, tout_all = RunSPARCED(
@@ -171,6 +169,9 @@ class Simulator:
         """
         # Isolate the preequilibration condition if included in the measurement
         # table
+        if "preequilibrationConditionId" not in self.measurement_df.columns:
+            return self.model
+        
         preequilibrate_condition = (
             self.measurement_df.loc[
                 self.measurement_df["simulationConditionId"]
@@ -336,13 +337,13 @@ class Simulator:
         return model
 
     @staticmethod
-    def determine_hybrid_flag(perturbations: pd.Series) -> int:
+    def determine_hybrid_flag(condition: pd.Series) -> int:
         """
         Determines if hybrid is an included flag within the individual perturbation, 
         and if so, sets the model solver accordingly. 
 
         Parameters:
-        - peterubations (pd.Series): key-value pair structure of perturbation identifiers
+        - condition (pd.Series): key-value pair structure of perturbation identifiers
                                      (assigned following PEtab conditions table standard)
                                     matched to associated values. 
 
@@ -351,8 +352,9 @@ class Simulator:
                        the system deterministically, or use the integrated hybrid simulation 
                        setting, enabling stochastic trajectories.
         """
-        if "hybrid" in perturbations:
-            if perturbations["hybrid"]:  # If hybrid is True
+
+        if "hybrid" in condition.keys():
+            if condition["hybrid"]:  # If hybrid is True
                 flagD = 0
             
             else:

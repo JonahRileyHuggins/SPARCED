@@ -323,7 +323,7 @@ class PEtabFileLoader:
             sep="\t",
         )
 
-        # # The model specification files detail
+        # The model specification files detail
         if "model_specifications" in yaml_dict["problems"][0]:
             spec_attributes = yaml_dict["problems"][0]["model_specifications"]
 
