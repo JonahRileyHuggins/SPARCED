@@ -227,7 +227,7 @@ class Simulator:
 
         for perturbant in perturbations:
             try:
-                self.model = utils._set_species_value(
+                self.model = utils.set_species_value(
                     self.model, perturbant, condition[perturbant]
                 )
                 break
@@ -235,7 +235,7 @@ class Simulator:
                 pass
 
             try:
-                self.model = utils._set_parameter_value(
+                self.model = utils.set_parameter_value(
                     self.model, perturbant, condition[perturbant]
                 )
                 break
@@ -243,7 +243,7 @@ class Simulator:
                 pass
 
             try:
-                self.model = utils._set_compartmental_volume(
+                self.model = utils.set_compartmental_volume(
                     self.model, perturbant, condition[perturbant]
                 )
                 break
@@ -251,7 +251,7 @@ class Simulator:
                 pass
 
             try:
-                self.f_omics = utils._set_transcription_values(
+                self.f_omics = utils.set_transcription_values(
                     omics_data=self.f_omics,
                     gene=perturbant,
                     value=condition[perturbant],
@@ -295,7 +295,7 @@ class Simulator:
         growth_factors = ["E", "H", "HGF", "P", "F", "I", "INS"]
 
         for species in growth_factors:
-            self.model = utils._set_species_value(self.model, species, 0) # Set growth factors to 0
+            self.model = utils.set_species_value(self.model, species, 0) # Set growth factors to 0
 
         xoutS_all, _, _ = RunSPARCED(
             flagD=0, # Heterogenization requires the stochastic solver
@@ -325,9 +325,9 @@ class Simulator:
         # Create an instance of the AMICI model.
         sys.path.append(self.sbml_file)
 
-        utils._add_amici_path(self.sbml_file)
+        utils.add_amici_path(self.sbml_file)
 
-        sparced = utils._swig_interface_path(self.sbml_file)
+        sparced = utils.swig_interface_path(self.sbml_file)
         sys.path.append(sparced)
         SPARCED = importlib.import_module(sparced.split("/")[-1].split(".")[0])
         model = SPARCED.getModel()

@@ -91,7 +91,7 @@ class RunBenchmark:
         if self.rank == 0:
 
             # Results dictionary is initialized prior to simulation for convenience
-            self.results_dictionary = Utils._results_dictionary(
+            self.results_dictionary = Utils.results_dictionary(
                 self.conditions_df, self.measurement_df
             )
 
@@ -133,7 +133,7 @@ class RunBenchmark:
                 print(f"Rank {self.rank} has no tasks to complete")
                 continue
 
-            condition, cell, condition_id = Utils._condition_cell_id(
+            condition, cell, condition_id = Utils.condition_cell_id(
                 task, self.conditions_df, self.measurement_df
             )
 
@@ -167,7 +167,7 @@ class RunBenchmark:
                 )
 
                 # Define the total number of jobs for the results aggregation stage
-                total_jobs = Utils._total_tasks(self.conditions_df, self.measurement_df)
+                total_jobs = Utils.total_tasks(self.conditions_df, self.measurement_df)
 
                 # Collect results from other ranks and store in results dictionary
                 self.results_dictionary = org.aggregate_other_rank_results(

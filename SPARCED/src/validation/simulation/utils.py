@@ -81,7 +81,7 @@ class Utils:
         return tasks_this_round
 
     @staticmethod
-    def _condition_cell_id(rank_task, conditions_df, measurement_df):
+    def condition_cell_id(rank_task, conditions_df, measurement_df):
         """
         Extract the condition for the task from the filtered_conditions
         output:
@@ -102,7 +102,7 @@ class Utils:
         return condition, cell, condition_id
 
     @staticmethod
-    def _results_dictionary(conditions_df, measurement_df):
+    def results_dictionary(conditions_df, measurement_df):
         """Create an empty dictionary for storing results
         input:
             filtered_conditions: pd.DataFrame - filtered conditions dataframe
@@ -222,7 +222,7 @@ class Utils:
         return start_cell, start_cell + rank_i_jobs
 
     @staticmethod  # Not even sure if this one works
-    def _set_compartmental_volume(
+    def set_compartmental_volume(
         model: libsbml.Model, compartment: str, compartment_volume: int
     ):
         """This function sets the volume of a compartment within the SBML model.
@@ -239,7 +239,7 @@ class Utils:
         return model
 
     @staticmethod
-    def _set_parameter_value(
+    def set_parameter_value(
         model: libsbml.Model, parameter: str, parameter_value: int
     ):
         """This function sets the value of a parameter within the SBML model.
@@ -259,7 +259,7 @@ class Utils:
 
     # Set this to static method to avoid the need to pass self
     @staticmethod
-    def _set_species_value(model: libsbml.Model, species: str, species_value: int):
+    def set_species_value(model: libsbml.Model, species: str, species_value: int):
         """Thiss function sets the initial value of a species or list of species
         within the sbml model.
         input:
@@ -323,7 +323,7 @@ class Utils:
         return module
 
     @staticmethod
-    def _add_amici_path(model_path: str):
+    def add_amici_path(model_path: str):
         """This function finds the AMICI model from the path
         input:
             model_path: str - the path to the model
@@ -363,14 +363,14 @@ class Utils:
         return amici_module_path
 
     @staticmethod
-    def _swig_interface_path(model_path: str):
+    def swig_interface_path(model_path: str):
         """This function finds the SWIG python interface from the path
         input:
             model_path: str - the path to the model
         output:
             swig_interface_path: str - the path to the SWIG python interface
         """
-        amici_module_path = Utils._add_amici_path(model_path)
+        amici_module_path = Utils.add_amici_path(model_path)
 
         # Get the directory contents
         try:
@@ -493,7 +493,7 @@ class Utils:
 
 
     @staticmethod
-    def _set_transcription_values(
+    def set_transcription_values(
         omics_data: pd.DataFrame, gene: str, value: int
     ) -> None:
         """This function sets the value of a parameter within the SBML model.
