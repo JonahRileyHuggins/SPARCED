@@ -11,3 +11,7 @@ problems:
     - observables.tsv
     sbml_files:
     - ../../SPARCED/models/SPARCED_standard/sbml_SPARCED_standard.xml
+    model_specifications:
+      hybrid: True
+      cell_number: 20
+      heterogenize_time: nan

@@ -51,7 +51,7 @@ class Utils:
         return species_data, time_trajectories
 
     @staticmethod
-    def _tasks_this_round(size, total_jobs, round_number):
+    def tasks_this_round(size, total_jobs, round_number):
         """Calculate the number of tasks for the current round
         input:
             size: int - the total number of processes assigned
@@ -135,7 +135,7 @@ class Utils:
         return results
 
     @staticmethod
-    def _number_of_rounds(total_jobs, size):
+    def number_of_rounds(total_jobs, size):
         """Calculate the number of rounds
         input:
             total_jobs: int - the total number of tasks
@@ -155,7 +155,7 @@ class Utils:
         return rounds_to_complete
 
     @staticmethod
-    def _total_tasks(conditions_df, measurement_df):
+    def total_tasks(conditions_df, measurement_df):
         """Calculate the total number of tasks
         input:
             conditions_df: pd.DataFrame - conditions dataframe
@@ -199,7 +199,7 @@ class Utils:
         return filtered_conditions
 
     @staticmethod
-    def _assign_tasks(rank, total_jobs, size):
+    def assign_tasks(rank, total_jobs, size):
         """Assign tasks to ranks based on the number of jobs and the number of
             ranks
         input:
@@ -436,7 +436,7 @@ class Utils:
         raise FileNotFoundError(f"{filename} not found in {base_dir} or its subdirectories.")
 
     @staticmethod
-    def _extract_simulation_files(model_path: str):
+    def extract_simulation_files(model_path: str):
         """
         Extracts the simulation files from the directory of the SBML model.
 

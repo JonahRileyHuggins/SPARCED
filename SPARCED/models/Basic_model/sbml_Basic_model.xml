@@ -30,9 +30,9 @@
       </compartment>
     </listOfCompartments>
     <listOfSpecies>
-      <species id="L" compartment="Cytoplasm" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-      <species id="R" compartment="Cytoplasm" initialConcentration="100" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
-      <species id="LR" compartment="Cytoplasm" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="_L_" compartment="Cytoplasm" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="_R_" compartment="Cytoplasm" initialConcentration="100" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
+      <species id="_LR_" compartment="Cytoplasm" initialConcentration="0" hasOnlySubstanceUnits="false" boundaryCondition="false" constant="false"/>
     </listOfSpecies>
     <listOfParameters>
       <parameter id="k1" value="0.001" constant="true"/>
@@ -41,19 +41,19 @@
     <listOfReactions>
       <reaction id="v1" reversible="false" fast="false">
         <listOfReactants>
-          <speciesReference species="L" stoichiometry="1" constant="true"/>
-          <speciesReference species="R" stoichiometry="1" constant="true"/>
+          <speciesReference species="_L_" stoichiometry="1" constant="true"/>
+          <speciesReference species="_R_" stoichiometry="1" constant="true"/>
         </listOfReactants>
         <listOfProducts>
-          <speciesReference species="LR" stoichiometry="1" constant="true"/>
+          <speciesReference species="_LR_" stoichiometry="1" constant="true"/>
         </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
               <times/>
               <ci> k1 </ci>
-              <ci> L </ci>
-              <ci> R </ci>
+              <ci> _L_ </ci>
+              <ci> _R_ </ci>
               <ci> Cytoplasm </ci>
             </apply>
           </math>
@@ -61,18 +61,18 @@
       </reaction>
       <reaction id="v2" reversible="false" fast="false">
         <listOfReactants>
-          <speciesReference species="LR" stoichiometry="1" constant="true"/>
+          <speciesReference species="_LR_" stoichiometry="1" constant="true"/>
         </listOfReactants>
         <listOfProducts>
-          <speciesReference species="L" stoichiometry="1" constant="true"/>
-          <speciesReference species="R" stoichiometry="1" constant="true"/>
+          <speciesReference species="_L_" stoichiometry="1" constant="true"/>
+          <speciesReference species="_R_" stoichiometry="1" constant="true"/>
         </listOfProducts>
         <kineticLaw>
           <math xmlns="http://www.w3.org/1998/Math/MathML">
             <apply>
               <times/>
               <ci> k2 </ci>
-              <ci> LR </ci>
+              <ci> _LR_ </ci>
               <ci> Cytoplasm </ci>
             </apply>
           </math>
