@@ -60,7 +60,7 @@ class Utils:
         output:
             returns the number of tasks for the current round
         """
-        number_of_rounds = Utils._number_of_rounds(total_jobs, size)
+        number_of_rounds = Utils.number_of_rounds(total_jobs, size)
 
         tasks_per_round = size
         remainder = total_jobs % size
