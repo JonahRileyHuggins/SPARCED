@@ -13,6 +13,6 @@ problems:
     - visualizations.tsv
     model_specifications:
       hybrid: false
-      cell_number: 1
-      heterogenize_time: 0.0
+      cell_number: 10
+      heterogenize_time: nan
 

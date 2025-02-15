@@ -261,44 +261,35 @@ class Simulator:
                 pass
                 
         return self.model, self.f_omics
-
+        
     def heterogenize(self, condition: pd.Series) -> libsbml.Model:
         """
-        This function runs the 'runSPARCED' function and returns the final
-        values, thus creating the simulated appearance of asynchrony among
-        replicates.
+        Runs the 'runSPARCED' function to simulate asynchrony among replicates.
 
         Parameters:
         - condition (pd.Series): the condition to simulate
 
         Returns:
-        - model (libsbml.Model): the updated SBML model with initial states set 
-                                with stochastic heterogenization applied to the
-                                model.
-            OR
-        - model (libsbml.Model): the original SBML model if no heterogenization
-                                is required.
+        - model (libsbml.Model): the updated SBML model with stochastic heterogenization
+        - model (libsbml.Model): the original SBML model if no heterogenization is required
         """
 
-        if "heterogenize_time" not in condition or math.isnan(condition["heterogenize_time"]):
-            return self.model
+        heterogenize = condition.get("heterogenize_time", None)
 
-        heterogenize = condition["heterogenize_time"]
+        if heterogenize is None or isinstance(heterogenize, str) or (isinstance(heterogenize, float) and math.isnan(heterogenize)):
+            return self.model  # Return original model if no heterogenization is required
 
         simulation_time = int(heterogenize) / 3600
-
         self.model.setTimepoints(np.linspace(0, 30))
 
-        # TODO: Find a better mechanism for setting signaling ligands to 0
-        # Maybe build it into the SBML annotation, then leverage component annotations.
-        # Especially since heterogenization is always going to be serum starved.
+        # TODO: Improve mechanism for setting signaling ligands to 0
         growth_factors = ["E", "H", "HGF", "P", "F", "I", "INS"]
 
         for species in growth_factors:
-            self.model = utils.set_species_value(self.model, species, 0) # Set growth factors to 0
+            self.model = utils.set_species_value(self.model, species, 0)  # Set growth factors to 0
 
         xoutS_all, _, _ = RunSPARCED(
-            flagD=0, # Heterogenization requires the stochastic solver
+            flagD=0,  # Use stochastic solver for heterogenization
             th=simulation_time,
             spdata=[],
             genedata=[],
