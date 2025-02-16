@@ -154,7 +154,8 @@ class Simulator:
         return results
 
     def preequilibrate(self, condition: pd.Series, flagD: bool) -> pd.DataFrame:
-        """This function assigns a set of conditions that replicate
+        """
+        This function assigns a set of conditions that replicate
         prior experimental conditions before the primary stimulus of
         interest.
 
@@ -172,7 +173,7 @@ class Simulator:
         if "preequilibrationConditionId" not in self.measurement_df.columns:
             return self.model
         
-        preequilibrate_condition = (
+        preequilibrate_condition_id = (
             self.measurement_df.loc[
                 self.measurement_df["simulationConditionId"]
                 == condition["conditionId"],
@@ -183,15 +184,21 @@ class Simulator:
         )
 
         # account for no preequilibration condition being found
-        if len(preequilibrate_condition) == 0:
+        if len(preequilibrate_condition_id) == 0:
             return self.model
+
+        condition = self.conditions_df.loc[
+            self.conditions_df["conditionId"] == preequilibrate_condition_id[0]
+        ]
 
         # set perturbations for the simulation
         self.model, self.f_omics = self.set_perturbations(condition)
 
         # Find the time frame for the preequilibration simulation
         simulation_timeframe = self.measurement_df["time"][
-            self.measurement_df["preequilibrationConditionId"].isin(condition)
+            self.measurement_df["preequilibrationConditionId"] == preequilibrate_condition_id[0]
+
+            # self.measurement_df["preequilibrationConditionId"].isin(condition)
         ].max()
 
         species_initializations = np.array(self.model.getInitialStates())
