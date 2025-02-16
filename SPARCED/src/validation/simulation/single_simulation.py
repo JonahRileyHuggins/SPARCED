@@ -187,6 +187,8 @@ class Simulator:
         if len(preequilibrate_condition_id) == 0:
             return self.model
 
+        parent_condition = condition
+
         condition = self.conditions_df.loc[
             self.conditions_df["conditionId"] == preequilibrate_condition_id[0]
         ]
@@ -196,10 +198,13 @@ class Simulator:
 
         # Find the time frame for the preequilibration simulation
         simulation_timeframe = self.measurement_df["time"][
-            self.measurement_df["preequilibrationConditionId"] == preequilibrate_condition_id[0]
-
-            # self.measurement_df["preequilibrationConditionId"].isin(condition)
+            self.measurement_df["simulationConditionId"] == preequilibrate_condition_id[0]
         ].max()
+
+        print_statement = (f"Running parent condition {parent_condition['conditionId']}", 
+                           f"preequilibration {preequilibrate_condition_id[0]}", 
+                           f"for {simulation_timeframe} seconds.")
+        print(print_statement)
 
         species_initializations = np.array(self.model.getInitialStates())
 
