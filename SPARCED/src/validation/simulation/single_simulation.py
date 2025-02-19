@@ -17,14 +17,12 @@ Output:
 """
 
 # -----------------------Package Import & Defined Arguements-------------------#
-import os
 import sys
 import math
 import libsbml
 import importlib
 import numpy as np
 import pandas as pd
-import mpi4py
 
 from src.validation.simulation.utils import Utils as utils
 from src.utils.combine_results import combine_results
@@ -212,11 +210,11 @@ class Simulator:
 
         # Run the simulation
         xoutS_all, _, _ = RunSPARCED(
-            flagD,
-            simulation_timeframe,
-            species_initializations,
-            [],
-            self.sbml_file,
+            flagD=flagD,
+            th=(simulation_timeframe / 3600),
+            spdata=species_initializations,
+            genedata=[],
+            sbml_file=self.sbml_file,
             model=self.model,
             f_genereg=self.f_genereg,
             f_omics=self.f_omics,
