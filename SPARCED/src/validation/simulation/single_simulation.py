@@ -201,10 +201,10 @@ class Simulator:
             self.measurement_df["simulationConditionId"] == preequilibrate_condition_id[0]
         ].max()
 
-        print_statement = (f"Running parent condition {parent_condition['conditionId']}", 
-                           f"preequilibration {preequilibrate_condition_id[0]}", 
+        print_statement = (f"Running parent condition {parent_condition['conditionId']}",
+                           f"preequilibration {preequilibrate_condition_id[0]}",
                            f"for {simulation_timeframe} seconds.")
-        print(print_statement)
+        print(*print_statement)
 
         species_initializations = np.array(self.model.getInitialStates())
 

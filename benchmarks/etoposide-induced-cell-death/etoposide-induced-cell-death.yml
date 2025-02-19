@@ -12,4 +12,4 @@ problems:
     model_specifications:
       hybrid: True
       cell_number: 80
-      heterogenize_time: 0.0
+      heterogenize_time: 86400.0
