@@ -178,7 +178,6 @@ class PEtabRules:
                                     'options': None},
                     }
 
-
     # TODO: Not crucial function, but get working if possible
     @staticmethod
     def check_if_option(rule_dict: dict, column: str, value: str):
@@ -202,8 +201,6 @@ class PEtabRules:
         
         except AssertionError:
             pass
-
-
 
     @staticmethod
     def add_required_columns(df: pd.DataFrame, rule_dict: dict):
@@ -327,17 +324,12 @@ class PEtabFileLoader:
         )
 
         # The model specification files detail
-        if "model_specification_files" in yaml_dict["problems"][0]:
-            model_specs = pd.read_csv(
-                os.path.join(
-                    yaml_directory,
-                    yaml_dict["problems"][0]["model_specification_files"][0],
-                ),
-                sep="\t",
-            )
-            self.conditions_df = pd.merge(
-                self.conditions_df, model_specs, on="conditionId"
-            )
+        if "model_specifications" in yaml_dict["problems"][0]:
+            spec_attributes = yaml_dict["problems"][0]["model_specifications"]
+
+            for spec in spec_attributes:
+
+                self.conditions_df[spec] = yaml_dict["problems"][0]["model_specifications"][spec]
 
         if "visualization_files" in yaml_dict["problems"][0]:
             self.visualization_df = pd.read_csv(
@@ -383,6 +375,5 @@ class PEtabFileLoader:
                 raise ValueError(f"Dataframe {df} not recognized")
 
             df = PEtabRules.eval_df_contents(df, rule_dict)
-
 
         return self

@@ -4,22 +4,22 @@ model Basic_model()
 # Compartments:
 Compartment Cytoplasm; 
 # Species:
-Species L in Cytoplasm;
-Species R in Cytoplasm;
-Species LR in Cytoplasm;
+Species _L_ in Cytoplasm;
+Species _R_ in Cytoplasm;
+Species _LR_ in Cytoplasm;
 
 # Reactions:
-v1: L + R => LR; (k1*L*R)*Cytoplasm;
-v2: LR => L + R; (k2*LR)*Cytoplasm;
+v1: _L_ + _R_ => _LR_; (k1*_L_*_R_)*Cytoplasm;
+v2: _LR_ => _L_ + _R_; (k2*_LR_)*Cytoplasm;
 
 # Compartments initialization:
 Cytoplasm = 1.000000e+00;
 Cytoplasm has volume;
 
 # Species initialization:
-L = 0.000000e+00;
-R = 1.000000e+02;
-LR = 0.000000e+00;
+_L_ = 0.000000e+00;
+_R_ = 1.000000e+02;
+_LR_ = 0.000000e+00;
 
 # Parameters initialization:
  k1 = 1.000000e-03;

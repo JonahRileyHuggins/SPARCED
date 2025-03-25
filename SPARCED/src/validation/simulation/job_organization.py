@@ -125,7 +125,7 @@ def broadcast_simulation_files(sbml_file: str, communicator: MPI.Comm, rank: int
     try:
         if rank == 0:
             # Extract simulation files on rank 0
-            genereg, omicsdata = Utils._extract_simulation_files(sbml_file)
+            genereg, omicsdata = Utils.extract_simulation_files(sbml_file)
 
             # Package data for broadcasting
             simulation_files = {
@@ -170,7 +170,7 @@ def task_organization(
         task_list: list - the list of tasks assigned to the rank
     """
 
-    list_of_jobs = Utils._total_tasks(conditions_df, measurement_df)
+    list_of_jobs = Utils.total_tasks(conditions_df, measurement_df)
 
     total_jobs = len(list_of_jobs)
 
@@ -178,12 +178,12 @@ def task_organization(
 
     for i in range(size):
 
-        start_cell, end_cell = Utils._assign_tasks(i, total_jobs, size)
+        start_cell, end_cell = Utils.assign_tasks(i, total_jobs, size)
 
         rank_jobs_directory[i] = list_of_jobs[start_cell:end_cell]
 
     # Assign each rank it's task for the round
-    rounds_to_complete = Utils._number_of_rounds(total_jobs, size)
+    rounds_to_complete = Utils.number_of_rounds(total_jobs, size)
 
     return rounds_to_complete, rank_jobs_directory
 
@@ -267,7 +267,7 @@ def aggregate_other_rank_results(
 
     # Determine the number of tasks to be completed this round, subtract 1
     # to account for the root rank saving results prior.
-    tasks_this_round = Utils._tasks_this_round(size, total_jobs, round_i) - 1
+    tasks_this_round = Utils.tasks_this_round(size, total_jobs, round_i) - 1
 
     completed_tasks = 0
 

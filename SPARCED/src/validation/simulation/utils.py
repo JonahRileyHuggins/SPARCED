@@ -51,7 +51,7 @@ class Utils:
         return species_data, time_trajectories
 
     @staticmethod
-    def _tasks_this_round(size, total_jobs, round_number):
+    def tasks_this_round(size, total_jobs, round_number):
         """Calculate the number of tasks for the current round
         input:
             size: int - the total number of processes assigned
@@ -60,7 +60,7 @@ class Utils:
         output:
             returns the number of tasks for the current round
         """
-        number_of_rounds = Utils._number_of_rounds(total_jobs, size)
+        number_of_rounds = Utils.number_of_rounds(total_jobs, size)
 
         tasks_per_round = size
         remainder = total_jobs % size
@@ -81,7 +81,7 @@ class Utils:
         return tasks_this_round
 
     @staticmethod
-    def _condition_cell_id(rank_task, conditions_df, measurement_df):
+    def condition_cell_id(rank_task, conditions_df, measurement_df):
         """
         Extract the condition for the task from the filtered_conditions
         output:
@@ -102,7 +102,7 @@ class Utils:
         return condition, cell, condition_id
 
     @staticmethod
-    def _results_dictionary(conditions_df, measurement_df):
+    def results_dictionary(conditions_df, measurement_df):
         """Create an empty dictionary for storing results
         input:
             filtered_conditions: pd.DataFrame - filtered conditions dataframe
@@ -135,7 +135,7 @@ class Utils:
         return results
 
     @staticmethod
-    def _number_of_rounds(total_jobs, size):
+    def number_of_rounds(total_jobs, size):
         """Calculate the number of rounds
         input:
             total_jobs: int - the total number of tasks
@@ -155,7 +155,7 @@ class Utils:
         return rounds_to_complete
 
     @staticmethod
-    def _total_tasks(conditions_df, measurement_df):
+    def total_tasks(conditions_df, measurement_df):
         """Calculate the total number of tasks
         input:
             conditions_df: pd.DataFrame - conditions dataframe
@@ -169,11 +169,11 @@ class Utils:
         list_of_jobs = []
 
         for condition in filtered_conditions:
-            if "num_cells" not in condition:
+            if "cell_number" not in condition:
                 condition_cell = f"{condition['conditionId']}+0"
                 list_of_jobs.append(condition_cell)
             else:
-                for cell in range(condition["num_cells"]):
+                for cell in range(condition["cell_number"]):
                     condition_cell = f"{condition['conditionId']}+{cell}"
                     list_of_jobs.append(condition_cell)
 
@@ -199,7 +199,7 @@ class Utils:
         return filtered_conditions
 
     @staticmethod
-    def _assign_tasks(rank, total_jobs, size):
+    def assign_tasks(rank, total_jobs, size):
         """Assign tasks to ranks based on the number of jobs and the number of
             ranks
         input:
@@ -222,7 +222,7 @@ class Utils:
         return start_cell, start_cell + rank_i_jobs
 
     @staticmethod  # Not even sure if this one works
-    def _set_compartmental_volume(
+    def set_compartmental_volume(
         model: libsbml.Model, compartment: str, compartment_volume: int
     ):
         """This function sets the volume of a compartment within the SBML model.
@@ -239,7 +239,7 @@ class Utils:
         return model
 
     @staticmethod
-    def _set_parameter_value(
+    def set_parameter_value(
         model: libsbml.Model, parameter: str, parameter_value: int
     ):
         """This function sets the value of a parameter within the SBML model.
@@ -259,7 +259,7 @@ class Utils:
 
     # Set this to static method to avoid the need to pass self
     @staticmethod
-    def _set_species_value(model: libsbml.Model, species: str, species_value: int):
+    def set_species_value(model: libsbml.Model, species: str, species_value: int):
         """Thiss function sets the initial value of a species or list of species
         within the sbml model.
         input:
@@ -275,12 +275,18 @@ class Utils:
         # Get the initial values
         species_initializations = np.array(model.getInitialStates())
 
-        # Set the initial values
-        index = species_ids.index(species)
+        # Error handling so that hard-coded species in SPARCED don't break the code
+        # If an alternate model is ran through this process. 
+        try:
+            # Set the initial values
+            index = species_ids.index(species)
 
-        species_initializations[index] = species_value
+            species_initializations[index] = species_value
 
-        model.setInitialStates(species_initializations)
+            model.setInitialStates(species_initializations)
+
+        except ValueError:
+            pass
 
         return model
 
@@ -317,7 +323,7 @@ class Utils:
         return module
 
     @staticmethod
-    def _add_amici_path(model_path: str):
+    def add_amici_path(model_path: str):
         """This function finds the AMICI model from the path
         input:
             model_path: str - the path to the model
@@ -357,14 +363,14 @@ class Utils:
         return amici_module_path
 
     @staticmethod
-    def _swig_interface_path(model_path: str):
+    def swig_interface_path(model_path: str):
         """This function finds the SWIG python interface from the path
         input:
             model_path: str - the path to the model
         output:
             swig_interface_path: str - the path to the SWIG python interface
         """
-        amici_module_path = Utils._add_amici_path(model_path)
+        amici_module_path = Utils.add_amici_path(model_path)
 
         # Get the directory contents
         try:
@@ -430,7 +436,7 @@ class Utils:
         raise FileNotFoundError(f"{filename} not found in {base_dir} or its subdirectories.")
 
     @staticmethod
-    def _extract_simulation_files(model_path: str):
+    def extract_simulation_files(model_path: str):
         """
         Extracts the simulation files from the directory of the SBML model.
 
@@ -487,7 +493,7 @@ class Utils:
 
 
     @staticmethod
-    def _set_transcription_values(
+    def set_transcription_values(
         omics_data: pd.DataFrame, gene: str, value: int
     ) -> None:
         """This function sets the value of a parameter within the SBML model.

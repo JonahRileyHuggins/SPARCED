@@ -88,8 +88,8 @@ def parse_args():
                                   the -b flag",
                                   required=False, default=None)
     # -- Uppercase
-    benchmark_parser.add_argument('-O', '--Observable',           default=1,
-                        help="only the observable in observables.tsv is calculated (1) \
+    benchmark_parser.add_argument('--Observable', default=1,
+                        help="only the observable(s) in observables.tsv are calculated (1) \
                               or if the entire simulation is saved (0)")
 
     return(parser.parse_args())

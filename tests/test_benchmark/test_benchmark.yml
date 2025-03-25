@@ -10,6 +10,7 @@ problems:
     sbml_files:
     - ../../SPARCED/models/SPARCED_standard/sbml_SPARCED_standard.xml
     model_specifications:
-      hybrid: True
-      cell_number: 80
-      heterogenize_time: 86400.0
+      hybrid: False
+      cell_number: 1
+      heterogenize_time: nan
+

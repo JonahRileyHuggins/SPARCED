@@ -56,9 +56,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Create persistent paths for pipx
 RUN mkdir -p $PIPX_HOME $PIPX_BIN_DIR
 
-# Set permissions
-# RUN chmod -R 777 /SPARCED && chown -R root:root /SPARCED
-
 # Install Python dependencies using pipx
 RUN pipx ensurepath
 RUN pipx install dist/SPARCED-2.0-py3-none-any.whl --verbose --force

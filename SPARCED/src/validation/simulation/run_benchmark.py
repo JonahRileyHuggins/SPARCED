@@ -68,7 +68,7 @@ class RunBenchmark:
 
         self.yaml_file = yaml_path
         self.benchmark = args.benchmark
-        self.observable = args.Observable
+        self.observable = int(args.Observable)
         self.name = args.name
 
         self.communicator, self.rank, self.size = org.mpi_communicator()
@@ -91,7 +91,7 @@ class RunBenchmark:
         if self.rank == 0:
 
             # Results dictionary is initialized prior to simulation for convenience
-            self.results_dictionary = Utils._results_dictionary(
+            self.results_dictionary = Utils.results_dictionary(
                 self.conditions_df, self.measurement_df
             )
 
@@ -133,7 +133,7 @@ class RunBenchmark:
                 print(f"Rank {self.rank} has no tasks to complete")
                 continue
 
-            condition, cell, condition_id = Utils._condition_cell_id(
+            condition, cell, condition_id = Utils.condition_cell_id(
                 task, self.conditions_df, self.measurement_df
             )
 
@@ -151,7 +151,7 @@ class RunBenchmark:
             )
 
             results = simulator.run(condition)
-
+            
             # Results are packaged into a single object to reduce the number of items sent via MPI
             parcel = org.package_results(
                 results=results,
@@ -167,7 +167,7 @@ class RunBenchmark:
                 )
 
                 # Define the total number of jobs for the results aggregation stage
-                total_jobs = Utils._total_tasks(self.conditions_df, self.measurement_df)
+                total_jobs = Utils.total_tasks(self.conditions_df, self.measurement_df)
 
                 # Collect results from other ranks and store in results dictionary
                 self.results_dictionary = org.aggregate_other_rank_results(
@@ -219,18 +219,21 @@ class RunBenchmark:
         output:
             returns the results of the SPARCED model unit test simulation
         """
+
         if self.rank == 0 and self.observable == 1:
 
             self.results_dictionary = ObservableCalculator(self).run()
 
             RunBenchmark.save_results(self)
 
-        elif self.rank == 0 and self.observable == 0:
+            return # Proceeds to next command provided in launchers.py
+
+        if self.rank == 0 and self.observable == 0:
             RunBenchmark.save_results(self)
+            return # Proceeds to next command provided in launchers.py
 
-        elif self.rank != 0:
+        if self.rank != 0:
             return None
-
 
     def run_visualizer(self):
         """Generate a unit test plot from the visualization dataframe
