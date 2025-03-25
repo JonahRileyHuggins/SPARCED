@@ -3,8 +3,6 @@ parameter_file: ../../SPARCED/models/SPARCED_standard/data/model/output_paramete
 problems: 
   - condition_files: 
     - conditions.tsv
-    model_specification_files:
-    - model_specifications.tsv
     measurement_files:
     - measurements.tsv
     observable_files:

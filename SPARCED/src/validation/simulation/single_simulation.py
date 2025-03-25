@@ -51,7 +51,8 @@ class Simulator:
         """
 
         self.yaml_file = yaml_file
-        self.conditions_df = conditions_df
+        self.conditions_df = self._remove_condition_name(conditions_df)
+        self.perturbants = self._extract_perturbations(self.conditions_df)
         self.measurement_df = measurement_df
         self.parameters_df = parameters_df
         self.sbml_file = sbml_file
@@ -100,15 +101,17 @@ class Simulator:
         # Look for preequilibration parameters in the condition
         self.model = self.preequilibrate(condition, flagD)
 
-        # # Set the perturbations for the simulation
-        self.model, self.f_omics = self.set_perturbations(condition)
+        # Set the perturbations for the simulation
+        perturbant_handler = Perturbations(self)
+        
+        perturbant_handler.set_perturbations(condition)
 
         # Set the timepoints for the simulation
         simulation_timeframe = self.measurement_df["time"][
             self.measurement_df["simulationConditionId"].isin(condition)
         ].max()
 
-        self.model.setTimepoints(np.linspace(0, 30))
+        perturbant_handler.model.setTimepoints(np.linspace(0, 30))
 
 
         # Run the simulation
@@ -118,12 +121,12 @@ class Simulator:
             spdata=[],
             genedata=[],
             sbml_file=self.sbml_file,
-            model=self.model,
+            model=perturbant_handler.model,
             f_genereg=self.f_genereg,
-            f_omics=self.f_omics,
+            f_omics=perturbant_handler.f_omics,
         )
 
-        results = combine_results(self.model, xoutS_all, xoutG_all, tout_all)
+        results = combine_results(perturbant_handler.model, xoutS_all, xoutG_all, tout_all)
 
         return results
 
@@ -143,11 +146,13 @@ class Simulator:
         ].max()
 
         # Set the perturbations for the simulation
-        self.model, _ = self.set_perturbations(condition)
+        perturbant_handler = Perturbations(self)
+        
+        perturbant_handler.set_perturbations(condition)
 
-        xoutS_all, tout_all = RunAMICI(simulation_timeframe, self.model)
+        xoutS_all, tout_all = RunAMICI(simulation_timeframe, perturbant_handler.model)
 
-        results = combine_results(self.model, xoutS_all, None, tout_all)
+        results = combine_results(perturbant_handler.model, xoutS_all, None, tout_all)
 
         return results
 
@@ -191,8 +196,10 @@ class Simulator:
             self.conditions_df["conditionId"] == preequilibrate_condition_id[0]
         ]
 
-        # set perturbations for the simulation
-        self.model, self.f_omics = self.set_perturbations(condition)
+        # Set the perturbations for the simulation
+        perturbant_handler = Perturbations(self)
+        
+        perturbant_handler.set_perturbations(condition)
 
         # Find the time frame for the preequilibration simulation
         simulation_timeframe = self.measurement_df["time"][
@@ -204,73 +211,24 @@ class Simulator:
                            f"for {simulation_timeframe} seconds.")
         print(*print_statement)
 
-        species_initializations = np.array(self.model.getInitialStates())
-
-        self.model.setTimepoints(np.linspace(0, 30))
+        perturbant_handler.model.setTimepoints(np.linspace(0, 30))
 
         # Run the simulation
         xoutS_all, _, _ = RunSPARCED(
             flagD=flagD,
             th=(simulation_timeframe / 3600),
-            spdata=species_initializations,
+            spdata=[],
             genedata=[],
             sbml_file=self.sbml_file,
-            model=self.model,
+            model=perturbant_handler.model,
             f_genereg=self.f_genereg,
-            f_omics=self.f_omics,
+            f_omics=perturbant_handler.f_omics,
         )
 
         # Return the final values
-        self.model.setInitialStates(xoutS_all[-1])
+        perturbant_handler.model.setInitialStates(xoutS_all[-1])
 
-        return self.model
-
-    def set_perturbations(self, condition: pd.Series) -> libsbml.Model:
-        """This function sets the perturbations for the simulation.
-        input:
-            condition: pd.Series - the condition to simulate
-        output:
-            model: libsbml.Model - the updated SBML model
-        """
-
-        perturbations = list(self.conditions_df.columns[2:])
-
-        for perturbant in perturbations:
-            try:
-                self.model = utils.set_species_value(
-                    self.model, perturbant, condition[perturbant]
-                )
-                break
-            except:
-                pass
-
-            try:
-                self.model = utils.set_parameter_value(
-                    self.model, perturbant, condition[perturbant]
-                )
-                break
-            except:
-                pass
-
-            try:
-                self.model = utils.set_compartmental_volume(
-                    self.model, perturbant, condition[perturbant]
-                )
-                break
-            except:
-                pass
-
-            try:
-                self.f_omics = utils.set_transcription_values(
-                    omics_data=self.f_omics,
-                    gene=perturbant,
-                    value=condition[perturbant],
-                )
-                break
-            except:
-                pass
-                
-        return self.model, self.f_omics
+        return perturbant_handler.model
         
     def heterogenize(self, condition: pd.Series) -> libsbml.Model:
         """
@@ -296,7 +254,7 @@ class Simulator:
         growth_factors = ["E", "H", "HGF", "P", "F", "I", "INS"]
 
         for species in growth_factors:
-            self.model = utils.set_species_value(self.model, species, 0)  # Set growth factors to 0
+            self.model = Perturbations.set_species_value(self.model, species, 0)  # Set growth factors to 0
 
         xoutS_all, _, _ = RunSPARCED(
             flagD=0,  # Use stochastic solver for heterogenization
@@ -365,3 +323,189 @@ class Simulator:
             flagD = 1
 
         return flagD
+    
+    @staticmethod
+    def _remove_condition_name(conditions_df):
+        """Remove 'conditionName' column from a DataFrame if it exists."""
+        return conditions_df.drop(columns=['conditionName'], errors='ignore')
+                
+    @staticmethod
+    def _extract_perturbations(conditions_df):
+        """
+        Takes conditions pandas series and returns each perturbation.
+
+        Parameters:
+        - condition (pd.Series): the individual simulation's set of perturbations
+            to be applied prior to run-time.
+        """
+        condition_id_col = 'conditionId'
+        return [x for x in conditions_df.columns if x != condition_id_col]
+
+class Perturbations:
+    """
+    Handles differentiating between perturbation types (parameters, species, 
+    and genes) and appropriately sets an updated value prior to simulation.
+    Returns the updated object supplied.
+    """
+    def __init__(self, simulator: Simulator):
+        """
+        differentiates perturbations and applies a classifier function.
+        
+        Parameters:
+        - perturbants (list): list of perturbants to be applied to model attributes.
+
+        - condition (pd.Series): the individual simulation's set of perturbations
+            to be applied prior to run-time. 
+        """
+
+        self.perturbants = simulator.perturbants
+        self.model = simulator.model
+        self.f_omics = simulator.f_omics
+        self.sbml_file = simulator.sbml_file
+        self.conditions_df = simulator.conditions_df
+
+    def set_perturbations(self, condition):
+        """Uses classified type to reassign model's value for perturbation."""
+
+        perturbation_types = self._classify_perturbants()
+
+        for perturbant in self.perturbants:
+
+            if perturbant == "None":
+                sys.exit('perturbation not found in model, exiting...')
+
+            if perturbation_types[perturbant] == "species":
+                self.model = self.set_species_value(
+                    self.model, perturbant, condition[perturbant]
+                )
+
+            if perturbation_types[perturbant] == "parameter":
+                self.model = self._set_parameter_value(
+                    self.model, perturbant, condition[perturbant]
+                )
+
+            if perturbation_types[perturbant] == "gene":
+                self.f_omics = self._set_transcription_values(
+                    omics_data=self.f_omics,
+                    gene=perturbant,
+                    value=condition[perturbant],
+                )
+
+    def _classify_perturbants(self):
+        """
+        determines perturbation type (Species, Param, Gene, etc.)
+        """
+        perturbant_types = {} # Stores each perturbation's type
+
+        for perturbant in self.perturbants:
+
+            perturbant_types[perturbant] = self._check_entity_type(perturbant)
+
+        return perturbant_types
+
+    def _check_entity_type(self, entity_id):
+        """Determine if entity_id is a species, parameter, or neither in an SBML model."""
+        #load SBML model
+
+        ignore_list = ['hybrid', 'heterogenize_time', 'cell_number']
+
+        if entity_id in ignore_list:
+            return None # These are SPARCED-specific settings that have custom class handlers
+
+        model = self.load_sbml_model(self.sbml_file)
+
+        # Check species
+        if model.getSpecies(entity_id):
+            return "species"
+        
+        # Check parameters
+        if model.getParameter(entity_id):
+            return "parameter"
+        
+        if self.f_omics is not None and entity_id in self.f_omics.index:
+            return "gene"
+        
+        print(f"Model entity '{entity_id}' not found.")
+        return "None"
+        
+    @staticmethod
+    def _set_parameter_value(
+        model: libsbml.Model, parameter: str, parameter_value: int
+    ):
+        """This function sets the value of a parameter within the SBML model.
+        input:
+            model: libsbml.Model - the SBML model
+            parameter: str - the parameter to set
+            parameter_value: int - the value to set the parameter to
+        output:
+            model: libsbml.Model - the updated SBML model
+        """
+        try:  # assign the parameter value
+            model.setParameterById(parameter, parameter_value)
+        except RuntimeError:
+            model.setFixedParameterById(parameter, parameter_value)
+
+        return model
+
+    @staticmethod
+    def set_species_value(model: libsbml.Model, species: str, species_value: int):
+        """Thiss function sets the initial value of a species or list of species
+        within the sbml model.
+        input:
+            model: libsbml.Model - the SBML model
+            species_value: int - the value to set the species to
+
+            output:
+                model: libsbml.Model - the updated SBML model"""
+
+        # Get the list of species
+        species_ids = list(model.getStateIds())
+
+        # Get the initial values
+        species_initializations = np.array(model.getInitialStates())
+
+        # Error handling so that hard-coded species in SPARCED don't break the code
+        # If an alternate model is ran through this process. 
+        try:
+            # Set the initial values
+            index = species_ids.index(species)
+
+            species_initializations[index] = species_value
+
+            model.setInitialStates(species_initializations)
+
+        except ValueError:
+            pass
+
+        return model
+
+    @staticmethod
+    def _set_transcription_values(
+        omics_data: pd.DataFrame, gene: str, value: int
+    ) -> None:
+        """This function sets the value of a parameter within the SBML model.
+        input:
+            model_path:  model_path: str - the path to the model
+            gene: str - the gene to knockout
+            value: int - the value to set the gene to
+        output:
+            model: libsbml.Model - the updated SBML model
+        """
+
+        # Update values
+        omics_data.loc[gene, "kTCleak"] = 0.0
+        omics_data.loc[gene, "kTCmaxs"] = 0.0
+        omics_data.loc[gene, "kTCd"] = 0.0
+
+        omics_data.loc[gene, "Exp RNA"] = value
+
+        return omics_data
+
+    @staticmethod
+    def load_sbml_model(file_path):
+        """Load an SBML model from a file."""
+        reader = libsbml.SBMLReader()
+        document = reader.readSBML(file_path)
+        model = document.getModel()
+        return model
+        

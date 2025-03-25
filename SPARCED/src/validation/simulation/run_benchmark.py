@@ -68,7 +68,7 @@ class RunBenchmark:
 
         self.yaml_file = yaml_path
         self.benchmark = args.benchmark
-        self.observable = args.Observable
+        self.observable = int(args.Observable)
         self.name = args.name
 
         self.communicator, self.rank, self.size = org.mpi_communicator()
@@ -219,18 +219,21 @@ class RunBenchmark:
         output:
             returns the results of the SPARCED model unit test simulation
         """
+
         if self.rank == 0 and self.observable == 1:
 
             self.results_dictionary = ObservableCalculator(self).run()
 
             RunBenchmark.save_results(self)
 
-        elif self.rank == 0 and self.observable == 0:
+            return # Proceeds to next command provided in launchers.py
+
+        if self.rank == 0 and self.observable == 0:
             RunBenchmark.save_results(self)
+            return # Proceeds to next command provided in launchers.py
 
-        elif self.rank != 0:
+        if self.rank != 0:
             return None
-
 
     def run_visualizer(self):
         """Generate a unit test plot from the visualization dataframe
