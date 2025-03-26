@@ -90,7 +90,8 @@ class CellDeathMetrics:
             time_of_death[entry]['value'] = []
 
             # Definition point for a dead cell
-            dead_simulation = np.array(self.data[entry]['time'][self.data[entry][self.observable_name] > threshold])
+            dead_simulation = np.array(self.data[entry][self.observable_name]['time']\
+                                       [self.data[entry][self.observable_name]['simulation'] > threshold])
 
             if dead_simulation.size > 0:
                 dead_simulation_times = dead_simulation[0] # Grabs first instance of dead cell
