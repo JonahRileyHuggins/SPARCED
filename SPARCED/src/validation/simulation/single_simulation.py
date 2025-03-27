@@ -194,7 +194,9 @@ class Simulator:
 
         condition = self.conditions_df.loc[
             self.conditions_df["conditionId"] == preequilibrate_condition_id[0]
-        ]
+        ].iloc[0]
+
+        print(f'condtions type is: {type(condition)}')
 
         # Set the perturbations for the simulation
         perturbant_handler = Perturbations(self)
@@ -206,7 +208,7 @@ class Simulator:
             self.measurement_df["simulationConditionId"] == preequilibrate_condition_id[0]
         ].max()
 
-        print_statement = (f"Running parent condition {parent_condition['conditionId']}",
+        print_statement = (f"simulating parent condition {parent_condition['conditionId']}",
                            f"preequilibration {preequilibrate_condition_id[0]}",
                            f"for {simulation_timeframe} seconds.")
         print(*print_statement)
@@ -241,7 +243,7 @@ class Simulator:
         - model (libsbml.Model): the updated SBML model with stochastic heterogenization
         - model (libsbml.Model): the original SBML model if no heterogenization is required
         """
-
+        print('heterogenize condition is type:', type(condition))
         heterogenize = condition.get("heterogenize_time", None)
 
         if heterogenize is None or isinstance(heterogenize, str) or (isinstance(heterogenize, float) and math.isnan(heterogenize)):
@@ -380,6 +382,8 @@ class Perturbations:
                 )
 
             if perturbation_types[perturbant] == "parameter":
+                # print("condition is :", condition)
+                # print("dtype of condition@perturbant is", type(condition[perturbant]))
                 self.model = self._set_parameter_value(
                     self.model, perturbant, condition[perturbant]
                 )
@@ -440,10 +444,12 @@ class Perturbations:
         output:
             model: libsbml.Model - the updated SBML model
         """
+        # print(f"Setting parameter: {parameter}, value: {parameter_value}, type: {type(parameter_value)}")
+
         try:  # assign the parameter value
-            model.setParameterById(parameter, parameter_value)
+            model.setParameterById(parameter, float(parameter_value))
         except RuntimeError:
-            model.setFixedParameterById(parameter, parameter_value)
+            model.setFixedParameterById(parameter, float(parameter_value))
 
         return model
 
