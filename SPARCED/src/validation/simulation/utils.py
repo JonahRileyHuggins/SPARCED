@@ -118,7 +118,7 @@ class Utils:
         for condition in filtered_conditions:
 
             condition_id = condition["conditionId"]
-            num_cells = condition["num_cells"] if "num_cells" in condition else 1
+            num_cells = condition["cell_number"] if "cell_number" in condition else 1
 
             for cell in range(num_cells):
                 if "datasetId" in measurement_df.columns:

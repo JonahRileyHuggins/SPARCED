@@ -1,2 +1,3 @@
-observableId	simulationConditionId	measurement	time
-Arbitrary-Not-Returning	test_setting	None	60
+observableId	preequilibrationConditionId	simulationConditionId	measurement	time
+Arbitrary-Not-Returning	test_preequib	test_preequib	None	60
+Arbitrary-Not-Returning	test_preequib	test_setting	None	60

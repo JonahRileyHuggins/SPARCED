@@ -196,8 +196,6 @@ class Simulator:
             self.conditions_df["conditionId"] == preequilibrate_condition_id[0]
         ].iloc[0]
 
-        print(f'condtions type is: {type(condition)}')
-
         # Set the perturbations for the simulation
         perturbant_handler = Perturbations(self)
         
@@ -243,7 +241,6 @@ class Simulator:
         - model (libsbml.Model): the updated SBML model with stochastic heterogenization
         - model (libsbml.Model): the original SBML model if no heterogenization is required
         """
-        print('heterogenize condition is type:', type(condition))
         heterogenize = condition.get("heterogenize_time", None)
 
         if heterogenize is None or isinstance(heterogenize, str) or (isinstance(heterogenize, float) and math.isnan(heterogenize)):

@@ -44,22 +44,22 @@ class Helpers:
         return [data[condition][key] for condition in data]
     
     @staticmethod
-    def extract_experimental_data(data: dict):
+    def extract_experimental_data(data: dict, observable_name: str):
         """Extract the experimental data from the dictionary."""
 
         data_dict = {}
         for simulation in data:
 
             data_dict[simulation] = {
-                'time': data[simulation]['time'],
+                'time': data[simulation][observable_name]['time'],
                 'conditionId': data[simulation]['conditionId'],
                 'cell': data[simulation]['cell']
             }
 
-            for key in data[simulation]: 
+            for key in data[simulation][observable_name]: 
 
-                if 'experiment ' in key:
-                    data_dict[simulation][key] = data[simulation][key]
+                if 'experiment' in key:
+                    data_dict[simulation][key] = data[simulation][observable_name][key]
 
         return data_dict
 
@@ -89,25 +89,33 @@ class CellDeathMetrics:
             time_of_death[entry] = {}
             time_of_death[entry]['value'] = []
 
-            # Definition point for a dead cell
-            dead_simulation = np.array(self.data[entry][self.observable_name]['time']\
-                                       [self.data[entry][self.observable_name]['simulation'] > threshold])
+            # Extract time array and ensure it's 1D
+            time_array = np.array(self.data[entry][self.observable_name]['time']).ravel()
+            simulation_values = np.array(self.data[entry][self.observable_name]['simulation'])
 
-            if dead_simulation.size > 0:
-                dead_simulation_times = dead_simulation[0] # Grabs first instance of dead cell
-                # sends the time of death to the value list.
-                time_of_death[entry]['value'].extend(dead_simulation_times.flatten().tolist())
+            # Ensure the boolean mask matches the shape of time_array
+            mask = simulation_values > threshold
+            
+            # Handle cases dynamically
+            if time_array.size == 1:  # Single-value case
+                if mask.any():  # If at least one condition exceeds the threshold
+                    dead_simulation_times = time_array[0]  # Use the single time value
+                else:
+                    dead_simulation_times = np.nan
+            else:  # Standard multi-value case
+                dead_simulation = time_array[mask]  # Apply boolean mask
+                dead_simulation_times = dead_simulation[0] if dead_simulation.size > 0 else np.nan
 
-            else:
-                time_of_death[entry]['value'].append(np.nan)
-
+            # Store results
+            time_of_death[entry]['value'].append(dead_simulation_times)
             time_of_death[entry]['conditionId'] = self.data[entry]['conditionId']
             time_of_death[entry]['cell'] = self.data[entry]['cell']
 
-        # Final time of death variable contains len(data.keys()) matching entries
+        # Final time_of_death variable contains len(data.keys()) matching entries
         # each with the corresponding conditionId and cell number, as well as the 
         # time in which they died.
         return time_of_death
+
 
     def average_time_to_death(self):
         """Returns the average time to death for each condition in the results dictionary
@@ -118,9 +126,9 @@ class CellDeathMetrics:
 
         condition_averaged_times = {}
 
-        for entry in time_of_death:
-            condition = time_of_death[entry]['conditionId']
-            time = time_of_death[entry]['value']
+        for _, value in time_of_death.items():
+            condition = value['conditionId']
+            time = value['value']
             if condition not in condition_averaged_times:
                 condition_averaged_times[condition] = []
             
@@ -145,7 +153,7 @@ class CellDeathMetrics:
         dead_cells = {}
 
         cells_per_condition = {}
-        for entry, entry_info in self.time_to_death().items():
+        for _, entry_info in self.time_to_death().items():
             condition = entry_info['conditionId']
             if condition not in dead_cells:
                 dead_cells[condition] = 0
@@ -170,7 +178,7 @@ class CellDeathMetrics:
         output: dictionary containing the ratio of alive cells for each condition"""
 
         death_ratio = self.death_ratio()
-        if percent == True:
+        if percent is True:
             alive_ratio = [(1 - x)*100 for x in death_ratio.values()]
         else:
             alive_ratio = [(1 - x) for x in death_ratio.values()]
@@ -199,7 +207,7 @@ class CellDeathMetrics:
                     dead_cells_24to72[condition_id][threshold].append(1)
 
         # Calculate percentages
-        for condition_id in dead_cells_24to72:
+        for condition_id, _ in dead_cells_24to72.items():
             for key in dead_cells_24to72[condition_id]:
                 dead_cells_24to72[condition_id][key] = len(dead_cells_24to72[condition_id][key]) / CELLS_PER_CONDITION * 100
 

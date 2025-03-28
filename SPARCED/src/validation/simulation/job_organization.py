@@ -297,16 +297,15 @@ def store_results(individual_parcel: dict, results_dict: dict) -> dict:
     condition_id = individual_parcel["conditionId"]
     cell = individual_parcel["cell"]
 
-    # Find the identifier with the matching condition and cell
-    for item in results_dict:
-        if (
-            results_dict[item]["conditionId"] == condition_id
-            and results_dict[item]["cell"] == cell
-        ):
-            for column in individual_parcel['results'].columns:
-                results_dict[item][column] = individual_parcel['results'][column]
+    # Find the matching entry in results_dict using `.get()`
+    for _, value in results_dict.items():
 
-        else:
-            continue
+        if value.get("conditionId") == condition_id and value.get("cell") == cell:
+
+            for column in individual_parcel["results"].columns:
+
+                value[column] = individual_parcel["results"][column]
+                
+            break  # Stop searching once we find the match
 
     return results_dict
