@@ -82,7 +82,7 @@ From: ubuntu:22.04
 
     # Install your package
     pipx ensurepath
-    pipx install dist/SPARCED-2.0-py3-none-any.whl --verbose --force
+    pipx install dist/sparced-2.0-py3-none-any.whl --verbose --force
 
     # Verify the installation
     if [ ! -x "$PIPX_BIN_DIR/sparced" ]; then
