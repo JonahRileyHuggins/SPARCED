@@ -58,7 +58,7 @@ RUN mkdir -p $PIPX_HOME $PIPX_BIN_DIR
 
 # Install Python dependencies using pipx
 RUN pipx ensurepath
-RUN pipx install dist/SPARCED-2.0-py3-none-any.whl --verbose --force
+RUN pipx install dist/sparced-2.0-py3-none-any.whl --verbose --force
 
 # Set default shell
 SHELL ["/bin/bash", "-c"]

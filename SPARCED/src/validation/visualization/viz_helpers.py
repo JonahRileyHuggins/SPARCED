@@ -228,8 +228,8 @@ class CellDeathMetrics:
         matched_dict = {}
         processed_conditions = set()
 
-        for simulation_data in experimental_data.values():
-            condition_id = simulation_data['conditionId']
+        for exp_info in experimental_data.values():
+            condition_id = exp_info['conditionId']
 
             # Skip conditions that have already been processed
             if condition_id in processed_conditions:
@@ -238,8 +238,8 @@ class CellDeathMetrics:
             # Initialize the nested structure for the new condition
             matched_dict[condition_id] = {'24': np.nan, '48': np.nan, '72': np.nan}
 
-            for key, value in simulation_data.items():
-                if 'experiment ' in key:
+            for key, value in exp_info.items():
+                if key == 'experiment':
                     for idx, time_point in enumerate(['24', '48', '72']):
                         # Only assign if the index is within the length of the value array
                         if idx < len(value):
