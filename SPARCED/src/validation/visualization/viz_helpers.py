@@ -11,8 +11,9 @@ Description: This script is designed as a helper script to visualizations
 
 #-----------------------Package Import & Defined Arguements-------------------#
 import pickle
+from typing import Optional, Tuple
+
 import numpy as np
-from typing import Optional
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 
@@ -292,6 +293,8 @@ class CellPopMetrics:
 
         conds_registry = self.get_registry()
 
+        cycling_val = 0
+
         for simulation in self.data:
             condition_id = self.data[simulation]['conditionId']
 
@@ -299,15 +302,15 @@ class CellPopMetrics:
                 threshold_bins[condition_id] = {}
                 threshold_bins[condition_id]['sim'] = []
 
-            if any(value > threshold for value in self.data[simulation][observable]):
+            if any(value > threshold for value in self.data[simulation][observable]['simulation']):
                 threshold_bins[condition_id]['sim'].append(1)
-
+                cycling_val += 1
+                
             if experimental_data:
-                threshold_bins[condition_id]['exp'] = self.data[simulation][experimental_data]
+                threshold_bins[condition_id]['exp'] = self.data[simulation][observable]['experiment']
 
-
-        for condition_id in threshold_bins:
-            threshold_bins[condition_id]['sim'] = len(threshold_bins[condition_id]['sim']) / len(conds_registry[condition_id])
+        for condition_id, _ in threshold_bins.items():
+            threshold_bins[condition_id]['sim'] = len(threshold_bins[condition_id]['sim']) / len(conds_registry[condition_id]) * 100
 
         return threshold_bins
 
@@ -330,8 +333,10 @@ class LeftRightSplit:
         self.axes_right = axes_right
         self.gs = gs
 
-    def plot_left(self, data, conds_registry, dependent_var, independent_var, 
-                  colors: Optional[list] = None):
+    def plot_left(self, data, conds_registry, observable, dependent_var, independent_var,
+                  colors: Optional[list] = None,
+                  yaxis_limits: Optional[Tuple[int, int]] = (0, 400),
+                  xaxis_limits: Optional[Tuple[int, int]] = (0, 72)):
         """Create the left plots."""
 
         CONVERT_TO_HOURS = 3600
@@ -343,12 +348,12 @@ class LeftRightSplit:
             for simulation in data:
                 if simulation in conds_registry[condition]:
                     self.axes_left[i].plot(
-                        data[simulation][dependent_var] / CONVERT_TO_HOURS,
-                        data[simulation][independent_var], 
+                        data[simulation][observable][dependent_var] / CONVERT_TO_HOURS,
+                        data[simulation][observable][independent_var], 
                         linewidth=4, color=color
                     )
-            self.axes_left[i].set_ylim(0, 400)
-            self.axes_left[i].set_xlim(0, 72)
+            self.axes_left[i].set_ylim(yaxis_limits[0], yaxis_limits[-1])
+            self.axes_left[i].set_xlim(xaxis_limits[0], xaxis_limits[-1])
             self.axes_left[i].set_xticklabels(self.axes_left[i].get_xticks(), fontsize=16, weight='bold')
             self.axes_left[i].set_yticklabels(self.axes_left[i].get_yticks(), fontsize=16, weight='bold')
 
@@ -422,9 +427,9 @@ class LeftRightSplit:
                     for val in values
                 ])
 
-            color = colors[i] if colors else None
+            # color = colors[i] if colors else None
 
-            self.axes_right[i].bar(data[condition_id].keys(), values, yerr=std_err, color=color)
+            self.axes_right[i].bar(data[condition_id].keys(), values, yerr=std_err, color=colors)
 
             # Set y-axis limits if specified
             if y_range:
