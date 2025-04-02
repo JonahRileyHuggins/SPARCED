@@ -413,7 +413,6 @@ class LeftRightSplit:
         - y_range (tuple, optional): Tuple specifying the (min, max) range for the y-axis. Default is None.
         - colors (list, optional): List of colors for the bars. Default is None.
         """
-
         for i, condition_id in enumerate(data):
             # Extract values ensuring scalars are used
             values = [data[condition_id][key] if not isinstance(data[condition_id][key], np.ndarray)
@@ -427,9 +426,16 @@ class LeftRightSplit:
                     for val in values
                 ])
 
-            # color = colors[i] if colors else None
+            if colors and len(colors) == len(data):
+                color = colors[i]
 
-            self.axes_right[i].bar(data[condition_id].keys(), values, yerr=std_err, color=colors)
+            elif colors and len(colors) != len(data):
+                color = colors
+            
+            else: 
+                color = None
+
+            self.axes_right[i].bar(data[condition_id].keys(), values, yerr=std_err, color=color)
 
             # Set y-axis limits if specified
             if y_range:
