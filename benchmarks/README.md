@@ -36,7 +36,7 @@ The `model_specifications` section is SPARCED model-specific, enabling capabilit
 
 #### Detailed field description
 
-* `flagD` [BOOL, OPTIONAL]
+* `hybrid` [BOOL, OPTIONAL]
   Simulation setting for gene expression
 * `cell_number` [NUMERIC, OPTIONAL]
   Number of cells to be simulated stochastically
